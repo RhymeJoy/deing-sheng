@@ -1,7 +1,8 @@
+/* global $, jQuery, breakpoints */
+
 (function($) {
 
-	var $window = $(window),
-		$body = $('body');
+	var $body = $('body');
 
 	// Breakpoints.
 		breakpoints({
