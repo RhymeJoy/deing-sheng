@@ -1,0 +1,208 @@
+.site-footer {
+  position: relative;
+
+  overflow: hidden;
+
+  margin-top: 5rem;
+
+  color: #f5ead2;
+
+  background:
+    linear-gradient(
+      180deg,
+      #17120f 0%,
+      #0f0c09 100%
+    );
+
+  border-top:
+    1px solid
+    rgba(240,176,47,.16);
+}
+
+.footer-glow {
+  position: absolute;
+
+  inset: 5em 0 0;
+
+  height: 70em;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(240,176,47,.15),
+      transparent 70%
+    );
+
+  pointer-events: none;
+}
+
+.footer-inner {
+  position: relative;
+
+  z-index: 1;
+
+  display: grid;
+
+  grid-template-columns:
+    1.6fr
+    .3fr
+    1.5fr;
+
+  gap: 2rem;
+
+  max-width: 1300px;
+
+  margin: 0 auto;
+
+  padding:
+    4rem
+    clamp(1.5rem,4vw,4rem);
+}
+
+.footer-kicker {
+  margin: 0 0 .8rem;
+
+  color:
+    rgba(240,176,47,.72);
+
+  font-size: .82rem;
+
+  font-weight: 900;
+
+  letter-spacing: .28em;
+}
+
+.footer-brand h2 {
+  margin: 0;
+
+  font-size:
+    clamp(2rem,4vw,3rem);
+
+  line-height: 1.1;
+
+  color:
+    #f0b02f;
+}
+
+.footer-desc {
+  max-width: 32rem;
+
+  margin-top: 1.2rem;
+
+  color:
+    rgba(245,234,210,.72);
+
+  line-height: 2;
+}
+
+.footer-nav,
+.footer-contact {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: .9rem;
+}
+
+.footer-nav h3,
+.footer-contact h3 {
+  margin: 0 0 .5rem;
+
+  color:
+    #f0b02f;
+
+  font-size: 1rem;
+
+  font-weight: 900;
+
+  letter-spacing: .12em;
+}
+
+.footer-nav a,
+.footer-contact a {
+  width: fit-content;
+
+  color:
+    rgba(245,234,210,.82);
+
+  text-decoration: none;
+
+  transition:
+    color .2s ease,
+    transform .2s ease;
+}
+
+.footer-nav a:hover,
+.footer-contact a:hover {
+  color:
+    #ffd46e;
+
+  transform:
+    translateX(.2rem);
+}
+
+.footer-contact p {
+  margin: .4rem 0 0;
+
+  color:
+    rgba(245,234,210,.68);
+
+  line-height: 1.8;
+}
+
+.footer-bottom {
+  position: relative;
+
+  z-index: 1;
+
+  padding:
+    1.2rem
+    1rem;
+
+  text-align: center;
+
+  border-top:
+    1px solid
+    rgba(255,255,255,.06);
+
+  background:
+    rgba(255,255,255,.02);
+}
+
+.footer-bottom p {
+  margin: 0;
+
+  color:
+    rgba(245,234,210,.48);
+
+  font-size: .92rem;
+}
+
+@media (max-width: 900px) {
+  .footer-inner {
+    grid-template-columns: 1fr;
+
+    gap: 2.5rem;
+  }
+  .footer-glow {
+    inset: 32.5em 0 0;
+
+    height: 32.5rem;
+  }
+}
+
+@media (max-width: 700px) {
+  .site-footer {
+    margin-top: 3rem;
+  }
+
+  .footer-inner {
+    padding:
+      3rem
+      1.2rem;
+  }
+
+  .footer-brand h2 {
+    font-size: 2rem;
+  }
+}

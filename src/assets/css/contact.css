@@ -1,0 +1,366 @@
+:root {
+  --contact-bg: #fffaf6;
+
+  --contact-card: #ffffff;
+  --contact-card-soft: #fff4e8;
+
+  --contact-text: #2e2621;
+  --contact-muted: #7a6b61;
+
+  --contact-title: #7b1e1e;
+
+  --contact-accent: #d89b2b;
+
+  --contact-button: #a32626;
+  --contact-button-hover: #c43737;
+
+  --contact-border: #e3d2c3;
+
+  --contact-input: #fffdfb;
+
+  --contact-shadow:
+    rgba(91, 32, 18, 0.08);
+}
+
+[data-theme="dark"] {
+  --contact-bg: #140d0d;
+
+  --contact-card: #211515;
+  --contact-card-soft: #2c1c1c;
+
+  --contact-text: #f4ebe4;
+  --contact-muted: #d4c1b5;
+
+  --contact-title: #ffcc73;
+
+  --contact-accent: #f0b347;
+
+  --contact-button: #b63636;
+  --contact-button-hover: #d44b4b;
+
+  --contact-border: #4a3232;
+
+  --contact-input: #1a1111;
+
+  --contact-shadow:
+    rgba(0, 0, 0, 0.35);
+}
+
+.contact-page {
+  max-width: 1180px;
+
+  margin: 0 auto;
+
+  padding:
+    3rem
+    1.25rem
+    4rem;
+
+  color:
+    var(--contact-text);
+}
+
+.contact-hero {
+  margin-bottom: 2.5rem;
+
+  text-align: center;
+}
+
+.contact-hero h1 {
+  margin:
+    0
+    0
+    0.75rem;
+
+  font-size:
+    clamp(
+      2rem,
+      4vw,
+      3rem
+    );
+
+  color:
+    var(--contact-title);
+}
+
+.contact-hero p {
+  margin: 0;
+
+  color:
+    var(--contact-muted);
+
+  font-size: 1.05rem;
+
+  line-height: 1.8;
+}
+
+.contact-layout {
+  display: grid;
+
+  grid-template-columns:
+    minmax(0, 1fr)
+    340px;
+
+  gap: 2rem;
+
+  align-items: start;
+}
+
+.contact-form,
+.contact-info {
+  background:
+    var(--contact-card);
+
+  border:
+    1px solid
+    var(--contact-border);
+
+  border-radius: 1.25rem;
+
+  padding: 2rem;
+
+  box-shadow:
+    0 12px 35px
+    var(--contact-shadow);
+
+  backdrop-filter:
+    blur(8px);
+}
+
+.contact-form h2,
+.contact-info h2 {
+  margin:
+    0
+    0
+    1.5rem;
+
+  color:
+    var(--contact-title);
+}
+
+.form-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(
+      2,
+      minmax(0, 1fr)
+    );
+
+  gap: 1rem;
+}
+
+.contact-form label {
+  display: grid;
+
+  gap: 0.45rem;
+
+  color:
+    var(--contact-text);
+
+  font-weight: 600;
+}
+
+.contact-form input,
+.contact-form textarea,
+.contact-form select {
+  width: 100%;
+  resize: none;
+  border:
+    1px solid
+    var(--contact-border);
+
+  border-radius: 0.7rem;
+
+  padding:
+    .5rem 1rem;
+
+  font: inherit;
+
+  color:
+    var(--contact-text);
+
+  background:
+    var(--contact-input);
+
+  transition:
+    border-color .2s ease,
+    box-shadow .2s ease,
+    background .2s ease,
+    transform .18s ease;
+}
+
+.contact-form input:hover,
+.contact-form textarea:hover,
+.contact-form select:hover {
+  transform:
+    translateY(-1px);
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus,
+.contact-form select:focus {
+  outline: none;
+
+  border-color:
+    var(--contact-accent);
+
+  background:
+    var(--contact-card);
+
+  box-shadow:
+    0 0 0 .25rem
+    rgba(216, 155, 43, 0.22);
+}
+
+.full {
+  grid-column:
+    1 / -1;
+}
+
+.form-note {
+  margin:
+    1rem
+    0
+    0;
+
+  color:
+    var(--contact-muted);
+
+  font-size: .92rem;
+
+  line-height: 1.8;
+}
+
+.contact-form button {
+  margin-top: 1.3rem;
+
+  border: 0;
+
+  border-radius: 15px;
+
+  padding:
+    .75rem
+    2.5rem;
+
+  background:
+    var(--contact-button);
+
+  color: #fff;
+
+  font-weight: 700;
+
+  font-size: 1rem;
+
+  cursor: pointer;
+
+  transition:
+    transform .2s ease,
+    background .2s ease,
+    box-shadow .2s ease;
+
+  box-shadow:
+    0 .5rem 1.2rem
+    rgba(163, 38, 38, .25);
+}
+
+.contact-form button:hover {
+  background:
+    var(--contact-button-hover);
+
+  transform:
+    translateY(-2px);
+
+  box-shadow:
+    0 .7rem 1.4rem
+    rgba(163, 38, 38, .35);
+}
+
+.contact-info {
+  display: grid;
+
+  gap: 1rem;
+}
+
+.info-card {
+  padding: .5rem .75rem;
+
+  border:
+    1px solid
+    var(--contact-border);
+
+  border-radius: 1rem;
+
+  background:
+    var(--contact-card-soft);
+
+  transition:
+    transform .18s ease,
+    border-color .18s ease;
+}
+
+.info-card:hover {
+  transform:
+    translateY(-2px);
+
+  border-color:
+    var(--contact-accent);
+}
+
+.info-card h3 {
+  margin:
+    0
+    0
+    .45rem;
+
+  font-size: .95rem;
+
+  color:
+    var(--contact-accent);
+}
+
+.info-card p,
+.info-card a {
+  margin: 0;
+
+  color:
+    var(--contact-text);
+
+  text-decoration: none;
+
+  word-break: break-word;
+
+  line-height: 1.7;
+}
+
+.info-card a:hover {
+  color:
+    var(--contact-accent);
+
+  text-decoration: underline;
+}
+
+.contact-honeypot {
+  position: absolute;
+
+  left: -9999px;
+
+  opacity: 0;
+
+  pointer-events: none;
+}
+
+@media (max-width: 850px) {
+  .contact-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-form,
+  .contact-info {
+    padding: 1.35rem;
+  }
+}
