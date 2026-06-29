@@ -16,7 +16,6 @@ export default defineConfig([
     '**/dist/**',
     '**/dist-ssr/**',
     '**/coverage/**',
-    'public/assets/js/**',
   ]),
 
   {
