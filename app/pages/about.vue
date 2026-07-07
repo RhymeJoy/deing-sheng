@@ -643,19 +643,14 @@ onBeforeUnmount(() => {
             </header>
 
             <div style="line-height: 1.25">
-<<<<<<<< HEAD:app/pages/about.vue
-              <template v-for="(text, i) in aboutContent" :key="`content-${i}`">
+              <template
+                v-for="(text, i) in aboutContent"
+                :key="`content-${i}`"
+              >
                 {{ rt(text) }}
 
                 <br v-if="i !== aboutContent.length - 1" />
                 <br v-if="i !== aboutContent.length - 1" />
-========
-              <template v-for="(text, i) in tm('about.content')" :key="`content-${i}`">
-                {{ rt(text) }}
-
-                <br v-if="i !== tm('about.content').length - 1" />
-                <br v-if="i !== tm('about.content').length - 1" />
->>>>>>>> 88b71cf82d345003a84c693793d36f0c0d350582:app/views/AboutView.vue
               </template>
             </div>
 
