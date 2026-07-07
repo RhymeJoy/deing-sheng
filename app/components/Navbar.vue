@@ -504,4 +504,8 @@ onBeforeUnmount(() => {
   ></button>
 </template>
 
+<<<<<<< HEAD
 <style scoped src="~/assets/css/navbar.css"></style>
+=======
+<style scoped src="../assets/css/navbar.css"></style>
+>>>>>>> 88b71cf82d345003a84c693793d36f0c0d350582
