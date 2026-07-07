@@ -1,13 +1,9 @@
 {
   "$schema": "./node_modules/oxlint/configuration_schema.json",
   "ignorePatterns": [
-<<<<<<< HEAD
     ".vite/**",
     ".nuxt/**",
     ".output/**"
-=======
-    ".vite/**"
->>>>>>> 88b71cf82d345003a84c693793d36f0c0d350582
   ],
   "plugins": ["eslint", "unicorn", "oxc", "vue"],
   "env": {
