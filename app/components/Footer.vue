@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { useLocalePath } from '#imports'
 
 const { t } = useI18n()
+const localePath = useLocalePath()
 
 defineOptions({
   name: 'SiteFooter',
@@ -46,19 +48,19 @@ const phoneHref = computed(() => {
           {{ t('footer.navigation') }}
         </h3>
 
-        <NuxtLink to="/">
+        <NuxtLink :to="localePath('/')">
           {{ t('nav.home') }}
         </NuxtLink>
 
-        <NuxtLink to="/about">
+        <NuxtLink :to="localePath('/about')">
           {{ t('nav.about') }}
         </NuxtLink>
 
-        <NuxtLink to="/goods">
+        <NuxtLink :to="localePath('/goods')">
           {{ t('nav.goods') }}
         </NuxtLink>
 
-        <NuxtLink to="/contact">
+        <NuxtLink :to="localePath('/contact')">
           {{ t('nav.contact') }}
         </NuxtLink>
       </nav>

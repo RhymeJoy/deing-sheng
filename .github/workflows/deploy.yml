@@ -37,6 +37,8 @@ jobs:
 
       - name: Build
         run: npm run generate
+        env:
+          NUXT_APP_BASE_URL: /deing-sheng/
 
       - name: Setup Pages
         uses: actions/configure-pages@v5

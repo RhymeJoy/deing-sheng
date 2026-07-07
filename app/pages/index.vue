@@ -1,12 +1,9 @@
 <script setup lang="ts">
-import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { useLocalePath } from '#imports'
 
-const { t, locale } = useI18n()
-
-const currentLang = computed(
-  () => locale.value
-)
+const { t } = useI18n()
+const localePath = useLocalePath()
 </script>
 
 <template>
@@ -22,13 +19,7 @@ const currentLang = computed(
               {{ t('home.banner') }}
             </p>
 
-            <NuxtLink :to="{
-                path: '/contact',
-                query: {
-                  lang: currentLang
-                }
-              }" class="button-large"
-              >
+            <NuxtLink :to="localePath('/contact')" class="button-large">
               {{ t('home.contact') }}
             </NuxtLink>
           </div>

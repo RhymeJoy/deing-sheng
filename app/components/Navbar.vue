@@ -8,10 +8,21 @@ import {
 } from 'vue'
 
 import { useI18n } from 'vue-i18n'
-import { useRoute } from '#app'
+import {
+  navigateTo,
+  useLocalePath,
+  useRoute,
+  useSwitchLocalePath,
+} from '#imports'
+
+type LocaleCode = 'zh-TW' | 'en'
+type ThemeMode = 'light' | 'dark' | 'system'
+type RealTheme = 'light' | 'dark'
 
 const { t, locale } = useI18n()
 const route = useRoute()
+const localePath = useLocalePath()
+const switchLocalePath = useSwitchLocalePath()
 
 defineOptions({
   name: 'SiteNavbar',
@@ -30,13 +41,8 @@ const mobileMenuOpen = ref(false)
 const mobileSettingsOpen = ref(false)
 const desktopSettingsOpen = ref(false)
 
-function withLang(path) {
-  return {
-    path,
-    query: {
-      lang: currentLang.value,
-    },
-  }
+function withLang(path: string) {
+  return localePath(path)
 }
 
 function closeMobileMenu() {
@@ -64,53 +70,72 @@ watch(
   }
 )
 
-let resizeHandler = null
-let scrollHandler = null
-let mediaHandler = null
-let mediaQuery = null
-let keydownHandler = null
+let resizeHandler: (() => void) | null = null
+let scrollHandler: (() => void) | null = null
+let mediaHandler: (() => void) | null = null
+let mediaQuery: MediaQueryList | null = null
+let keydownHandler: ((event: KeyboardEvent) => void) | null = null
 
 let lastScrollY = 0
 let scrollTicking = false
-let headerEl = null
+let headerEl: Element | null = null
 
 function eventTargetValue(event: Event) {
   return (event.target as HTMLSelectElement).value
 }
 
+function isLocaleCode(value: string): value is LocaleCode {
+  return value === 'zh-TW' || value === 'en'
+}
+
+function isThemeMode(value: string): value is ThemeMode {
+  return value === 'light' || value === 'dark' || value === 'system'
+}
+
 function handleLangChange(event: Event) {
-  switchLang(eventTargetValue(event))
+  const lang = eventTargetValue(event)
+
+  if (isLocaleCode(lang)) {
+    switchLang(lang)
+  }
 }
 
 function handleThemeChange(event: Event) {
-  theme.value = eventTargetValue(event)
-}
-function switchLang(lang) {
-  locale.value = lang
-  localStorage.setItem('lang', lang)
+  const nextTheme = eventTargetValue(event)
 
-  const url = new URL(window.location.href)
-  url.searchParams.set('lang', lang)
-  window.history.replaceState({}, '', url)
-
-  document.documentElement.lang = lang
+  if (isThemeMode(nextTheme)) {
+    theme.value = nextTheme
+  }
 }
 
-const theme = ref(import.meta.client ? localStorage.getItem('theme-mode') || 'system' : 'system')
-const realTheme = ref('light')
+function switchLang(lang: LocaleCode) {
+  const nextPath = switchLocalePath(lang)
 
-function getSystemTheme() {
+  if (nextPath) {
+    void navigateTo(nextPath)
+  }
+
+  closeDesktopSettings()
+  closeMobileMenu()
+}
+
+const savedTheme = import.meta.client
+  ? localStorage.getItem('theme-mode')
+  : null
+
+const theme = ref<ThemeMode>(isThemeMode(savedTheme || '') ? savedTheme as ThemeMode : 'system')
+const realTheme = ref<RealTheme>('light')
+
+function getSystemTheme(): RealTheme {
   return window.matchMedia('(prefers-color-scheme: dark)').matches
     ? 'dark'
     : 'light'
 }
 
-function applyTheme(mode) {
-  let finalTheme = mode
-
-  if (mode === 'system') {
-    finalTheme = getSystemTheme()
-  }
+function applyTheme(mode: ThemeMode) {
+  const finalTheme: RealTheme = mode === 'system'
+    ? getSystemTheme()
+    : mode
 
   realTheme.value = finalTheme
 
@@ -120,8 +145,8 @@ function applyTheme(mode) {
   window.dispatchEvent(new Event('themechange'))
 }
 
-watch(theme, (v) => {
-  applyTheme(v)
+watch(theme, (value) => {
+  applyTheme(value)
 })
 
 function updateHeaderVisibility() {
@@ -171,7 +196,7 @@ onMounted(() => {
 
   window.addEventListener('resize', resizeHandler)
 
-  keydownHandler = (event) => {
+  keydownHandler = (event: KeyboardEvent) => {
     if (event.key === 'Escape') {
       closeDesktopSettings()
       closeMobileMenu()
