@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useRoute } from '#app'
-import { useLocalePath } from '#imports'
+import { useLocalePath, usePublicAsset } from '#imports'
 import { useI18n } from 'vue-i18n'
 
 import {
@@ -14,6 +14,7 @@ import {
 const route = useRoute()
 const { t, locale } = useI18n()
 const localePath = useLocalePath()
+const publicAsset = usePublicAsset()
 
 function text(data) {
   if (typeof data === 'string') return data
@@ -91,7 +92,7 @@ const hasExtraInfo = computed(() => {
         <div class="item-media">
           <img
             v-if="item.image"
-            :src="item.image"
+            :src="publicAsset(item.image)"
             :alt="text(item.name)"
           >
 

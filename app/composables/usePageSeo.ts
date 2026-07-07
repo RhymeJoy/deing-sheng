@@ -1,5 +1,5 @@
 import { computed } from 'vue'
-import { useHead, useRequestURL, useRoute, useSeoMeta } from '#imports'
+import { useHead, usePublicAsset, useRequestURL, useRoute, useSeoMeta } from '#imports'
 import { useI18n } from 'vue-i18n'
 
 import { products } from '~/data/products'
@@ -16,6 +16,7 @@ function localizedText(data: string | LocalizedText | undefined, locale: LocaleC
 export function usePageSeo() {
   const route = useRoute()
   const requestUrl = useRequestURL()
+  const publicAsset = usePublicAsset()
   const { t, locale } = useI18n()
 
   const currentLocale = computed<LocaleCode>(() => {
@@ -65,7 +66,7 @@ export function usePageSeo() {
   })
 
   const imageUrl = computed(() => {
-    return new URL(product.value?.image || DEFAULT_IMAGE, requestUrl.origin).toString()
+    return new URL(publicAsset(product.value?.image || DEFAULT_IMAGE), requestUrl.origin).toString()
   })
 
   useHead({

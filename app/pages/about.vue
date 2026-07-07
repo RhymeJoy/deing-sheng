@@ -3,8 +3,10 @@ import { onMounted, onBeforeUnmount, ref, nextTick, watch, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
+import { usePublicAsset } from '#imports'
 
 const { t, tm, rt, locale } = useI18n()
+const publicAsset = usePublicAsset()
 
 const mapEl = ref(null)
 const showMapTouchHint = ref(true)
@@ -203,7 +205,7 @@ function refreshMapTheme() {
 }
 
 async function addSvgWorldMap(bounds) {
-  const res = await fetch('/img/world.svg')
+  const res = await fetch(publicAsset('/img/world.svg'))
   const svgText = await res.text()
 
   const wrapper = document.createElement('div')

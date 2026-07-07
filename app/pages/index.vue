@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
-import { useLocalePath } from '#imports'
+import { useLocalePath, usePublicAsset } from '#imports'
 
 const { t } = useI18n()
 const localePath = useLocalePath()
+const publicAsset = usePublicAsset()
 </script>
 
 <template>
@@ -26,7 +27,7 @@ const localePath = useLocalePath()
 
           <div class="col-6 col-12-medium imp-medium">
             <a href="#" class="bordered-feature-image">
-              <img src="/img/banner.jpg" alt="鼎盛企業形象圖" />
+              <img :src="publicAsset('/img/banner.jpg')" alt="鼎盛企業形象圖" />
             </a>
           </div>
 
@@ -43,7 +44,7 @@ const localePath = useLocalePath()
             <section>
 
               <a href="#" class="bordered-feature-image">
-                <img src="/img/pic01.jpg" alt="" />
+                <img :src="publicAsset('/img/pic01.jpg')" alt="" />
               </a>
 
               <h2>
@@ -61,7 +62,7 @@ const localePath = useLocalePath()
             <section>
 
               <a href="#" class="bordered-feature-image">
-                <img src="/img/pic02.jpg" alt="" />
+                <img :src="publicAsset('/img/pic02.jpg')" alt="" />
               </a>
 
               <h2>
@@ -79,7 +80,7 @@ const localePath = useLocalePath()
             <section>
 
               <a href="#" class="bordered-feature-image">
-                <img src="/img/pic03.jpg" alt="" />
+                <img :src="publicAsset('/img/pic03.jpg')" alt="" />
               </a>
 
               <h2>
@@ -97,7 +98,7 @@ const localePath = useLocalePath()
             <section>
 
               <a href="#" class="bordered-feature-image">
-                <img src="/img/pic04.jpg" alt="" />
+                <img :src="publicAsset('/img/pic04.jpg')" alt="" />
               </a>
 
               <h2>
@@ -134,7 +135,7 @@ const localePath = useLocalePath()
               </header>
 
               <a href="#" class="feature-image">
-                <img src="/img/pic05.jpg" alt="" />
+                <img :src="publicAsset('/img/pic05.jpg')" alt="" />
               </a>
 
               <p>

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, ref, onMounted, onBeforeUnmount } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useLocalePath } from '#imports'
+import { useLocalePath, usePublicAsset } from '#imports'
 
 import {
   productCategories,
@@ -12,6 +12,7 @@ import {
 
 const { t, locale } = useI18n()
 const localePath = useLocalePath()
+const publicAsset = usePublicAsset()
 
 const ALL_ID = 'all'
 
@@ -303,7 +304,7 @@ function selectGroup(group) {
 
               <img
                 v-if="item.image"
-                :src="item.image"
+                :src="publicAsset(item.image)"
                 :alt="text(item.name)"
                 class="goods-thumb-image"
               >
