@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 
@@ -46,21 +46,21 @@ const phoneHref = computed(() => {
           {{ t('footer.navigation') }}
         </h3>
 
-        <RouterLink to="/">
+        <NuxtLink to="/">
           {{ t('nav.home') }}
-        </RouterLink>
+        </NuxtLink>
 
-        <RouterLink to="/about">
+        <NuxtLink to="/about">
           {{ t('nav.about') }}
-        </RouterLink>
+        </NuxtLink>
 
-        <RouterLink to="/goods">
+        <NuxtLink to="/goods">
           {{ t('nav.goods') }}
-        </RouterLink>
+        </NuxtLink>
 
-        <RouterLink to="/contact">
+        <NuxtLink to="/contact">
           {{ t('nav.contact') }}
-        </RouterLink>
+        </NuxtLink>
       </nav>
 
       <section class="footer-contact">
@@ -90,4 +90,4 @@ const phoneHref = computed(() => {
   </footer>
 </template>
 
-<style src="../assets/css/footer.css"></style>
+<style src="~/assets/css/footer.css"></style>

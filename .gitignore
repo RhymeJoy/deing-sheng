@@ -13,6 +13,7 @@ dist
 dist-ssr
 coverage
 *.local
+*.bat
 
 # Editor directories and files
 .vscode/*
@@ -38,3 +39,5 @@ __screenshots__/
 # Vite
 .vite
 *.timestamp-*-*.mjs
+.nuxt
+.output

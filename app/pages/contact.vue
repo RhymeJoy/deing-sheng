@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { reactive } from 'vue'
 import { useI18n } from 'vue-i18n'
 
@@ -23,7 +23,10 @@ const form = reactive({
   website: '',
 })
 
-function cleanInput(value) {
+type ContactForm = typeof form
+type ContactFormKey = keyof ContactForm
+
+function cleanInput(value: unknown) {
   return String(value)
     .replace(/[<>]/g, '')
     .replace(/javascript:/gi, '')
@@ -37,9 +40,9 @@ function submitForm() {
     return
   }
 
-  const cleaned = {}
+  const cleaned = {} as Record<ContactFormKey, string>
 
-  Object.keys(form).forEach((key) => {
+  (Object.keys(form) as ContactFormKey[]).forEach((key) => {
     cleaned[key] = cleanInput(form[key])
   })
 
@@ -203,4 +206,4 @@ function submitForm() {
   </main>
 </template>
 
-<style src="../assets/css/contact.css"></style>
+<style src="~/assets/css/contact.css"></style>

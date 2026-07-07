@@ -1,4 +1,46 @@
-export const productTags = {
+export type LocaleCode = 'zh-TW' | 'en'
+
+export type LocalizedText = Partial<Record<LocaleCode, string>>
+
+export type ProductTag = {
+  label: LocalizedText
+}
+
+export type ProductCategory = {
+  desc?: LocalizedText
+  icon?: string
+  id: string
+  name: LocalizedText
+}
+
+export type ProductGroup = {
+  categoryId: string
+  desc?: LocalizedText
+  id: string
+  name: LocalizedText
+}
+
+export type ProductSpec = {
+  label: LocalizedText | string
+  value: LocalizedText | string
+}
+
+export type Product = {
+  applications?: LocalizedText | string[]
+  categoryId: string
+  desc: LocalizedText
+  features?: LocalizedText | string[]
+  groupId: string
+  hot?: boolean
+  id: string
+  image?: string
+  model: LocalizedText
+  name: LocalizedText
+  pdf?: string | false
+  specs?: ProductSpec[]
+  tags?: string[]
+}
+export const productTags: Record<string, ProductTag> = {
   // tabletop
   tb: {
     label: {
@@ -239,7 +281,7 @@ export const productTags = {
   },
 }
 
-export const productCategories = [
+export const productCategories: ProductCategory[] = [
   {
     id: 'equipment',
     name: {
@@ -280,7 +322,7 @@ export const productCategories = [
   },
 ]
 
-export const productGroups = [
+export const productGroups: ProductGroup[] = [
   //equipment
   {
     id: 'softServe',
@@ -376,7 +418,7 @@ export const productGroups = [
   },
 ]
 
-export const products = [
+export const products: Product[] = [
   //霜淇淋
   {
     id: 'ds-td98',
@@ -394,7 +436,7 @@ export const products = [
       'zh-TW': '適合攤販、小型店面與創業入門使用的小型高效率商用機種。',
       en: 'Compact commercial model for kiosks, small shops, and startup businesses.',
     },
-    image: '/images/products/td98.avif',
+    image: '/img/products/td98.avif',
     tags: ['tb', 'ac', 'su', 'ot'],
     pdf: false,
     hot: true,
@@ -417,7 +459,7 @@ export const products = [
       'zh-TW': '可製作兩種口味與綜合口味，適合中型店面、連鎖門市與商用高需求。',
       en: 'Supports two flavors and mixed flavor output for medium stores and chain businesses.',
     },
-    image: '/images/products/ts99.avif',
+    image: '/img/products/ts99.avif',
     tags: ['tb', 'ac', 'tt', 'hc'],
     pdf: false,
     hot: false,
@@ -439,7 +481,7 @@ export const products = [
       'zh-TW': '多口味高產能風冷旗艦機型，適合中大型門市與連鎖品牌。',
       en: 'High-capacity flagship air-cooled model for larger stores and chain brands.',
     },
-    image: '/images/products/ls168a.avif',
+    image: '/img/products/ls168a.avif',
     tags: ['fs', 'ac', 'hc'],
     pdf: false,
     hot: true,
@@ -461,7 +503,7 @@ export const products = [
       'zh-TW': '多口味高產能水冷旗艦機型，適合長時間高負載營運需求。',
       en: 'High-capacity water-cooled model for long-hour commercial operation.',
     },
-    image: '/images/products/ls168w.avif',
+    image: '/img/products/ls168w.avif',
     tags: ['fs', 'wc', 'hc'],
     pdf: false,
     hot: false,
@@ -568,7 +610,7 @@ export const products = [
       'zh-TW': '輕量高效製冰機，適合小型店面與咖啡廳。',
       en: 'Efficient commercial cube ice machine for cafes and small shops.',
     },
-    image: '/images/products/120X.avif',
+    image: '/img/products/120X.avif',
     tags: ['ci', 'ac', 'cp'],
     pdf: false,
     hot: false,
@@ -590,7 +632,7 @@ export const products = [
       'zh-TW': '支援半形冰與方形冰，適合多用途商用需求。',
       en: 'Supports both half cube and cube ice output.',
     },
-    image: '/images/products/215X.avif',
+    image: '/img/products/215X.avif',
     tags: ['hc2', 'ci', 'dt'],
     pdf: false,
     hot: false,
@@ -675,7 +717,7 @@ export const products = [
       'zh-TW': '適合大型餐廳與連鎖餐飲的高負載製冰設備。',
       en: 'Heavy-duty commercial ice machine for chain restaurants.',
     },
-    image: '/images/products/1050.avif',
+    image: '/img/products/1050.avif',
     tags: ['uc', 'rs', 'st'],
     pdf: false,
     hot: false,

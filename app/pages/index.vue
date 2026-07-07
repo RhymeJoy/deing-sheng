@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 
@@ -22,7 +22,7 @@ const currentLang = computed(
               {{ t('home.banner') }}
             </p>
 
-            <RouterLink :to="{
+            <NuxtLink :to="{
                 path: '/contact',
                 query: {
                   lang: currentLang
@@ -30,12 +30,12 @@ const currentLang = computed(
               }" class="button-large"
               >
               {{ t('home.contact') }}
-            </RouterLink>
+            </NuxtLink>
           </div>
 
           <div class="col-6 col-12-medium imp-medium">
             <a href="#" class="bordered-feature-image">
-              <img src="/images/banner.jpg" alt="鼎盛企業形象圖" />
+              <img src="/img/banner.jpg" alt="鼎盛企業形象圖" />
             </a>
           </div>
 
@@ -52,7 +52,7 @@ const currentLang = computed(
             <section>
 
               <a href="#" class="bordered-feature-image">
-                <img src="/images/pic01.jpg" alt="" />
+                <img src="/img/pic01.jpg" alt="" />
               </a>
 
               <h2>
@@ -70,7 +70,7 @@ const currentLang = computed(
             <section>
 
               <a href="#" class="bordered-feature-image">
-                <img src="/images/pic02.jpg" alt="" />
+                <img src="/img/pic02.jpg" alt="" />
               </a>
 
               <h2>
@@ -88,7 +88,7 @@ const currentLang = computed(
             <section>
 
               <a href="#" class="bordered-feature-image">
-                <img src="/images/pic03.jpg" alt="" />
+                <img src="/img/pic03.jpg" alt="" />
               </a>
 
               <h2>
@@ -106,7 +106,7 @@ const currentLang = computed(
             <section>
 
               <a href="#" class="bordered-feature-image">
-                <img src="/images/pic04.jpg" alt="" />
+                <img src="/img/pic04.jpg" alt="" />
               </a>
 
               <h2>
@@ -143,7 +143,7 @@ const currentLang = computed(
               </header>
 
               <a href="#" class="feature-image">
-                <img src="/images/pic05.jpg" alt="" />
+                <img src="/img/pic05.jpg" alt="" />
               </a>
 
               <p>
@@ -234,4 +234,4 @@ const currentLang = computed(
   </main>
 </template>
 
-<style src="../assets/css/main.css"></style>
+<style src="~/assets/css/main.css"></style>

@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { onMounted, onBeforeUnmount, ref, nextTick, watch, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import L from 'leaflet'
@@ -11,10 +11,13 @@ const showMapTouchHint = ref(true)
 const isTouchDevice = ref(false)
 
 const mapTouchHintText = computed(() =>
-  locale.value === 'zh-TW'
-    ? '用兩指操作地圖'
-    : 'Use two fingers to move'
+  locale.value === 'zh-TW' ? '用兩指操作地圖' : 'Use two fingers to move',
 )
+
+type I18nMessage = Parameters<typeof rt>[0]
+
+const aboutContent = computed(() => tm('about.content') as I18nMessage[])
+const devhistoryContent = computed(() => tm('about.devhistoryContent') as I18nMessage[])
 
 let map = null
 let rafId = null
@@ -49,7 +52,7 @@ const borderWidthConfig = {
 }
 
 const wiggleConfig = {
-  frequency: .1,
+  frequency: 0.1,
   amplitude: 6,
 }
 
@@ -65,15 +68,15 @@ const lineConfig = {
 
 const labelLineConfig = {
   weight: 1,
-  opacity: .75,
+  opacity: 0.75,
 }
 
 const boundsPadding = {
-    left: 30,
-    right: -30,
-    top: 15,
-    bottom: -15,
-  }
+  left: 30,
+  right: -30,
+  top: 15,
+  bottom: -15,
+}
 
 const enableHover = false
 
@@ -97,17 +100,13 @@ function hideMapTouchHint() {
 }
 
 function cssVar(name) {
-  return getComputedStyle(document.documentElement)
-    .getPropertyValue(name)
-    .trim()
+  return getComputedStyle(document.documentElement).getPropertyValue(name).trim()
 }
 
 function getCountryColor(id) {
   const varName = countryColorVars[id]
 
-  return varName
-    ? cssVar(varName)
-    : cssVar('--map-country')
+  return varName ? cssVar(varName) : cssVar('--map-country')
 }
 
 function clamp(value, min, max) {
@@ -124,17 +123,12 @@ function getBorderWidth() {
   const zoom = map.getZoom()
 
   const progress = clamp(
-    (zoom - borderWidthConfig.minZoom) /
-      (borderWidthConfig.maxZoom - borderWidthConfig.minZoom),
+    (zoom - borderWidthConfig.minZoom) / (borderWidthConfig.maxZoom - borderWidthConfig.minZoom),
     0,
-    1
+    1,
   )
 
-  return lerp(
-    borderWidthConfig.minWidth,
-    borderWidthConfig.maxWidth,
-    progress
-  )
+  return lerp(borderWidthConfig.minWidth, borderWidthConfig.maxWidth, progress)
 }
 
 function refreshCountryBorders() {
@@ -145,7 +139,7 @@ function refreshCountryBorders() {
   map
     .getContainer()
     .querySelectorAll('.country-path')
-    .forEach(path => {
+    .forEach((path) => {
       path.style.strokeWidth = width
     })
 }
@@ -160,7 +154,7 @@ function createLabelIcon(key) {
 }
 
 function refreshLabels() {
-  items.forEach(item => {
+  items.forEach((item) => {
     item.marker.setIcon(createLabelIcon(item.key))
   })
 }
@@ -183,15 +177,13 @@ function refreshMapTheme() {
     svgEl.style.background = bg
   }
 
-  container
-    .querySelectorAll('.country-path')
-    .forEach(path => {
-      path.style.fill = getCountryColor(path.id)
-      path.style.stroke = strokeColor
-      path.style.strokeWidth = getBorderWidth()
-    })
+  container.querySelectorAll('.country-path').forEach((path) => {
+    path.style.fill = getCountryColor(path.id)
+    path.style.stroke = strokeColor
+    path.style.strokeWidth = getBorderWidth()
+  })
 
-  items.forEach(item => {
+  items.forEach((item) => {
     item.point.setStyle({
       color: pointColor,
       fillColor: pointColor,
@@ -211,7 +203,7 @@ function refreshMapTheme() {
 }
 
 async function addSvgWorldMap(bounds) {
-  const res = await fetch('/assets/img/world.svg')
+  const res = await fetch('/img/world.svg')
   const svgText = await res.text()
 
   const wrapper = document.createElement('div')
@@ -228,23 +220,22 @@ async function addSvgWorldMap(bounds) {
 
   svg.setAttribute('viewBox', `0 0 ${mapConfig.width} ${mapConfig.height}`)
   svg.setAttribute('preserveAspectRatio', 'none')
-  svg.setAttribute('width', mapConfig.width)
-  svg.setAttribute('height', mapConfig.height)
+  svg.setAttribute('width', String(mapConfig.width))
+  svg.setAttribute('height', String(mapConfig.height))
 
   svg.style.width = '100%'
   svg.style.height = '100%'
   svg.style.display = 'block'
   svg.style.background = cssVar('--map-bg')
 
-  svg.querySelectorAll('path').forEach(path => {
+  svg.querySelectorAll('path').forEach((path) => {
     path.classList.add('country-path')
 
     path.style.fill = getCountryColor(path.id)
     path.style.stroke = cssVar('--map-stroke')
     path.style.strokeWidth = getBorderWidth()
     path.style.cursor = enableHover ? 'pointer' : 'default'
-    path.style.transition =
-      'fill .15s ease, stroke .15s ease, stroke-width .15s ease'
+    path.style.transition = 'fill .15s ease, stroke .15s ease, stroke-width .15s ease'
 
     path.addEventListener('mouseenter', () => {
       if (!enableHover) return
@@ -293,19 +284,14 @@ function fitMapToWorld(bounds) {
 
   map.invalidateSize()
 
-  const isMobile =
-    mapEl.value.clientWidth <= focusConfig.mobileWidth
+  const isMobile = mapEl.value.clientWidth <= focusConfig.mobileWidth
 
   map.setMaxBounds(bounds)
 
   if (isMobile) {
     map.setMinZoom(focusConfig.mobileMinZoom)
 
-    map.setView(
-      focusConfig.mobileCenter,
-      focusConfig.mobileZoom,
-      { animate: false }
-    )
+    map.setView(focusConfig.mobileCenter, focusConfig.mobileZoom, { animate: false })
   } else {
     map.setMinZoom(focusConfig.desktopMinZoom)
 
@@ -326,7 +312,7 @@ function setupMapEvents() {
 
   const container = map.getContainer()
 
-  mapTouchStartHandler = event => {
+  mapTouchStartHandler = (event) => {
     if (!mapReady) return
 
     if (event.touches && event.touches.length >= 2) {
@@ -363,7 +349,7 @@ function createRegionItems() {
 
   items = []
 
-  regions.forEach(region => {
+  regions.forEach((region) => {
     const pointLatLng = L.latLng(region.point[0], region.point[1])
     const baseLabelLatLng = L.latLng(region.label[0], region.label[1])
 
@@ -421,16 +407,9 @@ function startLabelAnimation() {
     const zoom = map.getZoom()
     const baseZoom = lineConfig.baseZoom ?? zoom
 
-    const scale = Math.pow(
-      lineConfig.zoomPower,
-      baseZoom - zoom
-    )
+    const scale = Math.pow(lineConfig.zoomPower, baseZoom - zoom)
 
-    return clamp(
-      scale,
-      lineConfig.minLengthScale,
-      lineConfig.maxLengthScale
-    )
+    return clamp(scale, lineConfig.minLengthScale, lineConfig.maxLengthScale)
   }
 
   const clampAxis = (value, min, max) => {
@@ -440,48 +419,33 @@ function startLabelAnimation() {
   }
 
   const keepLabelInViewport = (layerPoint, item) => {
-  if (!map) return layerPoint
+    if (!map) return layerPoint
 
-  const containerPoint =
-    map.layerPointToContainerPoint(layerPoint)
+    const containerPoint = map.layerPointToContainerPoint(layerPoint)
 
-  const mapSize = map.getSize()
+    const mapSize = map.getSize()
 
-  const markerEl = item.marker.getElement()
-  const labelEl = markerEl?.querySelector('.map-label')
-  const labelRect = labelEl?.getBoundingClientRect()
+    const markerEl = item.marker.getElement()
+    const labelEl = markerEl?.querySelector('.map-label')
+    const labelRect = labelEl?.getBoundingClientRect()
 
-  const labelWidth =
-    labelRect?.width ||
-    lineConfig.fallbackLabelWidth
+    const labelWidth = labelRect?.width || lineConfig.fallbackLabelWidth
 
-  const labelHeight =
-    labelRect?.height ||
-    lineConfig.fallbackLabelHeight
+    const labelHeight = labelRect?.height || lineConfig.fallbackLabelHeight
 
-  const clampedContainerPoint = L.point(
-    clampAxis(
-      containerPoint.x,
-      boundsPadding.left,
-      mapSize.x -
-        boundsPadding.right -
-        labelWidth
-    ),
-    clampAxis(
-      containerPoint.y,
-      boundsPadding.top,
-      mapSize.y -
-        boundsPadding.bottom -
-        labelHeight
+    const clampedContainerPoint = L.point(
+      clampAxis(containerPoint.x, boundsPadding.left, mapSize.x - boundsPadding.right - labelWidth),
+      clampAxis(
+        containerPoint.y,
+        boundsPadding.top,
+        mapSize.y - boundsPadding.bottom - labelHeight,
+      ),
     )
-  )
 
-  return map.containerPointToLayerPoint(
-    clampedContainerPoint
-  )
-}
+    return map.containerPointToLayerPoint(clampedContainerPoint)
+  }
 
-  const animate = now => {
+  const animate = (now) => {
     if (!map) return
 
     if (isZooming) {
@@ -493,7 +457,7 @@ function startLabelAnimation() {
     const wave = time * wiggleConfig.frequency * Math.PI * 2
     const lengthScale = getLengthScale()
 
-    items.forEach(item => {
+    items.forEach((item) => {
       const pointPx = map.latLngToLayerPoint(item.pointLatLng)
       const labelPx = map.latLngToLayerPoint(item.baseLabelLatLng)
 
@@ -505,22 +469,16 @@ function startLabelAnimation() {
 
       const targetLabelPx = L.point(
         pointPx.x + vx * lengthScale + wiggleX,
-        pointPx.y + vy * lengthScale + wiggleY
+        pointPx.y + vy * lengthScale + wiggleY,
       )
 
-      const finalLabelPx = keepLabelInViewport(
-        targetLabelPx,
-        item
-      )
+      const finalLabelPx = keepLabelInViewport(targetLabelPx, item)
 
       const finalLabelLatLng = map.layerPointToLatLng(finalLabelPx)
 
       item.marker.setLatLng(finalLabelLatLng)
 
-      item.line.setLatLngs([
-        item.pointLatLng,
-        finalLabelLatLng,
-      ])
+      item.line.setLatLngs([item.pointLatLng, finalLabelLatLng])
 
       item.line.bringToFront()
       item.point.bringToFront()
@@ -567,7 +525,7 @@ onMounted(async () => {
     tap: false,
 
     maxBoundsViscosity: 0.6,
-  })
+  } as L.MapOptions & { tap: boolean })
 
   applyTouchMapMode()
   setupMapEvents()
@@ -684,15 +642,12 @@ onBeforeUnmount(() => {
               <h3>{{ t('about.founded') }}</h3>
             </header>
 
-            <div style="line-height: 1.25;">
-              <template
-                v-for="(text, i) in tm('about.content')"
-                :key="`content-${i}`"
-              >
+            <div style="line-height: 1.25">
+              <template v-for="(text, i) in aboutContent" :key="`content-${i}`">
                 {{ rt(text) }}
 
-                <br v-if="i !== tm('about.content').length - 1">
-                <br v-if="i !== tm('about.content').length - 1">
+                <br v-if="i !== aboutContent.length - 1" />
+                <br v-if="i !== aboutContent.length - 1" />
               </template>
             </div>
 
@@ -711,18 +666,12 @@ onBeforeUnmount(() => {
 
               <div class="map-wrap">
                 <Transition name="map-touch-hint">
-                  <div
-                    v-if="showMapTouchHint"
-                    class="map-touch-hint"
-                  >
+                  <div v-if="showMapTouchHint" class="map-touch-hint">
                     {{ mapTouchHintText }}
                   </div>
                 </Transition>
 
-                <div
-                  ref="mapEl"
-                  class="world-leaflet-map"
-                ></div>
+                <div ref="mapEl" class="world-leaflet-map"></div>
               </div>
             </div>
 
@@ -732,7 +681,7 @@ onBeforeUnmount(() => {
               </h2>
 
               <div
-                v-for="(item, i) in tm('about.devhistoryContent')"
+                v-for="(item, i) in devhistoryContent"
                 :key="`history-${i}`"
                 class="history-item"
               >
@@ -742,9 +691,7 @@ onBeforeUnmount(() => {
 
             <div class="location-grid">
               <article class="location-card">
-                <span class="location-tag">
-                  HQ
-                </span>
+                <span class="location-tag"> HQ </span>
 
                 <h3>
                   {{ t('about.hqTitle') }}
@@ -766,9 +713,7 @@ onBeforeUnmount(() => {
               </article>
 
               <article class="location-card">
-                <span class="location-tag">
-                  CN
-                </span>
+                <span class="location-tag"> CN </span>
 
                 <h3>
                   {{ t('about.cnTitle') }}
@@ -796,4 +741,4 @@ onBeforeUnmount(() => {
   </main>
 </template>
 
-<style src="../assets/css/about.css"></style>
+<style src="~/assets/css/about.css"></style>

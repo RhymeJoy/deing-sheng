@@ -1,6 +1,6 @@
-<script setup>
+<script setup lang="ts">
 import { computed } from 'vue'
-import { useRoute, RouterLink } from 'vue-router'
+import { useRoute } from '#app'
 import { useI18n } from 'vue-i18n'
 
 import {
@@ -8,7 +8,7 @@ import {
   productGroups,
   products,
   productTags,
-} from '../data/products'
+} from '~/data/products'
 
 const route = useRoute()
 const { t, locale } = useI18n()
@@ -78,7 +78,7 @@ const hasExtraInfo = computed(() => {
       v-if="item"
       class="item-shell"
     >
-      <RouterLink
+      <NuxtLink
         class="item-back"
         :to="{
           path: '/goods',
@@ -88,7 +88,7 @@ const hasExtraInfo = computed(() => {
         }"
       >
         ← {{ t('item.back') }}
-      </RouterLink>
+      </NuxtLink>
 
       <section class="item-hero">
         <div class="item-media">
@@ -137,7 +137,7 @@ const hasExtraInfo = computed(() => {
           </div>
 
           <div class="item-actions">
-            <RouterLink
+            <NuxtLink
               class="item-primary-btn"
               :to="{
                 path: '/contact',
@@ -147,12 +147,12 @@ const hasExtraInfo = computed(() => {
               }"
             >
               聯絡詢問
-            </RouterLink>
+            </NuxtLink>
 
             <a
               v-if="item.pdf"
               class="item-secondary-btn"
-              :href="item.pdf"
+              :href="item.pdf || undefined"
               target="_blank"
               rel="noopener"
             >
@@ -259,7 +259,7 @@ const hasExtraInfo = computed(() => {
     >
       <h1>{{ t('item.nofound') }}</h1>
 
-      <RouterLink 
+      <NuxtLink 
         :to="{
           path: '/goods',
           query: {
@@ -267,10 +267,10 @@ const hasExtraInfo = computed(() => {
           }
         }">
         {{ t('item.back') }}
-      </RouterLink>
+      </NuxtLink>
     </section>
 
   </main>
 </template>
 
-<style scoped src="../assets/css/item.css"></style>
+<style scoped src="~/assets/css/item.css"></style>

@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { computed, ref, onMounted, onBeforeUnmount } from 'vue'
 import { useI18n } from 'vue-i18n'
 
@@ -7,7 +7,7 @@ import {
   productGroups,
   products,
   productTags,
-} from '../data/products'
+} from '~/data/products'
 
 const { t, locale } = useI18n()
 
@@ -285,7 +285,7 @@ function selectGroup(group) {
           tag="div"
           class="goods-list"
         >
-          <RouterLink
+          <NuxtLink
             v-for="item in visibleItems"
             :key="item.id"
             class="goods-item-card"
@@ -360,7 +360,7 @@ function selectGroup(group) {
                 </em>
               </div>
             </div>
-          </RouterLink>
+          </NuxtLink>
         </TransitionGroup>
 
         <div
@@ -375,4 +375,4 @@ function selectGroup(group) {
   </main>
 </template>
 
-<style scoped src="../assets/css/goods.css"></style>
+<style scoped src="~/assets/css/goods.css"></style>

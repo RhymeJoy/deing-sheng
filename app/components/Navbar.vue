@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import {
   onMounted,
   onBeforeUnmount,
@@ -8,7 +8,7 @@ import {
 } from 'vue'
 
 import { useI18n } from 'vue-i18n'
-import { useRoute } from 'vue-router'
+import { useRoute } from '#app'
 
 const { t, locale } = useI18n()
 const route = useRoute()
@@ -74,18 +74,29 @@ let lastScrollY = 0
 let scrollTicking = false
 let headerEl = null
 
+function eventTargetValue(event: Event) {
+  return (event.target as HTMLSelectElement).value
+}
+
+function handleLangChange(event: Event) {
+  switchLang(eventTargetValue(event))
+}
+
+function handleThemeChange(event: Event) {
+  theme.value = eventTargetValue(event)
+}
 function switchLang(lang) {
   locale.value = lang
   localStorage.setItem('lang', lang)
 
-  const url = new URL(window.location)
+  const url = new URL(window.location.href)
   url.searchParams.set('lang', lang)
   window.history.replaceState({}, '', url)
 
   document.documentElement.lang = lang
 }
 
-const theme = ref(localStorage.getItem('theme-mode') || 'system')
+const theme = ref(import.meta.client ? localStorage.getItem('theme-mode') || 'system' : 'system')
 const realTheme = ref('light')
 
 function getSystemTheme() {
@@ -225,13 +236,13 @@ onBeforeUnmount(() => {
           </h1>
 
           <nav id="nav">
-            <RouterLink
+            <NuxtLink
               v-for="link in navLinks"
               :key="link.path"
               :to="withLang(link.path)"
             >
               {{ link.label }}
-            </RouterLink>
+            </NuxtLink>
 
             <div id="nav-tools">
               <button
@@ -308,7 +319,7 @@ onBeforeUnmount(() => {
           <select
             id="desktopLangSelect"
             :value="currentLang"
-            @change="switchLang($event.target.value)"
+            @change="handleLangChange"
           >
             <option value="zh-TW">
               繁體中文
@@ -332,7 +343,7 @@ onBeforeUnmount(() => {
           <select
             id="desktopThemeSelect"
             :value="theme"
-            @change="theme = $event.target.value"
+            @change="handleThemeChange"
           >
             <option value="light">
               {{
@@ -418,7 +429,7 @@ onBeforeUnmount(() => {
 
           <select
             :value="currentLang"
-            @change="switchLang($event.target.value)"
+            @change="handleLangChange"
           >
             <option value="zh-TW">
               繁體中文
@@ -441,7 +452,7 @@ onBeforeUnmount(() => {
 
           <select
             :value="theme"
-            @change="theme = $event.target.value"
+            @change="handleThemeChange"
           >
             <option value="light">
               {{
@@ -472,7 +483,7 @@ onBeforeUnmount(() => {
     </Transition>
 
     <nav>
-      <RouterLink
+      <NuxtLink
         v-for="link in navLinks"
         :key="`mobile-${link.path}`"
         class="link"
@@ -480,7 +491,7 @@ onBeforeUnmount(() => {
         @click="closeMobileMenu"
       >
         {{ link.label }}
-      </RouterLink>
+      </NuxtLink>
     </nav>
   </div>
 
@@ -493,4 +504,4 @@ onBeforeUnmount(() => {
   ></button>
 </template>
 
-<style scoped src="../../src/assets/css/navbar.css"></style>
+<style scoped src="~/assets/css/navbar.css"></style>
