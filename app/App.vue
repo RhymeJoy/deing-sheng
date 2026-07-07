@@ -1,14 +1,55 @@
 <script setup lang="ts">
 import { onMounted, watch } from 'vue'
-import { useRoute } from '#app'
 import { useI18n } from 'vue-i18n'
+import { useRoute, useRouter } from '#imports'
 
 import { usePageSeo } from '~/composables/usePageSeo'
 
+type LocaleCode = 'zh-TW' | 'en'
+
 const { locale } = useI18n()
 const route = useRoute()
+const router = useRouter()
 
 usePageSeo()
+
+function normalizeLocale(value: unknown): LocaleCode | null {
+  const candidate = Array.isArray(value) ? value[0] : value
+
+  return candidate === 'en' || candidate === 'zh-TW'
+    ? candidate
+    : null
+}
+
+function localizedPath(path: string, localeCode: LocaleCode) {
+  const cleanPath = path.replace(/^\/en(?=\/|$)/, '') || '/'
+
+  if (localeCode === 'zh-TW') return cleanPath
+
+  return cleanPath === '/'
+    ? '/en'
+    : `/en${cleanPath}`
+}
+
+function removeLegacyLocaleQuery() {
+  if (!import.meta.client) return
+
+  const legacyLocale = normalizeLocale(route.query.lang)
+
+  if (!legacyLocale) return
+
+  const query = {
+    ...route.query,
+  }
+
+  delete query.lang
+
+  void router.replace({
+    path: localizedPath(route.path, legacyLocale),
+    query,
+    hash: route.hash,
+  })
+}
 
 function scrollToTopBeforeEnter() {
   if (!import.meta.client) return
@@ -18,43 +59,19 @@ function scrollToTopBeforeEnter() {
   document.body.scrollTop = 0
 }
 
-function normalizeLocale(value: unknown) {
-  const localeValue = Array.isArray(value) ? value[0] : value
-
-  return localeValue === 'en' || localeValue === 'zh-TW'
-    ? localeValue
-    : null
-}
-
-function detectInitialLocale() {
-  const queryLocale = normalizeLocale(route.query.lang)
-
-  if (queryLocale) return queryLocale
-
-  const savedLocale = normalizeLocale(localStorage.getItem('lang'))
-
-  if (savedLocale) return savedLocale
-
-  const systemLocale = navigator.language.toLowerCase()
-
-  if (systemLocale.includes('en')) return 'en'
-
-  return 'zh-TW'
-}
-
 onMounted(() => {
-  const initialLocale = detectInitialLocale()
-
-  locale.value = initialLocale
-  localStorage.setItem('lang', initialLocale)
-  document.documentElement.lang = initialLocale
+  document.documentElement.lang = locale.value
+  removeLegacyLocaleQuery()
 })
 
 watch(locale, (value) => {
   if (!import.meta.client) return
 
   document.documentElement.lang = value
-  localStorage.setItem('lang', value)
+})
+
+watch(() => route.fullPath, () => {
+  removeLegacyLocaleQuery()
 })
 </script>
 

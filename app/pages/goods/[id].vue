@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useRoute } from '#app'
+import { useLocalePath } from '#imports'
 import { useI18n } from 'vue-i18n'
 
 import {
@@ -12,6 +13,7 @@ import {
 
 const route = useRoute()
 const { t, locale } = useI18n()
+const localePath = useLocalePath()
 
 function text(data) {
   if (typeof data === 'string') return data
@@ -80,12 +82,7 @@ const hasExtraInfo = computed(() => {
     >
       <NuxtLink
         class="item-back"
-        :to="{
-          path: '/goods',
-          query: {
-            lang: locale
-          }
-        }"
+        :to="localePath('/goods')"
       >
         ← {{ t('item.back') }}
       </NuxtLink>
@@ -139,12 +136,7 @@ const hasExtraInfo = computed(() => {
           <div class="item-actions">
             <NuxtLink
               class="item-primary-btn"
-              :to="{
-                path: '/contact',
-                query: {
-                  lang: locale
-                }
-              }"
+              :to="localePath('/contact')"
             >
               聯絡詢問
             </NuxtLink>
@@ -260,12 +252,7 @@ const hasExtraInfo = computed(() => {
       <h1>{{ t('item.nofound') }}</h1>
 
       <NuxtLink 
-        :to="{
-          path: '/goods',
-          query: {
-            lang: locale
-          }
-        }">
+        :to="localePath('/goods')">
         {{ t('item.back') }}
       </NuxtLink>
     </section>

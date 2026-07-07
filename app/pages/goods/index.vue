@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, ref, onMounted, onBeforeUnmount } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { useLocalePath } from '#imports'
 
 import {
   productCategories,
@@ -10,6 +11,7 @@ import {
 } from '~/data/products'
 
 const { t, locale } = useI18n()
+const localePath = useLocalePath()
 
 const ALL_ID = 'all'
 
@@ -289,12 +291,7 @@ function selectGroup(group) {
             v-for="item in visibleItems"
             :key="item.id"
             class="goods-item-card"
-            :to="{
-              path: `/goods/${item.id}`,
-              query: {
-                lang: locale
-              }
-            }"
+            :to="localePath(`/goods/${item.id}`)"
           >
             <div class="goods-product-thumb">
               <span
