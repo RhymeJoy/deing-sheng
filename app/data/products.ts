@@ -2,6 +2,8 @@ export type LocaleCode = 'zh-TW' | 'en'
 
 export type LocalizedText = Partial<Record<LocaleCode, string>>
 
+export type ProductPrice = number | string
+
 export type ProductTag = {
   label: LocalizedText
 }
@@ -37,6 +39,7 @@ export type Product = {
   model: LocalizedText
   name: LocalizedText
   pdf?: string | false
+  price?: ProductPrice
   specs?: ProductSpec[]
   tags?: string[]
 }
@@ -73,14 +76,6 @@ export const productTags: Record<string, ProductTag> = {
     },
   },
 
-  // startup
-  su: {
-    label: {
-      'zh-TW': '創業入門',
-      en: 'Startup',
-    },
-  },
-
   // entryLevel
   el: {
     label: {
@@ -89,27 +84,19 @@ export const productTags: Record<string, ProductTag> = {
     },
   },
 
-  // highCapacity
-  hc: {
-    label: {
-      'zh-TW': '高產能',
-      en: 'High Capacity',
-    },
-  },
-
-  // ultraCapacity
-  uc: {
-    label: {
-      'zh-TW': '超高產能',
-      en: 'Ultra Capacity',
-    },
-  },
-
   // flagship
   fg: {
     label: {
-      'zh-TW': '旗艦級',
+      'zh-TW': '旗艦款',
       en: 'Flagship',
+    },
+  },
+
+  // Standard
+  std: {
+    label: {
+      'zh-TW': '主流款',
+      en: 'Standard',
     },
   },
 
@@ -128,6 +115,14 @@ export const productTags: Record<string, ProductTag> = {
     },
   },
 
+  // bigcubeIce
+  bci: {
+    label: {
+      'zh-TW': '大方形冰',
+      en: 'Big Cube Ice',
+    },
+  },
+
   // cubeIce
   ci: {
     label: {
@@ -137,7 +132,7 @@ export const productTags: Record<string, ProductTag> = {
   },
 
   // halfCube
-  hc2: {
+  hc: {
     label: {
       'zh-TW': '半形冰',
       en: 'Half Cube',
@@ -160,19 +155,19 @@ export const productTags: Record<string, ProductTag> = {
     },
   },
 
-  // compact
-  cp: {
+  // mediumStore
+  ms: {
     label: {
-      'zh-TW': '輕量',
-      en: 'Compact',
+      'zh-TW': '中型店面',
+      en: 'Medium Store',
     },
   },
 
-  // dualType
-  dt: {
+  // largeStore
+  ls: {
     label: {
-      'zh-TW': '雙冰型',
-      en: 'Dual Type',
+      'zh-TW': '大型店面',
+      en: 'Large Store',
     },
   },
 
@@ -192,43 +187,11 @@ export const productTags: Record<string, ProductTag> = {
     },
   },
 
-  // commercial
-  cm: {
-    label: {
-      'zh-TW': '商用',
-      en: 'Commercial',
-    },
-  },
-
-  // largeCommercial
-  lc: {
-    label: {
-      'zh-TW': '大型商用',
-      en: 'Commercial',
-    },
-  },
-
   // restaurant
   rs: {
     label: {
-      'zh-TW': '大型餐飲',
+      'zh-TW': '餐飲',
       en: 'Restaurant',
-    },
-  },
-
-  // industrial
-  id: {
-    label: {
-      'zh-TW': '極高產能',
-      en: 'Industrial',
-    },
-  },
-
-  // centralKitchen
-  ck: {
-    label: {
-      'zh-TW': '中央廚房',
-      en: 'Ultra Capacity',
     },
   },
 
@@ -256,6 +219,22 @@ export const productTags: Record<string, ProductTag> = {
     },
   },
 
+  // refrigeratedType
+  rft: {
+    label: {
+      'zh-TW': '冷藏式',
+      en: 'Refrigerated type',
+    },
+  },
+
+  // dualtempType
+  dtt: {
+    label: {
+      'zh-TW': '雙溫式',
+      en: 'Dual Temperature Type',
+    },
+  },
+
   // openDisplay
   od: {
     label: {
@@ -267,8 +246,56 @@ export const productTags: Record<string, ProductTag> = {
   // slidingDoor
   sd: {
     label: {
-      'zh-TW': '移門',
+      'zh-TW': '移門式',
       en: 'Sliding Door',
+    },
+  },
+
+  // hingedDoor
+  hd: {
+    label: {
+      'zh-TW': '開門式',
+      en: 'Hinged Door',
+    },
+  },
+
+  // 1.5m
+  '1.5m': {
+    label: {
+      'zh-TW': '1米5',
+      en: '1.5m',
+    },
+  },
+
+  // 1.6m
+  '1.6m': {
+    label: {
+      'zh-TW': '1米6',
+      en: '1.6m',
+    },
+  },
+
+  // 1.9m
+  '1.9m': {
+    label: {
+      'zh-TW': '1米9',
+      en: '1.9m',
+    },
+  },
+
+  // 2m
+  '2m': {
+    label: {
+      'zh-TW': '2米',
+      en: '2m',
+    },
+  },
+
+  // wheel
+  wl: {
+    label: {
+      'zh-TW': '輪子',
+      en: 'Wheel',
     },
   },
 
@@ -277,6 +304,30 @@ export const productTags: Record<string, ProductTag> = {
     label: {
       'zh-TW': '風幕櫃',
       en: 'Air Curtain Cabinet',
+    },
+  },
+
+  // softserveMachine
+  ssm: {
+    label: {
+      'zh-TW': '霜淇淋機',
+      en: 'Soft Serve Machine',
+    },
+  },
+
+  // IceMachine
+  im: {
+    label: {
+      'zh-TW': '製冰機',
+      en: 'Ice Machine',
+    },
+  },
+
+  // dualtempcabinet
+  dtc: {
+    label: {
+      'zh-TW': '雙溫櫃',
+      en: 'Dual Temperature Cabinet',
     },
   },
 }
@@ -318,7 +369,7 @@ export const productCategories: ProductCategory[] = [
       'zh-TW': '材料類',
       en: 'Material',
     },
-    icon: '🧪',
+    icon: '📌',
   },
 ]
 
@@ -426,7 +477,7 @@ export const products: Product[] = [
     groupId: 'softServe',
     model: {
       'zh-TW': 'DS-TD98',
-      en: 'DS-TD98｜Tabletop Single Tank',
+      en: 'DS-TD98',
     },
     name: {
       'zh-TW': '桌上風冷單缸單孔霜淇淋機',
@@ -437,7 +488,8 @@ export const products: Product[] = [
       en: 'Compact commercial model for kiosks, small shops, and startup businesses.',
     },
     image: '/img/products/td98.avif',
-    tags: ['tb', 'ac', 'su', 'ot'],
+    price: '',
+    tags: ['tb', 'ac', 'ssm', 'ot', 'ss', 'el'],
     pdf: false,
     hot: true,
     
@@ -449,7 +501,7 @@ export const products: Product[] = [
     groupId: 'softServe',
     model: {
       'zh-TW': 'DS-TS99',
-      en: 'DS-TS99｜Tabletop Twin Tank Triple Nozzle',
+      en: 'DS-TS99',
     },
     name: {
       'zh-TW': '桌上風冷雙缸三孔霜淇淋機',
@@ -460,7 +512,8 @@ export const products: Product[] = [
       en: 'Supports two flavors and mixed flavor output for medium stores and chain businesses.',
     },
     image: '/img/products/ts99.avif',
-    tags: ['tb', 'ac', 'tt', 'hc'],
+    price: '',
+    tags: ['tb', 'ac', 'tt', 'ssm', 'ms', 'std'],
     pdf: false,
     hot: false,
   },
@@ -471,7 +524,7 @@ export const products: Product[] = [
     groupId: 'softServe',
     model: {
       'zh-TW': 'DS-LS168｜風冷',
-      en: 'DS-LS168｜Floor Standing Air-Cooled',
+      en: 'DS-LS168｜Air-Cooled',
     },
     name: {
       'zh-TW': '落地風冷雙缸三孔霜淇淋機',
@@ -482,7 +535,8 @@ export const products: Product[] = [
       en: 'High-capacity flagship air-cooled model for larger stores and chain brands.',
     },
     image: '/img/products/ls168a.avif',
-    tags: ['fs', 'ac', 'hc'],
+    price: '',
+    tags: ['fs', 'ac', 'tt', 'ssm', 'ls', 'std'],
     pdf: false,
     hot: true,
   },
@@ -493,7 +547,7 @@ export const products: Product[] = [
     groupId: 'softServe',
     model: {
       'zh-TW': 'DS-LS168｜水冷',
-      en: 'DS-LS168｜Floor Standing Water-Cooled',
+      en: 'DS-LS168｜Water-Cooled',
     },
     name: {
       'zh-TW': '落地水冷雙缸三孔霜淇淋機',
@@ -504,7 +558,8 @@ export const products: Product[] = [
       en: 'High-capacity water-cooled model for long-hour commercial operation.',
     },
     image: '/img/products/ls168w.avif',
-    tags: ['fs', 'wc', 'hc'],
+    price: '',
+    tags: ['fs', 'wc', 'tt', 'ssm', 'ls', 'std'],
     pdf: false,
     hot: false,
   },
@@ -526,7 +581,8 @@ export const products: Product[] = [
       'zh-TW': '小型一體式商用製冰機，適合飲料店、輕食店與咖啡廳。',
       en: 'Compact commercial ice machine for cafes and beverage shops.',
     },
-    tags: ['ci', 'ac', 'el'],
+    price: '',
+    tags: ['ci', 'ac', 'el', 'rs', 'ss'],
     pdf: false,
     hot: false,
   },
@@ -547,7 +603,96 @@ export const products: Product[] = [
       'zh-TW': '提升產冰量與儲冰能力，適合中小型餐飲與吧台空間。',
       en: 'Higher ice production capacity for commercial beverage environments.',
     },
-    tags: ['ci', 'ac', 'hc'],
+    price: '',
+    tags: ['ci', 'ac', 'el', 'rs', 'ss'],
+    pdf: false,
+    hot: false,
+  },
+
+  {
+    id: 'imf-160ef',
+    categoryId: 'equipment',
+    groupId: 'iceMachine',
+    model: {
+      'zh-TW': 'IMF-160EF',
+      en: 'IMF-160EF',
+    },
+    name: {
+      'zh-TW': '商用高產能方形冰製冰機',
+      en: 'High Capacity Cube Ice Machine',
+    },
+    desc: {
+      'zh-TW': '提升產冰量與儲冰能力，適合中小型餐飲與吧台空間。',
+      en: 'Higher ice production capacity for commercial beverage environments.',
+    },
+    price: '',
+    tags: ['ci', 'ac', 'el', 'rs', 'ms'],
+    pdf: false,
+    hot: false,
+  },
+
+  {
+    id: 'imf-230ef',
+    categoryId: 'equipment',
+    groupId: 'iceMachine',
+    model: {
+      'zh-TW': 'IMF-230EF',
+      en: 'IMF-230EF',
+    },
+    name: {
+      'zh-TW': '商用高產能方形冰製冰機',
+      en: 'High Capacity Cube Ice Machine',
+    },
+    desc: {
+      'zh-TW': '提升產冰量與儲冰能力，適合中小型餐飲與吧台空間。',
+      en: 'Higher ice production capacity for commercial beverage environments.',
+    },
+    price: '',
+    tags: ['ci', 'ac', 'std', 'rs', 'ms'],
+    pdf: false,
+    hot: false,
+  },
+
+  {
+    id: 'imf-160es',
+    categoryId: 'equipment',
+    groupId: 'iceMachine',
+    model: {
+      'zh-TW': 'IMF-160ES',
+      en: 'IMF-160ES',
+    },
+    name: {
+      'zh-TW': '商用高產能方形冰製冰機',
+      en: 'High Capacity Cube Ice Machine',
+    },
+    desc: {
+      'zh-TW': '提升產冰量與儲冰能力，適合中小型餐飲與吧台空間。',
+      en: 'Higher ice production capacity for commercial beverage environments.',
+    },
+    price: '',
+    tags: ['ci', 'wc', 'std', 'rs', 'ls', 'fs'],
+    pdf: false,
+    hot: false,
+  },
+
+  {
+    id: 'imf-400es',
+    categoryId: 'equipment',
+    groupId: 'iceMachine',
+    model: {
+      'zh-TW': 'IMF-400ES',
+      en: 'IMF-400ES',
+    },
+    name: {
+      'zh-TW': '商用高產能方形冰製冰機',
+      en: 'High Capacity Cube Ice Machine',
+    },
+    desc: {
+      'zh-TW': '提升產冰量與儲冰能力，適合中小型餐飲與吧台空間。',
+      en: 'Higher ice production capacity for commercial beverage environments.',
+    },
+    price: '',
+    tags: ['ci', 'wc', 'fg', 'rs', 'ls', 'fs'],
     pdf: false,
     hot: false,
   },
@@ -568,7 +713,8 @@ export const products: Product[] = [
       'zh-TW': '小巧高效的礦形冰製冰設備，適合小型門市。',
       en: 'Compact nugget ice machine for small commercial stores.',
     },
-    tags: ['ni', 'ac', 'ss'],
+    price: '',
+    tags: ['ni', 'ac', 'ss', 'rs', 'tb', 'el'],
     pdf: false,
     hot: false,
   },
@@ -589,7 +735,96 @@ export const products: Product[] = [
       'zh-TW': '高產能礦形冰設備，適合便利商店與酒吧。',
       en: 'High-capacity nugget ice machine for bars and retail stores.',
     },
-    tags: ['ni', 'hc', 'cm'],
+    price: '',
+    tags: ['ni', 'ac', 'ms', 'rs', 'tb', 'std'],
+    pdf: false,
+    hot: false,
+  },
+
+  {
+    id: 'am-500',
+    categoryId: 'equipment',
+    groupId: 'iceMachine',
+    model: {
+      'zh-TW': 'AM-500',
+      en: 'AM-500',
+    },
+    name: {
+      'zh-TW': '高產能礦形冰製冰機',
+      en: 'High Capacity Nugget Ice Machine',
+    },
+    desc: {
+      'zh-TW': '高產能礦形冰設備，適合便利商店與酒吧。',
+      en: 'High-capacity nugget ice machine for bars and retail stores.',
+    },
+    price: '',
+    tags: ['ci', 'hc', 'ac', 'ls', 'rs', 'fs', 'fg'],
+    pdf: false,
+    hot: false,
+  },
+
+  {
+    id: 'am-500b',
+    categoryId: 'equipment',
+    groupId: 'iceMachine',
+    model: {
+      'zh-TW': 'AM-500B',
+      en: 'AM-500B',
+    },
+    name: {
+      'zh-TW': '高產能礦形冰製冰機',
+      en: 'High Capacity Nugget Ice Machine',
+    },
+    desc: {
+      'zh-TW': '高產能礦形冰設備，適合便利商店與酒吧。',
+      en: 'High-capacity nugget ice machine for bars and retail stores.',
+    },
+    price: '',
+    tags: ['ci', 'hc', 'ac', 'ms', 'rs', 'tb', 'std'],
+    pdf: false,
+    hot: false,
+  },
+
+  {
+    id: 'am-700',
+    categoryId: 'equipment',
+    groupId: 'iceMachine',
+    model: {
+      'zh-TW': 'AM-700',
+      en: 'AM-700',
+    },
+    name: {
+      'zh-TW': '高產能礦形冰製冰機',
+      en: 'High Capacity Nugget Ice Machine',
+    },
+    desc: {
+      'zh-TW': '高產能礦形冰設備，適合便利商店與酒吧。',
+      en: 'High-capacity nugget ice machine for bars and retail stores.',
+    },
+    price: '',
+    tags: ['ci', 'hc', 'ac', 'ls', 'rs', 'fs', 'fg'],
+    pdf: false,
+    hot: false,
+  },
+
+  {
+    id: 'am-700b',
+    categoryId: 'equipment',
+    groupId: 'iceMachine',
+    model: {
+      'zh-TW': 'AM-700B',
+      en: 'AM-700B',
+    },
+    name: {
+      'zh-TW': '高產能礦形冰製冰機',
+      en: 'High Capacity Nugget Ice Machine',
+    },
+    desc: {
+      'zh-TW': '高產能礦形冰設備，適合便利商店與酒吧。',
+      en: 'High-capacity nugget ice machine for bars and retail stores.',
+    },
+    price: '',
+    tags: ['ci', 'hc', 'ac', 'ms', 'rs', 'tb', 'std'],
     pdf: false,
     hot: false,
   },
@@ -611,7 +846,8 @@ export const products: Product[] = [
       en: 'Efficient commercial cube ice machine for cafes and small shops.',
     },
     image: '/img/products/120X.avif',
-    tags: ['ci', 'ac', 'cp'],
+    price: '',
+    tags: ['ci', 'ac', 'ss', 'rs', 'fs', 'el'],
     pdf: false,
     hot: false,
   },
@@ -633,7 +869,8 @@ export const products: Product[] = [
       en: 'Supports both half cube and cube ice output.',
     },
     image: '/img/products/215X.avif',
-    tags: ['hc2', 'ci', 'dt'],
+    price: '',
+    tags: ['ci', 'hc', 'ac', 'ss', 'rs', 'fs', 'std'],
     pdf: false,
     hot: false,
   },
@@ -654,18 +891,19 @@ export const products: Product[] = [
       'zh-TW': '中型商用一體式製冰設備，支援多種冰型。',
       en: 'Integrated commercial ice machine with multiple ice formats.',
     },
-    tags: ['ig', 'ci', 'hc2'],
+    price: '',
+    tags: ['ci', 'hc', 'bci', 'ac', 'ms', 'fs', 'std'],
     pdf: false,
     hot: false,
   },
 
   {
-    id: 'ac-500',
+    id: 'ac-500a',
     categoryId: 'equipment',
     groupId: 'iceMachine',
     model: {
-      'zh-TW': 'AC-500',
-      en: 'AC-500',
+      'zh-TW': 'AC-500A',
+      en: 'AC-500A',
     },
     name: {
       'zh-TW': '大型分體式製冰機',
@@ -675,18 +913,41 @@ export const products: Product[] = [
       'zh-TW': '高產能分體式製冰設備，適合大型餐飲與酒吧。',
       en: 'High-capacity split ice machine for bars and restaurants.',
     },
-    tags: ['st', 'hc', 'lc'],
+    price: '',
+    tags: ['ci', 'hc', 'bci', 'ac', 'ls', 'fs', 'std'],
     pdf: false,
     hot: false,
   },
 
   {
-    id: 'ac-700',
+    id: 'ac-500w',
     categoryId: 'equipment',
     groupId: 'iceMachine',
     model: {
-      'zh-TW': 'AC-700',
-      en: 'AC-700',
+      'zh-TW': 'AC-500W',
+      en: 'AC-500W',
+    },
+    name: {
+      'zh-TW': '大型分體式製冰機',
+      en: 'Split Type Ice Machine',
+    },
+    desc: {
+      'zh-TW': '高產能分體式製冰設備，適合大型餐飲與酒吧。',
+      en: 'High-capacity split ice machine for bars and restaurants.',
+    },
+    price: '',
+    tags: ['ci', 'hc', 'bci', 'wc', 'ls', 'fs', 'std'],
+    pdf: false,
+    hot: false,
+  },
+
+  {
+    id: 'ac-700a',
+    categoryId: 'equipment',
+    groupId: 'iceMachine',
+    model: {
+      'zh-TW': 'AC-700A',
+      en: 'AC-700A',
     },
     name: {
       'zh-TW': '高產能商用製冰機',
@@ -696,18 +957,41 @@ export const products: Product[] = [
       'zh-TW': '適合高強度營業場所的中大型製冰設備。',
       en: 'Commercial ice machine for high-demand business environments.',
     },
-    tags: ['hc', 'lc', 'aw'],
+    price: '',
+    tags: ['ci', 'hc', 'bci', 'ac', 'ls', 'fs', 'std'],
     pdf: false,
     hot: false,
   },
 
   {
-    id: 'ac-1050',
+    id: 'ac-700w',
     categoryId: 'equipment',
     groupId: 'iceMachine',
     model: {
-      'zh-TW': 'AC-1050',
-      en: 'AC-1050',
+      'zh-TW': 'AC-700W',
+      en: 'AC-700W',
+    },
+    name: {
+      'zh-TW': '高產能商用製冰機',
+      en: 'High Output Ice Machine',
+    },
+    desc: {
+      'zh-TW': '適合高強度營業場所的中大型製冰設備。',
+      en: 'Commercial ice machine for high-demand business environments.',
+    },
+    price: '',
+    tags: ['ci', 'hc', 'bci', 'wc', 'ls', 'fs', 'std'],
+    pdf: false,
+    hot: false,
+  },
+
+  {
+    id: 'ac-1050a',
+    categoryId: 'equipment',
+    groupId: 'iceMachine',
+    model: {
+      'zh-TW': 'AC-1050A',
+      en: 'AC-1050A',
     },
     name: {
       'zh-TW': '超高產能製冰機',
@@ -718,18 +1002,42 @@ export const products: Product[] = [
       en: 'Heavy-duty commercial ice machine for chain restaurants.',
     },
     image: '/img/products/1050.avif',
-    tags: ['uc', 'rs', 'st'],
+    price: '',
+    tags: ['ci', 'hc', 'bci', 'ac', 'ls', 'fs', 'fg'],
+    pdf: false,
+    hot: false,
+  },
+
+    {
+    id: 'ac-1050w',
+    categoryId: 'equipment',
+    groupId: 'iceMachine',
+    model: {
+      'zh-TW': 'AC-1050W',
+      en: 'AC-1050W',
+    },
+    name: {
+      'zh-TW': '超高產能製冰機',
+      en: 'Ultra High Capacity Ice Machine',
+    },
+    desc: {
+      'zh-TW': '適合大型餐廳與連鎖餐飲的高負載製冰設備。',
+      en: 'Heavy-duty commercial ice machine for chain restaurants.',
+    },
+    image: '/img/products/1050.avif',
+    price: '',
+    tags: ['ci', 'hc', 'bci', 'wc', 'ls', 'fs', 'fg'],
     pdf: false,
     hot: false,
   },
 
   {
-    id: 'ac-1500',
+    id: 'ac-1500a',
     categoryId: 'equipment',
     groupId: 'iceMachine',
     model: {
-      'zh-TW': 'AC-1500',
-      en: 'AC-1500',
+      'zh-TW': 'AC-1500A',
+      en: 'AC-1500A',
     },
     name: {
       'zh-TW': '旗艦級大型製冰機',
@@ -739,12 +1047,101 @@ export const products: Product[] = [
       'zh-TW': '極高產能大型商用製冰設備，適合中央廚房與展演空間。',
       en: 'Industrial-grade ice machine for central kitchens and large venues.',
     },
-    tags: ['fg', 'id', 'ck'],
+    price: '',
+    tags: ['ci', 'hc', 'ac', 'ls', 'fs', 'fg'],
+    pdf: false,
+    hot: false,
+  },
+
+    {
+    id: 'ac-1500w',
+    categoryId: 'equipment',
+    groupId: 'iceMachine',
+    model: {
+      'zh-TW': 'AC-1500W',
+      en: 'AC-1500W',
+    },
+    name: {
+      'zh-TW': '旗艦級大型製冰機',
+      en: 'Flagship Industrial Ice Machine',
+    },
+    desc: {
+      'zh-TW': '極高產能大型商用製冰設備，適合中央廚房與展演空間。',
+      en: 'Industrial-grade ice machine for central kitchens and large venues.',
+    },
+    price: '',
+    tags: ['ci', 'hc', 'wc', 'ls', 'fs', 'fg'],
     pdf: false,
     hot: false,
   },
 
   //風幕櫃
+  {
+    id: 'Melody 15',
+    categoryId: 'equipment',
+    groupId: 'airCurtainCabinet',
+    model: {
+      'zh-TW': 'Melody mini 15',
+      en: 'Melody mini 15',
+    },
+    name: {
+      'zh-TW': '一米五內藏型冷藏小型風幕櫃',
+      en: 'Built-in Refrigerated Small Air Curtain Cabinet',
+    },
+    desc: {
+      'zh-TW': '開放式設計方便快速取用，適用便利商店、超市量販。',
+      en: 'Open display design for quick access, suitable for convenience stores and supermarkets.',
+    },
+    price: '',
+    tags: ['airc', 'rt', 'od'],
+    pdf: false,
+    hot: false,
+  },
+
+  {
+    id: 'Melody 16l',
+    categoryId: 'equipment',
+    groupId: 'airCurtainCabinet',
+    model: {
+      'zh-TW': 'Melody 16L',
+      en: 'Melody 16L',
+    },
+    name: {
+      'zh-TW': '一米六內藏型冷藏小型風幕櫃',
+      en: 'Built-in Refrigerated Small Air Curtain Cabinet',
+    },
+    desc: {
+      'zh-TW': '開放式設計方便快速取用，適用便利商店、超市量販。',
+      en: 'Open display design for quick access, suitable for convenience stores and supermarkets.',
+    },
+    price: '',
+    tags: ['airc', 'rt', 'od'],
+    pdf: false,
+    hot: false,
+  },
+
+    {
+    id: 'Melody H16A',
+    categoryId: 'equipment',
+    groupId: 'airCurtainCabinet',
+    model: {
+      'zh-TW': 'MINI - OSC H16A',
+      en: 'MINI - OSC H16A',
+    },
+    name: {
+      'zh-TW': '一米六內藏型冷藏自蒸發風幕櫃',
+      en: 'Built-in Refrigerated Small Air Curtain Cabinet',
+    },
+    desc: {
+      'zh-TW': '開放式設計方便快速取用，適用便利商店、超市量販。',
+      en: 'Open display design for quick access, suitable for convenience stores and supermarkets.',
+    },
+    price: '',
+    tags: ['airc', 'rt', 'od'],
+    pdf: false,
+    hot: false,
+  },
+
   {
     id: 'magic-h19',
     categoryId: 'equipment',
@@ -761,7 +1158,8 @@ export const products: Product[] = [
       'zh-TW': '開放式設計方便快速取用，適用便利商店、超市量販。',
       en: 'Open display design for quick access, suitable for convenience stores and supermarkets.',
     },
-    tags: ['airc', 'rt', 'od', 'cm'],
+    price: '',
+    tags: ['airc', 'rt', 'od'],
     pdf: false,
     hot: false,
   },
@@ -782,7 +1180,8 @@ export const products: Product[] = [
       'zh-TW': '移門設計提升節能效率與溫控穩定性，適用飲料專賣店、超市與便利商店。',
       en: 'Sliding-door design improves energy efficiency and temperature control for beverage shops, supermarkets, and convenience stores.',
     },
-    tags: ['airc', 'rt', 'sd', 'cm'],
+    price: '',
+    tags: ['airc', 'rt', 'sd'],
     pdf: false,
     hot: false,
   },
@@ -803,7 +1202,8 @@ export const products: Product[] = [
       'zh-TW': '加高展示設計，適合大型超市、量販賣場與商品種類較多的場域。',
       en: 'Taller display design for large supermarkets and high-volume retail spaces.',
     },
-    tags: ['airc', 'rt', 'od', 'lc'],
+    price: '',
+    tags: ['airc', 'rt', 'od'],
     pdf: false,
     hot: false,
   },
@@ -824,49 +1224,8 @@ export const products: Product[] = [
       'zh-TW': '內藏式冷藏系統與滑門設計，適合便利商店與小型門市快速部署。',
       en: 'Built-in refrigeration with sliding doors for compact stores and quick deployment.',
     },
+    price: '',
     tags: ['airc', 'bi', 'sd', 'ss'],
-    pdf: false,
-    hot: false,
-  },
-
-  {
-    id: 'melody-15l',
-    categoryId: 'equipment',
-    groupId: 'airCurtainCabinet',
-    model: {
-      'zh-TW': 'Melody 15L',
-      en: 'Melody 15L',
-    },
-    name: {
-      'zh-TW': '內藏型冷藏小型風幕櫃',
-      en: 'Built-in Compact Refrigerated Air Curtain Cabinet',
-    },
-    desc: {
-      'zh-TW': '體積精巧、擺放彈性高，適用咖啡廳、甜點店與櫃檯展示。',
-      en: 'Compact and flexible display cabinet for cafés, dessert shops, and counter displays.',
-    },
-    tags: ['airc', 'bi', 'cp', 'ss'],
-    pdf: false,
-    hot: false,
-  },
-
-  {
-    id: 'melody-16l',
-    categoryId: 'equipment',
-    groupId: 'airCurtainCabinet',
-    model: {
-      'zh-TW': 'Melody 16L',
-      en: 'Melody 16L',
-    },
-    name: {
-      'zh-TW': '內藏型冷藏小型風幕櫃',
-      en: 'Built-in Compact Refrigerated Air Curtain Cabinet',
-    },
-    desc: {
-      'zh-TW': '小型冷藏展示櫃，適合咖啡廳、甜點店與櫃檯展示使用。',
-      en: 'Compact refrigerated display cabinet for cafés, dessert shops, and counter displays.',
-    },
-    tags: ['airc', 'bi', 'cp', 'ss'],
     pdf: false,
     hot: false,
   },
@@ -888,7 +1247,8 @@ export const products: Product[] = [
       'zh-TW': '適合冷藏冷凍（冰箱、冰櫃、冷藏車、冷庫、儲冰槽）及建築防火建材等產業。內部真空、保溫性佳；玻璃纖維耐熱抗腐蝕；厚度僅普通材料七分之一，保溫效果為普通保溫材料7~10倍。',
       en: 'Suitable for cold storage and fire-resistant building materials. Internal vacuum with excellent insulation; thickness is only 1/7 of conventional materials with 7-10x insulation performance.',
     },
-    tags: ['cp', 'ss'],
+    price: '',
+    tags: ['ss'],
     pdf: false,
     hot: false,
   },
@@ -909,7 +1269,8 @@ export const products: Product[] = [
       'zh-TW': '內政部營建署認可新技術新工法。適用於食品處理、農藥、醫學、製藥等各行業。可擴大縮小、方便遷移重組、增強冷空氣對流循環。',
       en: 'Approved as new technology. Suitable for food processing, agriculture, medical, and pharmaceutical industries. Expandable, easily relocated and reconfigured.',
     },
-    tags: ['cp', 'ss'],
+    price: '',
+    tags: ['ss'],
     pdf: false,
     hot: false,
   },

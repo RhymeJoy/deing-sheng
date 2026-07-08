@@ -32,6 +32,29 @@ function list(data) {
   return Array.isArray(value) ? value : []
 }
 
+function tagLabel(tag: string) {
+  return productTags[tag]?.label?.[locale.value] ||
+    productTags[tag]?.label?.['zh-TW'] ||
+    tag
+}
+
+function labelSortScore(label: string) {
+  return Array.from(label).reduce((score, char) => {
+    return score + (char.charCodeAt(0) <= 0x7F ? .55 : 1)
+  }, 0)
+}
+
+function compactLabels(labels: string[]) {
+  return labels
+    .map((label, index) => ({
+      index,
+      label,
+      score: labelSortScore(label),
+    }))
+    .sort((a, b) => a.score - b.score || a.index - b.index)
+    .map(item => item.label)
+}
+
 const item = computed(() => {
   return products.find((product) => {
     return product.id === route.params.id
@@ -51,11 +74,7 @@ const group = computed(() => {
 })
 
 const tagLabels = computed(() => {
-  return (item.value?.tags || []).map((tag) => {
-    return productTags[tag]?.label?.[locale.value] ||
-      productTags[tag]?.label?.['zh-TW'] ||
-      tag
-  })
+  return compactLabels((item.value?.tags || []).map(tagLabel))
 })
 
 const featureList = computed(() => list(item.value?.features))
