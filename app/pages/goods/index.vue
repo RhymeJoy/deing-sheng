@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref, onMounted, onBeforeUnmount } from 'vue'
+import { computed, ref, onMounted, onBeforeUnmount, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useLocalePath, usePublicAsset } from '#imports'
 
@@ -15,12 +15,14 @@ const localePath = useLocalePath()
 const publicAsset = usePublicAsset()
 
 const ALL_ID = 'all'
+const FILTER_STORAGE_KEY = 'deing-sheng:goods-filter-state'
 
 const keyword = ref('')
 const filtersOpen = ref(false)
 const activeSort = ref('popular')
 const activeCategoryId = ref(ALL_ID)
 const activeGroupId = ref(ALL_ID)
+let filtersRestored = false
 
 const sortOptions = [
   { id: 'popular', label: { 'zh-TW': '綜合排序', en: 'Popular' } },
@@ -41,17 +43,82 @@ const allGroup = {
   name: { 'zh-TW': '全部', en: 'All' },
 }
 
-const controlPanelRef = ref(null)
+const controlPanelRef = ref<HTMLElement | null>(null)
 
-function handleOutsideClick(event) {
+function isSortId(value: unknown) {
+  return typeof value === 'string' &&
+    sortOptions.some(option => option.id === value)
+}
 
+function isCategoryId(value: unknown) {
+  return value === ALL_ID ||
+    (
+      typeof value === 'string' &&
+      productCategories.some(category => category.id === value)
+    )
+}
+
+function normalizeGroupId(value: unknown, categoryId: string) {
+  if (value === ALL_ID) return ALL_ID
+  if (typeof value !== 'string') return ALL_ID
+
+  const group = productGroups.find(group => group.id === value)
+
+  if (!group) return ALL_ID
+
+  return categoryId === ALL_ID || group.categoryId === categoryId
+    ? value
+    : ALL_ID
+}
+
+function saveFilterState() {
+  if (!import.meta.client || !filtersRestored) return
+
+  sessionStorage.setItem(FILTER_STORAGE_KEY, JSON.stringify({
+    categoryId: activeCategoryId.value,
+    groupId: activeGroupId.value,
+    keyword: keyword.value,
+    sort: activeSort.value,
+  }))
+}
+
+function restoreFilterState() {
+  if (!import.meta.client) return
+
+  try {
+    const savedState = JSON.parse(
+      sessionStorage.getItem(FILTER_STORAGE_KEY) || '{}'
+    )
+
+    const nextCategoryId = isCategoryId(savedState.categoryId)
+      ? savedState.categoryId
+      : ALL_ID
+
+    activeCategoryId.value = nextCategoryId
+    activeGroupId.value = normalizeGroupId(savedState.groupId, nextCategoryId)
+    activeSort.value = isSortId(savedState.sort)
+      ? savedState.sort
+      : 'popular'
+    keyword.value = typeof savedState.keyword === 'string'
+      ? savedState.keyword
+      : ''
+  } catch {
+    sessionStorage.removeItem(FILTER_STORAGE_KEY)
+  } finally {
+    filtersRestored = true
+  }
+}
+
+restoreFilterState()
+
+function handleOutsideClick(event: MouseEvent) {
   if (!filtersOpen.value) return
 
   const panel = controlPanelRef.value
 
   if (!panel) return
 
-  if (!panel.contains(event.target)) {
+  if (!panel.contains(event.target as Node)) {
     filtersOpen.value = false
   }
 }
@@ -63,6 +130,11 @@ onMounted(() => {
 onBeforeUnmount(() => {
   document.removeEventListener('click', handleOutsideClick)
 })
+
+watch(
+  [keyword, activeSort, activeCategoryId, activeGroupId],
+  saveFilterState
+)
 
 function text(data) {
   return data?.[locale.value] || data?.['zh-TW'] || ''
@@ -125,6 +197,7 @@ function comparePrice(a, b, direction) {
     ? aPrice - bPrice
     : bPrice - aPrice
 }
+
 const displayCategories = computed(() => [
   allCategory,
   ...productCategories.filter(item => item.id !== ALL_ID),
