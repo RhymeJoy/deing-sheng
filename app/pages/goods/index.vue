@@ -68,19 +68,63 @@ function text(data) {
   return data?.[locale.value] || data?.['zh-TW'] || ''
 }
 
+function tagLabel(tag: string) {
+  return productTags[tag]?.label?.[locale.value] ||
+    productTags[tag]?.label?.['zh-TW'] ||
+    tag
+}
+
+function tagSortScore(tag: string) {
+  return Array.from(tagLabel(tag)).reduce((score, char) => {
+    return score + (char.charCodeAt(0) <= 0x7F ? .55 : 1)
+  }, 0)
+}
+
+function compactTags(tags: string[] = []) {
+  return tags
+    .map((tag, index) => ({
+      index,
+      score: tagSortScore(tag),
+      tag,
+    }))
+    .sort((a, b) => a.score - b.score || a.index - b.index)
+    .map(item => item.tag)
+}
+
 function optionText(option) {
   return text(option.label)
 }
 
-function fakePrice(item, index) {
-  const base = 68000 + index * 18000
+function priceValue(price) {
+  if (price === '' || price === undefined || price === null) return null
 
-  if (item.id?.includes('water')) return base + 32000
-  if (item.id?.includes('ls')) return base + 22000
+  const value = typeof price === 'number'
+    ? price
+    : Number(price.replace(/,/g, ''))
 
-  return base
+  return Number.isFinite(value) ? value : null
 }
 
+function hasPrice(item) {
+  return priceValue(item.price) !== null
+}
+
+function formatPrice(price) {
+  return priceValue(price)?.toLocaleString() || ''
+}
+
+function comparePrice(a, b, direction) {
+  const aPrice = priceValue(a.price)
+  const bPrice = priceValue(b.price)
+
+  if (aPrice === null && bPrice === null) return 0
+  if (aPrice === null) return 1
+  if (bPrice === null) return -1
+
+  return direction === 'asc'
+    ? aPrice - bPrice
+    : bPrice - aPrice
+}
 const displayCategories = computed(() => [
   allCategory,
   ...productCategories.filter(item => item.id !== ALL_ID),
@@ -99,7 +143,7 @@ const activeGroups = computed(() => {
 })
 
 const allItems = computed(() => {
-  return products.map((item, index) => {
+  return products.map((item) => {
     const category = productCategories.find(category => category.id === item.categoryId)
     const group = productGroups.find(group => group.id === item.groupId)
 
@@ -107,7 +151,6 @@ const allItems = computed(() => {
       ...item,
       category,
       group,
-      shopPrice: fakePrice(item, index),
     }
   })
 })
@@ -124,9 +167,7 @@ const visibleItems = computed(() => {
       activeGroupId.value === ALL_ID ||
       item.groupId === activeGroupId.value
 
-    const tagText = (item.tags || []).map(tag => {
-      return productTags[tag]?.label?.[locale.value] || tag
-    })
+    const tagText = (item.tags || []).map(tagLabel)
 
     const content = [
       text(item.model),
@@ -141,9 +182,8 @@ const visibleItems = computed(() => {
   })
 
   return [...list].sort((a, b) => {
-    if (activeSort.value === 'priceLow') return a.shopPrice - b.shopPrice
-    if (activeSort.value === 'priceHigh') return b.shopPrice - a.shopPrice
-    if (activeSort.value === 'newest') return b.shopPrice - a.shopPrice
+    if (activeSort.value === 'priceLow') return comparePrice(a, b, 'asc')
+    if (activeSort.value === 'priceHigh') return comparePrice(a, b, 'desc')
     return 0
   })
 })
@@ -328,17 +368,20 @@ function selectGroup(group) {
                 {{ text(item.name) }}
               </p>
 
-              <!-- <div class="goods-price-row">
+              <div
+                v-if="hasPrice(item)"
+                class="goods-price-row"
+              >
                 <small>NT$</small>
 
                 <strong>
-                  {{ item.shopPrice.toLocaleString() }}
+                  {{ formatPrice(item.price) }}
                 </strong>
 
                 <small>
                   {{ t('products.from') }}
                 </small>
-              </div> -->
+              </div>
 
               <div
                 v-if="item.pdf"
@@ -351,10 +394,10 @@ function selectGroup(group) {
 
               <div class="goods-tags">
                 <em
-                  v-for="tag in item.tags || []"
+                  v-for="tag in compactTags(item.tags)"
                   :key="tag"
                 >
-                  {{ productTags[tag]?.label?.[locale] || tag }}
+                  {{ tagLabel(tag) }}
                 </em>
               </div>
             </div>
