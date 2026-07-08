@@ -96,6 +96,7 @@ watch(() => route.fullPath, () => {
   </div>
 </template>
 
+<style src="~/assets/css/global.css"></style>
 <style src="~/assets/css/leaflet.css"></style>
 
 <style>
