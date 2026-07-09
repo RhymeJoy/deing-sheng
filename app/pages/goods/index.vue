@@ -140,10 +140,21 @@ function text(data) {
   return data?.[locale.value] || data?.['zh-TW'] || ''
 }
 
+function localizedTextValues(data?: Record<string, string | undefined>) {
+  return Object.values(data || {}).filter((value): value is string => Boolean(value))
+}
+
 function tagLabel(tag: string) {
   return productTags[tag]?.label?.[locale.value] ||
     productTags[tag]?.label?.['zh-TW'] ||
     tag
+}
+
+function tagSearchText(tag: string) {
+  return [
+    tag,
+    ...localizedTextValues(productTags[tag]?.label),
+  ]
 }
 
 function tagSortScore(tag: string) {
@@ -240,14 +251,19 @@ const visibleItems = computed(() => {
       activeGroupId.value === ALL_ID ||
       item.groupId === activeGroupId.value
 
-    const tagText = (item.tags || []).map(tagLabel)
+    const tagText = (item.tags || []).flatMap(tagSearchText)
 
     const content = [
-      text(item.model),
-      text(item.name),
-      text(item.desc),
-      text(item.category?.name),
-      text(item.group?.name),
+      item.id,
+      item.categoryId,
+      item.groupId,
+      ...localizedTextValues(item.model),
+      ...localizedTextValues(item.name),
+      ...localizedTextValues(item.desc),
+      ...localizedTextValues(item.category?.name),
+      ...localizedTextValues(item.category?.desc),
+      ...localizedTextValues(item.group?.name),
+      ...localizedTextValues(item.group?.desc),
       ...tagText,
     ].join(' ').toLowerCase()
 
