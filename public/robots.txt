@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: /sitemap.xml
+Sitemap: https://rhymejoy.github.io/deing-sheng/sitemap_index.xml
