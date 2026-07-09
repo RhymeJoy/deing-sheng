@@ -39,7 +39,7 @@ export default defineNuxtConfig({
   },
 
   site: {
-    url: 'https://rhymejoy.github.io/deing-sheng',
+    url: 'https://rhymejoy.github.io',
     name: 'Deing Sheng',
   },
 

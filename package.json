@@ -24,6 +24,7 @@
     "@eslint/js": "^10.0.1",
     "@nuxtjs/i18n": "^10.4.0",
     "@nuxtjs/sitemap": "^8.2.2",
+    "cross-env": "^10.1.0",
     "eslint": "^10.2.1",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-oxlint": "~1.60.0",
