@@ -261,6 +261,12 @@ const visibleItems = computed(() => {
   })
 })
 
+const hasActiveFilters = computed(() => (
+  keyword.value.trim() !== '' ||
+  activeCategoryId.value !== ALL_ID ||
+  activeGroupId.value !== ALL_ID
+))
+
 function selectCategory(category) {
   activeCategoryId.value = category.id
   activeGroupId.value = ALL_ID
@@ -270,6 +276,12 @@ function selectCategory(category) {
 function selectGroup(group) {
   activeGroupId.value = group.id
   keyword.value = ''
+}
+
+function clearFilters() {
+  keyword.value = ''
+  activeCategoryId.value = ALL_ID
+  activeGroupId.value = ALL_ID
 }
 </script>
 
@@ -307,14 +319,25 @@ function selectGroup(group) {
             >
           </div>
 
-          <button
-            type="button"
-            class="goods-filter-toggle"
-            :class="{ active: filtersOpen }"
-            @click="filtersOpen = !filtersOpen"
-          >
-            篩選
-          </button>
+          <div class="goods-filter-actions">
+            <button
+              v-if="hasActiveFilters"
+              type="button"
+              class="goods-clear-filter"
+              @click="clearFilters"
+            >
+              {{ t('products.clearFilters') }}
+            </button>
+
+            <button
+              type="button"
+              class="goods-filter-toggle"
+              :class="{ active: filtersOpen }"
+              @click="filtersOpen = !filtersOpen"
+            >
+              篩選
+            </button>
+          </div>
         </div>
 
         <Transition name="goods-collapse">

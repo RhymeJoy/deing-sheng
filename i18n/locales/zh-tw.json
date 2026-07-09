@@ -141,7 +141,8 @@
     "contactSales": "洽詢業務",
     "download": "下載型錄",
     "ask": "詢問此產品",
-    "from": "起"
+    "from": "起",
+    "clearFilters": "取消篩選"
   },
   "item": {
     "nofound": "找不到商品",

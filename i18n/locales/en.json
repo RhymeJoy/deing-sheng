@@ -141,7 +141,8 @@
     "contactSales": "Contact Sales",
     "download": "Download Catalog",
     "ask": "Product Inquiry",
-    "from": ""
+    "from": "",
+    "clearFilters": "Clear filters"
   },
   "item": {
     "nofound": "Product doesn't exist !",
