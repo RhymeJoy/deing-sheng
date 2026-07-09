@@ -14,11 +14,14 @@ function withBase(path: string) {
 
   return `${base}${path.replace(/^\/+/, '')}`
 }
+
 export default defineNuxtConfig({
   compatibilityDate: '2026-06-25',
+
   devtools: {
     enabled: true,
   },
+
   ssr: false,
 
   app: {
@@ -35,7 +38,12 @@ export default defineNuxtConfig({
     },
   },
 
-  modules: ['@nuxtjs/i18n'],
+  site: {
+    url: 'https://rhymejoy.github.io/deing-sheng',
+    name: 'Deing Sheng',
+  },
+
+  modules: ['@nuxtjs/i18n', '@nuxtjs/sitemap'],
 
   i18n: {
     locales: [

@@ -10,6 +10,7 @@
   --goods-primary-dark: #d73211;
   --goods-primary-soft: #fff1ec;
   --goods-price: #ee4d2d;
+  --goods-price-label: #9b4a37;
   --goods-border: #e8e8e8;
   --goods-shadow: rgba(0, 0, 0, .08);
   --goods-sale: #ffd424;
@@ -39,13 +40,14 @@
   --goods-primary-dark: #ff8a68;
   --goods-primary-soft: rgba(255, 106, 69, .14);
   --goods-price: #ff7757;
+  --goods-price-label: #ffc0b0;
   --goods-border: rgba(255, 255, 255, .12);
   --goods-shadow: rgba(0, 0, 0, .35);
   --goods-sale: #ffd84d;
 }
 
 .goods-shop-shell {
-  max-width: 60vw;
+  width: min(100%, clamp(400px, 85vw, 1200px));
   margin: 0 auto;
 }
 
@@ -627,7 +629,7 @@
 
   margin-top: auto;
 
-  color: var(--goods-price);
+  color: var(--goods-price-label);
 
   font-weight: 900;
 }
@@ -637,6 +639,8 @@
 }
 
 .goods-price-row strong {
+  color: var(--goods-price);
+
   font-size: 1.24rem;
   letter-spacing: -.02em;
 }
