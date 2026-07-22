@@ -12,6 +12,7 @@ const publicAsset = usePublicAsset()
 const keyword = ref('')
 const activeCategoryId = ref('all')
 const activeGroupId = ref('all')
+const filtersOpen = ref(false)
 
 function text(data: any): string {
   if (typeof data === 'string') return data
@@ -26,17 +27,31 @@ function tagLabel(tag: string) {
   return productTags[tag]?.label?.[locale.value] || productTags[tag]?.label?.['zh-TW'] || tag
 }
 
+const filterToggleText = computed(() => {
+  if (filtersOpen.value) return locale.value === 'zh-TW' ? '隱藏篩選' : 'Hide filters'
+  return locale.value === 'zh-TW' ? '顯示篩選' : 'Show filters'
+})
+
 const displayCategories = computed(() => [
   { id: 'all', name: { 'zh-TW': '全部', en: 'All' } },
   ...productCategories,
 ])
 
-const displayGroups = computed(() => [
-  { id: 'all', categoryId: 'all', name: { 'zh-TW': '全部', en: 'All' } },
-  ...productGroups.filter(group => (
-    activeCategoryId.value === 'all' || group.categoryId === activeCategoryId.value
-  )),
-])
+const displayGroups = computed(() => {
+  const allGroup = { id: 'all', categoryId: 'all', name: { 'zh-TW': '全部', en: 'All' } }
+
+  if (activeCategoryId.value === 'all') return [allGroup]
+
+  const categoryItems = allItems.value.filter(item => item.categoryId === activeCategoryId.value)
+  const availableGroupIds = new Set(categoryItems.map(item => item.groupId))
+
+  return [
+    allGroup,
+    ...productGroups.filter(group => (
+      group.categoryId === activeCategoryId.value && availableGroupIds.has(group.id)
+    )),
+  ]
+})
 
 const groupedProductIds = computed(() => new Set(productSeries.flatMap(series => series.productIds)))
 
@@ -131,12 +146,24 @@ function itemPath(item: any) {
             <span>⌕</span>
             <input v-model="keyword" type="search" :placeholder="t('products.searchPlaceholder')">
           </div>
-          <button v-if="keyword || activeCategoryId !== 'all' || activeGroupId !== 'all'" type="button" class="goods-clear-filter" @click="clearFilters">
-            {{ t('products.clearFilters') }}
-          </button>
+          <div class="goods-filter-actions">
+            <button
+              type="button"
+              class="goods-filter-toggle"
+              :class="{ active: filtersOpen }"
+              :aria-expanded="filtersOpen"
+              @click="filtersOpen = !filtersOpen"
+            >
+              {{ filterToggleText }}
+            </button>
+            <button v-if="keyword || activeCategoryId !== 'all' || activeGroupId !== 'all'" type="button" class="goods-clear-filter" @click="clearFilters">
+              {{ t('products.clearFilters') }}
+            </button>
+          </div>
         </div>
 
-        <div class="goods-filter-sort-row goods-filter-sort-row-static">
+        <Transition name="goods-collapse">
+          <div v-if="filtersOpen" class="goods-filter-sort-row">
           <div class="goods-filters">
             <div class="goods-filter-block">
               <p class="goods-filter-title">{{ t('products.categoryTitle') }}</p>
@@ -172,10 +199,11 @@ function itemPath(item: any) {
           </div>
           <b class="goods-count-pill">{{ visibleItems.length }}</b>
         </div>
+        </Transition>
       </section>
 
       <section class="goods-main">
-        <div v-if="visibleItems.length" class="goods-list">
+        <TransitionGroup v-if="visibleItems.length" name="goods-filter" tag="div" class="goods-list">
           <NuxtLink v-for="item in visibleItems" :key="item.id" class="goods-item-card" :to="localePath(itemPath(item))">
             <div class="goods-product-thumb">
               <span v-if="item.hot" class="goods-sale-badge">HOT</span>
@@ -192,7 +220,7 @@ function itemPath(item: any) {
               </div>
             </div>
           </NuxtLink>
-        </div>
+        </TransitionGroup>
         <div v-else class="goods-empty">{{ t('products.empty') }}</div>
       </section>
     </div>

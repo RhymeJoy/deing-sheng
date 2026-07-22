@@ -145,8 +145,22 @@
     "clearFilters": "Clear filters"
   },
   "item": {
-    "nofound": "Product doesn't exist !",
-    "back": "Back to the Product List"
+    "nofound": "Product doesn't exist!",
+    "back": "Back to the Product List",
+    "catalog": "Product Catalog",
+    "contactSales": "Contact Sales",
+    "download": "Download Catalog",
+    "series": "Series Models",
+    "description": "Description",
+    "features": "Features",
+    "applications": "Applications",
+    "specifications": "Specifications",
+    "basicInfo": "Basic Information",
+    "category": "Category",
+    "group": "Application",
+    "model": "Model",
+    "available": "Available",
+    "notAvailable": "Not available"
   },
   "theme": {
     "auto": "Auto Theme"

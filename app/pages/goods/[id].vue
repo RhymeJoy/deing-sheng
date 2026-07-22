@@ -8,7 +8,7 @@ import { productCategories, productGroups, productTags } from '~/data/productCat
 import { productSeries, products } from '~/data/catalogProducts'
 
 const route = useRoute()
-const { locale } = useI18n()
+const { locale, t } = useI18n()
 const localePath = useLocalePath()
 const publicAsset = usePublicAsset()
 
@@ -45,7 +45,7 @@ const specList = computed(() => currentItem.value?.specs || [])
   <main class="item-page">
     <section v-if="currentItem" class="item-shell">
       <NuxtLink class="item-back" :to="localePath('/goods')">
-        ← 返回商品目錄
+        {{ t('item.back') }}
       </NuxtLink>
 
       <section class="item-hero">
@@ -53,7 +53,7 @@ const specList = computed(() => currentItem.value?.specs || [])
           <img v-if="currentItem.image" :src="publicAsset(currentItem.image)" :alt="text(currentItem.name)">
           <div v-else class="item-image-placeholder">
             <strong>{{ text(currentItem.model) }}</strong>
-            <span>Product Catalog</span>
+            <span>{{ t('item.catalog') }}</span>
           </div>
         </div>
 
@@ -68,15 +68,19 @@ const specList = computed(() => currentItem.value?.specs || [])
           </div>
 
           <div class="item-actions">
-            <NuxtLink class="item-primary-btn" :to="localePath('/contact')">詢問產品</NuxtLink>
-            <a v-if="currentItem.pdf" class="item-secondary-btn" :href="currentItem.pdf" target="_blank" rel="noopener">下載型錄</a>
+            <NuxtLink class="item-primary-btn" :to="localePath('/contact')">
+              {{ t('item.contactSales') }}
+            </NuxtLink>
+            <a v-if="currentItem.pdf" class="item-secondary-btn" :href="currentItem.pdf" target="_blank" rel="noopener">
+              {{ t('item.download') }}
+            </a>
           </div>
         </div>
       </section>
 
       <section v-if="series && siblingProducts.length" class="item-series-section">
         <div>
-          <p class="item-series-kicker">同系列型號</p>
+          <p class="item-series-kicker">{{ t('item.series') }}</p>
           <h2>{{ text(series.name) }}</h2>
         </div>
         <div class="item-series-links">
@@ -92,23 +96,23 @@ const specList = computed(() => currentItem.value?.specs || [])
       </section>
 
       <section class="item-section">
-        <h2>產品說明</h2>
+        <h2>{{ t('item.description') }}</h2>
         <p>{{ text(currentItem.desc) }}</p>
       </section>
 
       <section v-if="featureList.length || applicationList.length || specList.length" class="item-grid">
         <article v-if="featureList.length" class="item-card">
-          <h3>產品特色</h3>
+          <h3>{{ t('item.features') }}</h3>
           <ul><li v-for="feature in featureList" :key="feature">{{ feature }}</li></ul>
         </article>
 
         <article v-if="applicationList.length" class="item-card">
-          <h3>適用場域</h3>
+          <h3>{{ t('item.applications') }}</h3>
           <ul><li v-for="application in applicationList" :key="application">{{ application }}</li></ul>
         </article>
 
         <article v-if="specList.length" class="item-card item-spec-card">
-          <h3>產品規格</h3>
+          <h3>{{ t('item.specifications') }}</h3>
           <dl>
             <div v-for="itemSpec in specList" :key="text(itemSpec.label)">
               <dt>{{ text(itemSpec.label) }}</dt>
@@ -119,19 +123,19 @@ const specList = computed(() => currentItem.value?.specs || [])
       </section>
 
       <section class="item-section">
-        <h2>基本資料</h2>
+        <h2>{{ t('item.basicInfo') }}</h2>
         <dl class="item-basic-list">
-          <div><dt>產品分類</dt><dd>{{ text(category?.name) }}</dd></div>
-          <div><dt>產品群組</dt><dd>{{ text(group?.name) }}</dd></div>
-          <div><dt>型號</dt><dd>{{ text(currentItem.model) }}</dd></div>
-          <div><dt>型錄</dt><dd>{{ currentItem.pdf ? '可下載' : '請聯絡業務取得' }}</dd></div>
+          <div><dt>{{ t('item.category') }}</dt><dd>{{ text(category?.name) }}</dd></div>
+          <div><dt>{{ t('item.group') }}</dt><dd>{{ text(group?.name) }}</dd></div>
+          <div><dt>{{ t('item.model') }}</dt><dd>{{ text(currentItem.model) }}</dd></div>
+          <div><dt>{{ t('products.catalog') }}</dt><dd>{{ currentItem.pdf ? t('item.available') : t('item.notAvailable') }}</dd></div>
         </dl>
       </section>
     </section>
 
     <section v-else class="item-shell item-empty">
-      <h1>找不到此產品</h1>
-      <NuxtLink :to="localePath('/goods')">返回商品目錄</NuxtLink>
+      <h1>{{ t('item.nofound') }}</h1>
+      <NuxtLink :to="localePath('/goods')">{{ t('item.back') }}</NuxtLink>
     </section>
   </main>
 </template>
@@ -200,3 +204,4 @@ const specList = computed(() => currentItem.value?.specs || [])
 </style>
 
 <style scoped src="~/assets/css/item.css"></style>
+

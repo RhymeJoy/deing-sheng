@@ -44,19 +44,32 @@
   display: grid;
 
   grid-template-columns:
-    1.6fr
-    .3fr
-    1.5fr;
+    minmax(0, 1.6fr)
+    auto
+    minmax(0, 1.5fr);
 
-  gap: 2rem;
+  gap: clamp(1.25rem, 3vw, 2.5rem);
 
-  max-width: 1300px;
+  width: min(100%, 1500px);
+  max-width: 1500px;
 
   margin: 0 auto;
 
   padding:
     4rem
-    clamp(1.5rem,4vw,4rem);
+    clamp(1rem, 2vw, 1.5rem);
+}
+
+.footer-brand {
+  justify-self: start;
+}
+
+.footer-nav {
+  justify-self: center;
+}
+
+.footer-contact {
+  justify-self: end;
 }
 
 .footer-kicker {
@@ -183,6 +196,12 @@
     grid-template-columns: 1fr;
 
     gap: 2.5rem;
+  }
+
+  .footer-brand,
+  .footer-nav,
+  .footer-contact {
+    justify-self: start;
   }
   .footer-glow {
     inset: 32.5em 0 0;
