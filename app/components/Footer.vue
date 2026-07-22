@@ -71,11 +71,11 @@ const phoneHref = computed(() => {
         </h3>
 
         <a :href="phoneHref">
-          TEL｜{{ t('footer.phone') }}
+          TEL：{{ t('footer.phone') }}
         </a>
 
         <a style="pointer-events: none;">
-          FAX｜{{ t('footer.fax') }}
+          FAX：{{ t('footer.fax') }}
         </a>
 
         <a style="pointer-events: none;">
