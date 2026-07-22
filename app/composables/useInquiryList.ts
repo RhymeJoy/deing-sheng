@@ -1,6 +1,6 @@
 import { computed, ref, watch } from 'vue'
 
-import { products } from '~/data/products'
+import { products } from '~/data/catalogProducts'
 
 const STORAGE_KEY = 'deing-sheng:inquiry-list'
 
@@ -8,12 +8,8 @@ function readStoredIds() {
   if (!import.meta.client) return []
 
   try {
-    const raw = window.localStorage.getItem(STORAGE_KEY)
-    const parsed = JSON.parse(raw || '[]')
-
-    return Array.isArray(parsed)
-      ? parsed.filter(id => typeof id === 'string')
-      : []
+    const parsed = JSON.parse(window.localStorage.getItem(STORAGE_KEY) || '[]')
+    return Array.isArray(parsed) ? parsed.filter(id => typeof id === 'string') : []
   } catch {
     return []
   }
@@ -21,15 +17,9 @@ function readStoredIds() {
 
 const inquiryIds = ref(readStoredIds())
 
-watch(
-  inquiryIds,
-  (ids) => {
-    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(ids))
-  },
-  {
-    deep: true,
-  }
-)
+watch(inquiryIds, ids => {
+  if (import.meta.client) window.localStorage.setItem(STORAGE_KEY, JSON.stringify(ids))
+}, { deep: true })
 
 const inquiryItems = computed(() => {
   return inquiryIds.value
@@ -40,20 +30,13 @@ const inquiryItems = computed(() => {
 const inquiryCount = computed(() => inquiryItems.value.length)
 
 export function useInquiryList() {
-  function addInquiryItem(itemOrId) {
-    const id = typeof itemOrId === 'string'
-      ? itemOrId
-      : itemOrId?.id
-
+  function addInquiryItem(itemOrId: any) {
+    const id = typeof itemOrId === 'string' ? itemOrId : itemOrId?.id
     if (!id || inquiryIds.value.includes(id)) return
-
-    inquiryIds.value = [
-      ...inquiryIds.value,
-      id,
-    ]
+    inquiryIds.value = [...inquiryIds.value, id]
   }
 
-  function removeInquiryItem(id) {
+  function removeInquiryItem(id: string) {
     inquiryIds.value = inquiryIds.value.filter(itemId => itemId !== id)
   }
 
@@ -61,7 +44,7 @@ export function useInquiryList() {
     inquiryIds.value = []
   }
 
-  function isInquiryItemSelected(id) {
+  function isInquiryItemSelected(id: string) {
     return inquiryIds.value.includes(id)
   }
 
