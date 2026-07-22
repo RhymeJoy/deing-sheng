@@ -248,6 +248,104 @@
   font-weight: 800;
 }
 
+[data-theme="dark"] .item-page {
+  background:
+    radial-gradient(circle at top left, rgba(120, 76, 30, .28), transparent 34rem),
+    linear-gradient(180deg, #111827 0%, #0b1220 100%);
+}
+
+[data-theme="dark"] .item-back,
+[data-theme="dark"] .item-empty a {
+  color: #f6b66b;
+}
+
+[data-theme="dark"] .item-media,
+[data-theme="dark"] .item-info,
+[data-theme="dark"] .item-section,
+[data-theme="dark"] .item-card {
+  border-color: rgba(255, 255, 255, .12);
+  background: rgba(17, 24, 39, .88);
+  box-shadow: 0 1rem 2.5rem rgba(0, 0, 0, .25);
+}
+
+[data-theme="dark"] .item-image-placeholder {
+  background: linear-gradient(135deg, #1f2937, #3b2f24);
+}
+
+[data-theme="dark"] .item-image-placeholder strong {
+  color: rgba(255, 237, 213, .88);
+}
+
+[data-theme="dark"] .item-image-placeholder span {
+  color: rgba(253, 186, 116, .72);
+}
+
+[data-theme="dark"] .item-kicker,
+[data-theme="dark"] .item-card dt,
+[data-theme="dark"] .item-basic-list dt {
+  color: #f6b66b;
+}
+
+[data-theme="dark"] .item-info h1,
+[data-theme="dark"] .item-section h2,
+[data-theme="dark"] .item-card h3,
+[data-theme="dark"] .item-card dd,
+[data-theme="dark"] .item-basic-list dd {
+  color: #f8fafc;
+}
+
+[data-theme="dark"] .item-model {
+  background: rgba(146, 92, 38, .35);
+  color: #ffd39b;
+}
+
+[data-theme="dark"] .item-desc,
+[data-theme="dark"] .item-section p,
+[data-theme="dark"] .item-card ul {
+  color: #cbd5e1;
+}
+
+[data-theme="dark"] .item-tags em {
+  background: rgba(146, 92, 38, .3);
+  color: #ffd39b;
+}
+
+[data-theme="dark"] .item-primary-btn {
+  background: #c77b32;
+  color: #1f1308;
+}
+
+[data-theme="dark"] .item-secondary-btn {
+  border-color: rgba(246, 182, 107, .45);
+  background: #1f2937;
+  color: #ffd39b;
+}
+
+[data-theme="dark"] .item-card dl div,
+[data-theme="dark"] .item-basic-list div {
+  background: rgba(31, 41, 55, .88);
+}
+
+[data-theme="dark"] .item-series-section {
+  border-color: rgba(255, 255, 255, .12);
+  background: #111827;
+}
+
+[data-theme="dark"] .item-series-section h2 {
+  color: #f8fafc;
+}
+
+[data-theme="dark"] .item-series-links a {
+  border-color: rgba(246, 182, 107, .38);
+  color: #ffd39b;
+}
+
+[data-theme="dark"] .item-series-links a.active,
+[data-theme="dark"] .item-series-links a:hover {
+  color: #1f1308;
+  background: #f6b66b;
+}
+
 @media (max-width: 800px) {
   .item-page {
     padding: 2.5rem 1rem;
