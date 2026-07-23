@@ -1,4 +1,4 @@
-import type { LocalizedText, Product, ProductSpec } from './products'
+import type { LocalizedText, Product, ProductSpec } from './softServeCatalog'
 
 export type AirCurtainSeries = {
   categoryId: string
