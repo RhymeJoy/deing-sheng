@@ -1,6 +1,6 @@
 import { defineEventHandler, getRequestURL, setHeader } from 'h3'
 
-import { products } from '../../app/data/products'
+import { products } from '../../app/data/catalogProducts'
 
 type SitemapRoute = {
   changefreq: string

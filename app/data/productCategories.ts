@@ -1,4 +1,4 @@
-import type { ProductCategory, ProductGroup, ProductTag } from './products'
+import type { ProductCategory, ProductGroup, ProductTag } from './softServeCatalog'
 
 export const productTags: Record<string, ProductTag> = {
   // tabletop

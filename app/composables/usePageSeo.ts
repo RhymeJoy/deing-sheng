@@ -3,7 +3,7 @@ import { useHead, usePublicAsset, useRequestURL, useRoute, useSeoMeta } from '#i
 import { useI18n } from 'vue-i18n'
 
 import { products } from '~/data/catalogProducts'
-import type { LocaleCode, LocalizedText } from '~/data/products'
+import type { LocaleCode, LocalizedText } from '~/data/softServeCatalog'
 
 const DEFAULT_IMAGE = '/img/banner.jpg'
 
