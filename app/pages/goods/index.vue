@@ -4,7 +4,20 @@ import { useI18n } from 'vue-i18n'
 import { useLocalePath, usePublicAsset } from '#imports'
 
 import { productCategories, productGroups, productTags } from '~/data/productCategories'
-import { productSeries, products } from '~/data/catalogProducts'
+import { productSeries, products, type CatalogProduct } from '~/data/catalogProducts'
+import type { LocalizedText, ProductCategory, ProductGroup } from '~/data/softServeCatalog'
+
+type GoodsListItem = Pick<
+  CatalogProduct,
+  'id' | 'categoryId' | 'groupId' | 'model' | 'name' | 'desc' | 'image' | 'hot' | 'tags'
+> & {
+  category?: ProductCategory
+  defaultProductId?: string
+  group?: ProductGroup
+  isSeries?: boolean
+  productCount?: number
+  searchTerms?: string[]
+}
 
 const { t, locale } = useI18n()
 const localePath = useLocalePath()
@@ -14,12 +27,12 @@ const activeCategoryId = ref('all')
 const activeGroupId = ref('all')
 const filtersOpen = ref(false)
 
-function text(data: any): string {
+function text(data: LocalizedText | string | undefined): string {
   if (typeof data === 'string') return data
-  return data?.[locale.value] || data?.['zh-TW'] || ''
+  return data?.[locale.value as keyof LocalizedText] || data?.['zh-TW'] || ''
 }
 
-function localizedTextValues(data?: Record<string, string | undefined>) {
+function localizedTextValues(data?: LocalizedText) {
   return Object.values(data || {}).filter((value): value is string => Boolean(value))
 }
 
@@ -55,7 +68,7 @@ const displayGroups = computed(() => {
 
 const groupedProductIds = computed(() => new Set(productSeries.flatMap(series => series.productIds)))
 
-const allItems = computed<any[]>(() => {
+const allItems = computed<GoodsListItem[]>(() => {
   const productsWithoutSeries = products
     .filter(item => !groupedProductIds.value.has(item.id))
     .map(item => ({
@@ -99,7 +112,7 @@ const allItems = computed<any[]>(() => {
   return [...productsWithoutSeries, ...seriesCards]
 })
 
-const visibleItems = computed<any[]>(() => {
+const visibleItems = computed<GoodsListItem[]>(() => {
   const search = keyword.value.trim().toLowerCase()
 
   return allItems.value.filter(item => {
@@ -126,7 +139,7 @@ function clearFilters() {
   activeGroupId.value = 'all'
 }
 
-function itemPath(item: any) {
+function itemPath(item: GoodsListItem) {
   return item.isSeries ? `/goods/${item.defaultProductId}` : `/goods/${item.id}`
 }
 </script>
