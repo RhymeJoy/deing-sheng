@@ -6,19 +6,21 @@ import { useLocalePath, usePublicAsset } from '#imports'
 
 import { productCategories, productGroups, productTags } from '~/data/productCategories'
 import { productSeries, products } from '~/data/catalogProducts'
+import type { LocalizedText } from '~/data/softServeCatalog'
 
 const route = useRoute()
 const { locale, t } = useI18n()
 const localePath = useLocalePath()
 const publicAsset = usePublicAsset()
 
-function text(data: any): string {
+function text(data: LocalizedText | string | undefined): string {
   if (typeof data === 'string') return data
-  return data?.[locale.value] || data?.['zh-TW'] || ''
+  return data?.[locale.value as keyof LocalizedText] || data?.['zh-TW'] || ''
 }
 
-function list(data: any): string[] {
-  const value = data?.[locale.value] || data?.['zh-TW'] || data
+function list(data: LocalizedText | string[] | undefined): string[] {
+  if (Array.isArray(data)) return data
+  const value = data?.[locale.value as keyof LocalizedText] || data?.['zh-TW']
   return Array.isArray(value) ? value : []
 }
 
@@ -95,42 +97,44 @@ const specList = computed(() => currentItem.value?.specs || [])
         </div>
       </section>
 
-      <section class="item-section">
-        <h2>{{ t('item.description') }}</h2>
-        <p>{{ text(currentItem.desc) }}</p>
-      </section>
+      <div class="item-details-panel">
+        <section class="item-section item-detail-section">
+          <h2>{{ t('item.description') }}</h2>
+          <p>{{ text(currentItem.desc) }}</p>
+        </section>
 
-      <section v-if="featureList.length || applicationList.length || specList.length" class="item-grid">
-        <article v-if="featureList.length" class="item-card">
-          <h3>{{ t('item.features') }}</h3>
-          <ul><li v-for="feature in featureList" :key="feature">{{ feature }}</li></ul>
-        </article>
+        <section v-if="featureList.length || applicationList.length" class="item-grid item-detail-grid">
+          <article v-if="featureList.length" class="item-card">
+            <h3>{{ t('item.features') }}</h3>
+            <ul><li v-for="feature in featureList" :key="feature">{{ feature }}</li></ul>
+          </article>
 
-        <article v-if="applicationList.length" class="item-card">
-          <h3>{{ t('item.applications') }}</h3>
-          <ul><li v-for="application in applicationList" :key="application">{{ application }}</li></ul>
-        </article>
+          <article v-if="applicationList.length" class="item-card">
+            <h3>{{ t('item.applications') }}</h3>
+            <ul><li v-for="application in applicationList" :key="application">{{ application }}</li></ul>
+          </article>
+        </section>
 
-        <article v-if="specList.length" class="item-card item-spec-card">
-          <h3>{{ t('item.specifications') }}</h3>
-          <dl>
+        <section v-if="specList.length" class="item-section item-detail-section item-spec-section">
+          <h2>{{ t('item.specifications') }}</h2>
+          <dl class="item-basic-list">
             <div v-for="itemSpec in specList" :key="text(itemSpec.label)">
               <dt>{{ text(itemSpec.label) }}</dt>
               <dd>{{ text(itemSpec.value) }}</dd>
             </div>
           </dl>
-        </article>
-      </section>
+        </section>
 
-      <section class="item-section">
-        <h2>{{ t('item.basicInfo') }}</h2>
-        <dl class="item-basic-list">
-          <div><dt>{{ t('item.category') }}</dt><dd>{{ text(category?.name) }}</dd></div>
-          <div><dt>{{ t('item.group') }}</dt><dd>{{ text(group?.name) }}</dd></div>
-          <div><dt>{{ t('item.model') }}</dt><dd>{{ text(currentItem.model) }}</dd></div>
-          <div><dt>{{ t('products.catalog') }}</dt><dd>{{ currentItem.pdf ? t('item.available') : t('item.notAvailable') }}</dd></div>
-        </dl>
-      </section>
+        <section class="item-section item-detail-section item-basic-section">
+          <h2>{{ t('item.basicInfo') }}</h2>
+          <dl class="item-basic-list">
+            <div><dt>{{ t('item.category') }}</dt><dd>{{ text(category?.name) }}</dd></div>
+            <div><dt>{{ t('item.group') }}</dt><dd>{{ text(group?.name) }}</dd></div>
+            <div><dt>{{ t('item.model') }}</dt><dd>{{ text(currentItem.model) }}</dd></div>
+            <div><dt>{{ t('products.catalog') }}</dt><dd>{{ currentItem.pdf ? t('item.available') : t('item.notAvailable') }}</dd></div>
+          </dl>
+        </section>
+      </div>
     </section>
 
     <section v-else class="item-shell item-empty">

@@ -2,6 +2,8 @@ import { computed, ref, watch } from 'vue'
 
 import { products } from '~/data/catalogProducts'
 
+type InquiryItem = string | { id: string }
+
 const STORAGE_KEY = 'deing-sheng:inquiry-list'
 
 function readStoredIds() {
@@ -30,7 +32,7 @@ const inquiryItems = computed(() => {
 const inquiryCount = computed(() => inquiryItems.value.length)
 
 export function useInquiryList() {
-  function addInquiryItem(itemOrId: any) {
+  function addInquiryItem(itemOrId: InquiryItem) {
     const id = typeof itemOrId === 'string' ? itemOrId : itemOrId?.id
     if (!id || inquiryIds.value.includes(id)) return
     inquiryIds.value = [...inquiryIds.value, id]

@@ -58,8 +58,6 @@ const nuggetFeatures = text(
   'Produces soft nugget ice suited to beverages and food-service applications.',
 )
 
-const air = text('風冷', 'Air-cooled')
-const water = text('水冷', 'Water-cooled')
 
 export const iceMachineProducts: Array<Product & { seriesId?: string }> = [
   product({
@@ -121,7 +119,7 @@ export const iceMachineProducts: Array<Product & { seriesId?: string }> = [
     model: text('IMF-230EF', 'IMF-230EF'),
     name: text('IMF-230EF 風冷方冰製冰機', 'IMF-230EF Air-Cooled Cube Ice Machine'),
     desc: text('大產能風冷方冰製冰機，適合餐飲、飯店與高用冰量場所。', 'Large-capacity air-cooled cube ice maker for restaurants, hotels, and high-demand operations.'),
-    tags: ['im', 'ac', 'ci', 'lg'],
+    tags: ['im', 'ac', 'ci'],
     features: cubeFeatures,
     applications: iceApplications,
     specs: [
@@ -139,7 +137,7 @@ export const iceMachineProducts: Array<Product & { seriesId?: string }> = [
     model: text('IMF-160ES', 'IMF-160ES'),
     name: text('IMF-160ES 水冷方冰製冰機', 'IMF-160ES Water-Cooled Cube Ice Machine'),
     desc: text('水冷式商用方冰製冰機，適合對散熱環境有要求的營業場所。', 'Water-cooled commercial cube ice maker for locations with specific heat-dissipation requirements.'),
-    tags: ['im', 'wc', 'ci', 'lg'],
+    tags: ['im', 'wc', 'ci'],
     features: cubeFeatures,
     applications: iceApplications,
     specs: [
@@ -157,7 +155,7 @@ export const iceMachineProducts: Array<Product & { seriesId?: string }> = [
     model: text('IMF-400ES', 'IMF-400ES'),
     name: text('IMF-400ES 水冷方冰製冰機', 'IMF-400ES Water-Cooled Cube Ice Machine'),
     desc: text('大產能水冷方冰製冰機，適合飯店、中央廚房與大量用冰需求。', 'High-capacity water-cooled cube ice maker for hotels, central kitchens, and high-volume ice demand.'),
-    tags: ['im', 'wc', 'ci', 'lg'],
+    tags: ['im', 'wc', 'ci'],
     features: cubeFeatures,
     applications: iceApplications,
     specs: [
@@ -175,7 +173,7 @@ export const iceMachineProducts: Array<Product & { seriesId?: string }> = [
     model: text('AM-350', 'AM-350'),
     name: text('AM-350 風冷雪花冰製冰機', 'AM-350 Air-Cooled Nugget Ice Maker'),
     desc: text('小型風冷雪花冰製冰機，適合飲品店、餐飲店與吧台使用。', 'Compact air-cooled nugget ice maker for beverage shops, restaurants, and bars.'),
-    tags: ['am', 'ac', 'ni', 'ot', 'ss'],
+    tags: ['ac', 'ni', 'ot', 'ss'],
     features: nuggetFeatures,
     applications: iceApplications,
     specs: [
@@ -193,7 +191,7 @@ export const iceMachineProducts: Array<Product & { seriesId?: string }> = [
     model: text('AM-450', 'AM-450'),
     name: text('AM-450 風冷雪花冰製冰機', 'AM-450 Air-Cooled Nugget Ice Maker'),
     desc: text('中型風冷雪花冰製冰機，提供更高的每日產冰量與儲冰容量。', 'Medium-capacity air-cooled nugget ice maker with higher daily output and storage.'),
-    tags: ['am', 'ac', 'ni', 'ms'],
+    tags: ['ac', 'ni', 'ms'],
     features: nuggetFeatures,
     applications: iceApplications,
     specs: [
@@ -212,7 +210,7 @@ export const iceMachineProducts: Array<Product & { seriesId?: string }> = [
     model: text('AM-500', 'AM-500'),
     name: text('AM-500 風冷方冰製冰機', 'AM-500 Air-Cooled Cube Ice Maker'),
     desc: text('立式風冷方冰製冰機，適合中大型商用供冰需求。', 'Floor-standing air-cooled cube ice maker for medium-to-large commercial operations.'),
-    tags: ['am', 'ac', 'ci', 'ms'],
+    tags: ['ac', 'ci', 'ms'],
     features: cubeFeatures,
     applications: iceApplications,
     specs: [
@@ -230,7 +228,7 @@ export const iceMachineProducts: Array<Product & { seriesId?: string }> = [
     model: text('AM-500B', 'AM-500B'),
     name: text('AM-500B 風冷方冰製冰機', 'AM-500B Air-Cooled Cube Ice Maker'),
     desc: text('低高度立式風冷方冰製冰機，適合有高度限制的商用空間。', 'Lower-height floor-standing air-cooled cube ice maker for commercial spaces with height restrictions.'),
-    tags: ['am', 'ac', 'ci', 'ms'],
+    tags: ['ac', 'ci', 'ms'],
     features: cubeFeatures,
     applications: iceApplications,
     specs: [
@@ -248,7 +246,7 @@ export const iceMachineProducts: Array<Product & { seriesId?: string }> = [
     model: text('AM-700', 'AM-700'),
     name: text('AM-700 風冷方冰製冰機', 'AM-700 Air-Cooled Cube Ice Maker'),
     desc: text('高產能立式風冷方冰製冰機，適合大型餐飲與商用場所。', 'High-output floor-standing air-cooled cube ice maker for large food-service and commercial locations.'),
-    tags: ['am', 'ac', 'ci', 'lg'],
+    tags: ['ac', 'ci'],
     features: cubeFeatures,
     applications: iceApplications,
     specs: [
@@ -266,7 +264,7 @@ export const iceMachineProducts: Array<Product & { seriesId?: string }> = [
     model: text('AM-700B', 'AM-700B'),
     name: text('AM-700B 風冷方冰製冰機', 'AM-700B Air-Cooled Cube Ice Maker'),
     desc: text('低高度高產能風冷方冰製冰機，適合有高度限制的大型商用空間。', 'Lower-height high-output air-cooled cube ice maker for large commercial spaces with height restrictions.'),
-    tags: ['am', 'ac', 'ci', 'lg'],
+    tags: ['ac', 'ci'],
     features: cubeFeatures,
     applications: iceApplications,
     specs: [
@@ -284,7 +282,7 @@ export const iceMachineProducts: Array<Product & { seriesId?: string }> = [
     name: text('AC-120X 風冷方冰製冰機', 'AC-120X Air-Cooled Cube Ice Maker'),
     desc: text('緊湊型風冷方冰製冰機，適合小型餐飲與飲品空間。', 'Compact air-cooled cube ice maker for small food-service and beverage spaces.'),
     image: '/img/products/120X.avif',
-    tags: ['ac', 'acm', 'ci', 'ot', 'ss'],
+    tags: ['ac', 'ci', 'ot', 'ss'],
     features: cubeFeatures,
     applications: iceApplications,
     specs: [
@@ -303,7 +301,7 @@ export const iceMachineProducts: Array<Product & { seriesId?: string }> = [
     name: text('AC-215X 風冷方冰製冰機', 'AC-215X Air-Cooled Cube Ice Maker'),
     desc: text('風冷方冰製冰機，提供方冰與半方冰產能選擇。', 'Air-cooled cube ice maker with cube and half-cube production options.'),
     image: '/img/products/215X.avif',
-    tags: ['ac', 'acm', 'ci', 'ms'],
+    tags: ['ac', 'ci', 'ms'],
     features: cubeFeatures,
     applications: iceApplications,
     specs: [
@@ -321,7 +319,7 @@ export const iceMachineProducts: Array<Product & { seriesId?: string }> = [
     model: text('AC-300', 'AC-300'),
     name: text('AC-300 風冷方冰製冰機', 'AC-300 Air-Cooled Cube Ice Maker'),
     desc: text('商用風冷方冰製冰機，支援 S、M、L 多種冰型規格。', 'Commercial air-cooled cube ice maker supporting S, M, and L ice sizes.'),
-    tags: ['ac', 'acm', 'ci', 'ms'],
+    tags: ['ac', 'ci', 'ms'],
     features: cubeFeatures,
     applications: iceApplications,
     specs: [
@@ -340,7 +338,7 @@ export const iceMachineProducts: Array<Product & { seriesId?: string }> = [
     desc: text('AC-500 系列風冷版本，提供商用方冰製作與大容量儲冰。', 'Air-cooled AC-500 series model with commercial cube ice production and large ice storage.'),
     image: '/img/products/1050.avif',
     seriesId: 'ac-500-series',
-    tags: ['ac', 'acm', 'ci', 'lg'],
+    tags: ['ac', 'ci'],
     features: cubeFeatures,
     applications: iceApplications,
     specs: [
@@ -359,7 +357,7 @@ export const iceMachineProducts: Array<Product & { seriesId?: string }> = [
     name: text('AC-500W 水冷方冰製冰機', 'AC-500W Water-Cooled Cube Ice Maker'),
     desc: text('AC-500 系列水冷版本，適合需要水冷散熱配置的商用環境。', 'Water-cooled AC-500 series model for commercial environments requiring water-cooled heat dissipation.'),
     seriesId: 'ac-500-series',
-    tags: ['wc', 'acm', 'ci', 'lg'],
+    tags: ['wc', 'ci'],
     features: cubeFeatures,
     applications: iceApplications,
     specs: [
@@ -378,7 +376,7 @@ export const iceMachineProducts: Array<Product & { seriesId?: string }> = [
     name: text('AC-700A 風冷方冰製冰機', 'AC-700A Air-Cooled Cube Ice Maker'),
     desc: text('AC-700 系列風冷版本，適合大型餐飲與穩定供冰需求。', 'Air-cooled AC-700 series model for large food-service operations and steady ice demand.'),
     seriesId: 'ac-700-series',
-    tags: ['ac', 'acm', 'ci', 'lg'],
+    tags: ['ac', 'ci'],
     features: cubeFeatures,
     applications: iceApplications,
     specs: [
@@ -397,7 +395,7 @@ export const iceMachineProducts: Array<Product & { seriesId?: string }> = [
     name: text('AC-700W 水冷方冰製冰機', 'AC-700W Water-Cooled Cube Ice Maker'),
     desc: text('AC-700 系列水冷版本，適合需要水冷散熱配置的大型商用環境。', 'Water-cooled AC-700 series model for large commercial environments requiring water-cooled heat dissipation.'),
     seriesId: 'ac-700-series',
-    tags: ['wc', 'acm', 'ci', 'lg'],
+    tags: ['wc', 'ci'],
     features: cubeFeatures,
     applications: iceApplications,
     specs: [
@@ -417,7 +415,7 @@ export const iceMachineProducts: Array<Product & { seriesId?: string }> = [
     desc: text('AC-1050 系列風冷版本，適合高產能商用製冰需求。', 'Air-cooled AC-1050 series model for high-output commercial ice production.'),
     image: '/img/products/1050.avif',
     seriesId: 'ac-1050-series',
-    tags: ['ac', 'acm', 'ci', 'lg'],
+    tags: ['ac', 'ci'],
     features: cubeFeatures,
     applications: iceApplications,
     specs: [
@@ -436,7 +434,7 @@ export const iceMachineProducts: Array<Product & { seriesId?: string }> = [
     name: text('AC-1050W 水冷方冰製冰機', 'AC-1050W Water-Cooled Cube Ice Maker'),
     desc: text('AC-1050 系列水冷版本，適合高產能且需要水冷配置的商用環境。', 'Water-cooled AC-1050 series model for high-output commercial environments requiring water-cooled heat dissipation.'),
     seriesId: 'ac-1050-series',
-    tags: ['wc', 'acm', 'ci', 'lg'],
+    tags: ['wc', 'ci'],
     features: cubeFeatures,
     applications: iceApplications,
     specs: [
@@ -455,7 +453,7 @@ export const iceMachineProducts: Array<Product & { seriesId?: string }> = [
     name: text('AC-1500A 風冷方冰製冰機', 'AC-1500A Air-Cooled Cube Ice Maker'),
     desc: text('AC-1500 系列風冷版本，適合大型餐飲與大量用冰場所。', 'Air-cooled AC-1500 series model for large food-service operations and high-volume ice demand.'),
     seriesId: 'ac-1500-series',
-    tags: ['ac', 'acm', 'ci', 'xl'],
+    tags: ['ac', 'ci'],
     features: cubeFeatures,
     applications: iceApplications,
     specs: [
@@ -474,7 +472,7 @@ export const iceMachineProducts: Array<Product & { seriesId?: string }> = [
     name: text('AC-1500W 水冷方冰製冰機', 'AC-1500W Water-Cooled Cube Ice Maker'),
     desc: text('AC-1500 系列水冷版本，適合大型餐飲與大量用冰場所。', 'Water-cooled AC-1500 series model for large food-service operations and high-volume ice demand.'),
     seriesId: 'ac-1500-series',
-    tags: ['wc', 'acm', 'ci', 'xl'],
+    tags: ['wc', 'ci'],
     features: cubeFeatures,
     applications: iceApplications,
     specs: [
