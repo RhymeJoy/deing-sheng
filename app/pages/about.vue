@@ -39,7 +39,7 @@ const mapConfig = {
 
 const focusConfig = {
   mobileWidth: 700,
-  mobileCenter: [300, 790],
+  mobileCenter: [270, 790],
   mobileZoom: 0,
   mobileMinZoom: -1.2,
   desktopMinZoom: -0.5,
@@ -55,14 +55,15 @@ const borderWidthConfig = {
 
 const wiggleConfig = {
   frequency: 0.1,
-  amplitude: 6,
+  amplitude: 5,
 }
 
 const lineConfig = {
   baseZoom: null,
-  zoomPower: 1.5,
+  zoomPower: 2,
   minLengthScale: 0.01,
   maxLengthScale: 1,
+  minLengthPx: 24,
   viewportPadding: 12,
   fallbackLabelWidth: 140,
   fallbackLabelHeight: 32,
@@ -87,14 +88,20 @@ const countryColorVars = {
   TW: '--map-tw',
   VN: '--map-vn',
   PH: '--map-ph',
+  ID: '--map-id',
 }
 
 const regions = [
-  { key: 'shanghai', point: [295, 816], label: [360, 760] },
+  { key: 'shanghai', point: [295, 816], label: [420, 930] },
+  { key: 'suzhou', point: [296, 812], label: [450, 810] },
+  { key: 'zhejiang', point: [288, 811], label: [350, 950] },
   { key: 'guangzhou', point: [270, 793], label: [280, 680] },
-  { key: 'taiwan', point: [272, 814], label: [290, 900] },
+  { key: 'wuhan', point: [292, 798], label: [350, 650] },
+  { key: 'hefei', point: [298, 805], label: [420, 700] },
+  { key: 'taiwan', point: [272, 814], label: [270, 930] },
   { key: 'vietnam', point: [250, 775], label: [200, 710] },
   { key: 'philippines', point: [240, 817], label: [200, 900] },
+  { key: 'indonesia', point: [190, 810], label: [120, 800] },
 ]
 
 function hideMapTouchHint() {
@@ -403,15 +410,21 @@ function startLabelAnimation() {
     )
   }
 
-  const getLengthScale = () => {
+  const getLengthScale = (item) => {
     if (!map) return 1
 
     const zoom = map.getZoom()
     const baseZoom = lineConfig.baseZoom ?? zoom
+    const zoomScale = Math.pow(lineConfig.zoomPower, baseZoom - zoom)
 
-    const scale = Math.pow(lineConfig.zoomPower, baseZoom - zoom)
+    const pointPx = map.latLngToLayerPoint(item.pointLatLng)
+    const labelPx = map.latLngToLayerPoint(item.baseLabelLatLng)
+    const baseLengthPx = pointPx.distanceTo(labelPx)
+    const minimumScale = baseLengthPx > 0
+      ? Math.min(lineConfig.maxLengthScale, Math.max(lineConfig.minLengthScale, lineConfig.minLengthPx / baseLengthPx))
+      : lineConfig.minLengthScale
 
-    return clamp(scale, lineConfig.minLengthScale, lineConfig.maxLengthScale)
+    return clamp(zoomScale, minimumScale, lineConfig.maxLengthScale)
   }
 
   const clampAxis = (value, min, max) => {
@@ -457,9 +470,10 @@ function startLabelAnimation() {
 
     const time = now / 1000
     const wave = time * wiggleConfig.frequency * Math.PI * 2
-    const lengthScale = getLengthScale()
 
     items.forEach((item) => {
+      const lengthScale = getLengthScale(item)
+
       const pointPx = map.latLngToLayerPoint(item.pointLatLng)
       const labelPx = map.latLngToLayerPoint(item.baseLabelLatLng)
 

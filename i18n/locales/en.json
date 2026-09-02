@@ -81,10 +81,15 @@
     "cnTel": "TEL: 021-59988306",
     "map": {
       "shanghai": "Shanghai",
+      "suzhou": "Suzhou",
+      "zhejiang": "Zhejiang",
       "guangzhou": "Guangzhou",
+      "wuhan": "Wuhan",
+      "hefei": "Hefei",
       "taiwan": "Taiwan",
       "vietnam": "Vietnam",
-      "philippines": "Philippines"
+      "philippines": "Philippines",
+      "indonesia": "Indonesia"
     }
   },
   "contact": {
