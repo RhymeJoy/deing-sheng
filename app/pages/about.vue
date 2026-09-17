@@ -83,25 +83,19 @@ const boundsPadding = {
 
 const enableHover = false
 
-const countryColorVars = {
-  CN: '--map-cn',
-  TW: '--map-tw',
-  VN: '--map-vn',
-  PH: '--map-ph',
-  ID: '--map-id',
-}
+const highlightedCountryIds = new Set(['CN', 'TW', 'VN', 'PH', 'ID'])
 
 const regions = [
-  { key: 'shanghai', point: [295, 816], label: [420, 930] },
-  { key: 'suzhou', point: [296, 812], label: [450, 810] },
-  { key: 'zhejiang', point: [288, 811], label: [350, 950] },
-  { key: 'guangzhou', point: [270, 793], label: [280, 680] },
-  { key: 'wuhan', point: [292, 798], label: [350, 650] },
-  { key: 'hefei', point: [298, 805], label: [420, 700] },
-  { key: 'taiwan', point: [272, 814], label: [270, 930] },
-  { key: 'vietnam', point: [250, 775], label: [200, 710] },
+  { key: 'shanghai',    point: [295, 816], label: [420, 930] },
+  { key: 'suzhou',      point: [296, 812], label: [450, 810] },
+  { key: 'zhejiang',    point: [288, 811], label: [350, 950] },
+  { key: 'guangzhou',   point: [270, 793], label: [280, 680] },
+  { key: 'wuhan',       point: [292, 798], label: [350, 650] },
+  { key: 'hefei',       point: [298, 805], label: [420, 700] },
+  { key: 'taiwan',      point: [272, 814], label: [270, 930] },
+  { key: 'vietnam',     point: [250, 775], label: [200, 710] },
   { key: 'philippines', point: [240, 817], label: [200, 900] },
-  { key: 'indonesia', point: [190, 810], label: [120, 800] },
+  { key: 'indonesia',   point: [190, 810], label: [120, 800] },
 ]
 
 function hideMapTouchHint() {
@@ -113,9 +107,9 @@ function cssVar(name) {
 }
 
 function getCountryColor(id) {
-  const varName = countryColorVars[id]
-
-  return varName ? cssVar(varName) : cssVar('--map-country')
+  return highlightedCountryIds.has(id)
+    ? cssVar('--map-country-highlight')
+    : cssVar('--map-country')
 }
 
 function clamp(value, min, max) {

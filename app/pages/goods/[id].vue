@@ -63,7 +63,6 @@ const specList = computed(() => currentItem.value?.specs || [])
           <p class="item-kicker">{{ text(category?.name) }} / {{ text(group?.name) }}</p>
           <h1>{{ text(currentItem.name) }}</h1>
           <p class="item-model">{{ text(currentItem.model) }}</p>
-          <p class="item-desc">{{ text(currentItem.desc) }}</p>
 
           <div v-if="currentItem.tags?.length" class="item-tags">
             <em v-for="tag in currentItem.tags" :key="tag">{{ tagLabel(tag) }}</em>
@@ -110,19 +109,29 @@ const specList = computed(() => currentItem.value?.specs || [])
           </article>
 
           <article v-if="applicationList.length" class="item-card">
-            <h3>{{ t('item.applications') }}</h3>
+            <h3>{{ t('item.applicationScenes') }}</h3>
             <ul><li v-for="application in applicationList" :key="application">{{ application }}</li></ul>
           </article>
         </section>
 
         <section v-if="specList.length" class="item-section item-detail-section item-spec-section">
           <h2>{{ t('item.specifications') }}</h2>
-          <dl class="item-basic-list">
-            <div v-for="itemSpec in specList" :key="text(itemSpec.label)">
-              <dt>{{ text(itemSpec.label) }}</dt>
-              <dd>{{ text(itemSpec.value) }}</dd>
-            </div>
-          </dl>
+          <div class="item-spec-table-wrap">
+            <table class="item-spec-table">
+              <thead>
+                <tr>
+                  <th scope="col">&#38917;&#30446; / Item</th>
+                  <th scope="col">&#35215;&#26684; / Specification</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="itemSpec in specList" :key="text(itemSpec.label)">
+                  <th scope="row">{{ text(itemSpec.label) }}</th>
+                  <td>{{ text(itemSpec.value) }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </section>
 
         <section class="item-section item-detail-section item-basic-section">

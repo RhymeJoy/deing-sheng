@@ -35,7 +35,7 @@ const phoneHref = computed(() => {
         </p>
 
         <h2>
-          {{ t('company.name') }}
+          {{ t('footer.companyname') }}
         </h2>
 
         <p class="footer-desc">
