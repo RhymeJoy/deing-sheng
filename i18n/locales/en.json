@@ -159,6 +159,7 @@
     "description": "Description",
     "features": "Features",
     "applications": "Applications",
+    "applicationScenes": "Application Scenarios",
     "specifications": "Specifications",
     "basicInfo": "Basic Information",
     "category": "Category",
@@ -180,6 +181,7 @@
   },
   "footer": {
     "kicker": "Industrial Solution",
+    "companyname": "Deing Sheng Enterprise Co., Ltd.",
     "desc": "Focused on industrial equipment, automation systems, and integrated solutions with reliable and efficient technical services.",
     "navigation": "Navigation",
     "contact": "Contact",

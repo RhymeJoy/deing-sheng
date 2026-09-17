@@ -159,6 +159,7 @@
     "description": "產品描述",
     "features": "產品特色",
     "applications": "應用分類",
+    "applicationScenes": "應用場景",
     "specifications": "產品規格",
     "basicInfo": "基本資訊",
     "category": "產品大分類",
@@ -180,6 +181,7 @@
   },
   "footer": {
     "kicker": "Industrial Solution",
+    "companyname": "鼎陞企業有限公司",
     "desc": "專注於工業設備、自動化系統與整合方案，提供穩定、高效率的技術服務。",
     "navigation": "網站導覽",
     "contact": "聯絡資訊",

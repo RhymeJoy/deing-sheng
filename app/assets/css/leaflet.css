@@ -7,11 +7,7 @@
   --map-country-hover: #ffcc66;
   --map-stroke: #ffffff;
 
-  --map-cn: #e4b45c;
-  --map-tw: #e4b45c;
-  --map-vn: #e4b45c;
-  --map-ph: #e4b45c;
-  --map-id: #e4b45c;
+  --map-country-highlight: #e4b45c;
 
   --map-point: #003366;
   --map-line: #003366;
@@ -34,11 +30,7 @@
   --map-country-hover: #ffd27f;
   --map-stroke: #665a59;
 
-  --map-cn: #b68b35;
-  --map-tw: #b68b35;
-  --map-vn: #b68b35;
-  --map-ph: #b68b35;
-  --map-id: #b68b35;
+  --map-country-highlight: #b68b35;
 
   --map-point: #9dc7ff;
   --map-line: #9dc7ff;
