@@ -1,4 +1,5 @@
-import type { LocalizedText, Product, ProductSpec } from './softServeCatalog'
+import type { LocalizedText, Product } from './softServeCatalog'
+import { createProduct, local, spec, type CatalogProductInput } from './catalogUtils'
 
 export type AirCurtainSeries = {
   categoryId: string
@@ -9,40 +10,18 @@ export type AirCurtainSeries = {
   productIds: string[]
 }
 
-const local = (zh: string, en: string = zh): LocalizedText => ({
-  'zh-TW': zh,
-  en,
-})
-
-const spec = (
-  zhLabel: string,
-  enLabel: string,
-  zhValue: string,
-  enValue = zhValue,
-): ProductSpec => ({
-  label: local(zhLabel, enLabel),
-  value: local(zhValue, enValue),
-})
-
 const commonFeatures = [
   'LED 高亮度低耗能照明，提升商品展示效果。',
   '抽拉式層架搭配快拆結構，方便理貨與清潔。',
   '可依現場需求選擇排水與棚架配置。',
 ]
 
-type ProductInput = Pick<Product, 'id' | 'model' | 'name' | 'desc'> & {
-  seriesId?: string
-} & Partial<Omit<Product, 'id' | 'model' | 'name' | 'desc' | 'categoryId' | 'groupId'>>
+type ProductInput = CatalogProductInput
 
-const product = (input: ProductInput): Product & { seriesId?: string } => ({
-  categoryId: 'equipment',
+const product = (input: ProductInput): Product & { seriesId?: string } => createProduct(input, {
   groupId: 'airCurtainCabinet',
-  price: '',
-  pdf: false,
-  hot: false,
   tags: ['airc'],
   features: commonFeatures,
-  ...input,
 })
 
 const base19 = [

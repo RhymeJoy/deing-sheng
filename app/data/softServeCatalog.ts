@@ -1,4 +1,4 @@
-export type LocaleCode = 'zh-TW' | 'en'
+export type LocaleCode = 'zh-TW' | 'zh-CN' | 'en'
 
 export type LocalizedText = Partial<Record<LocaleCode, string>>
 

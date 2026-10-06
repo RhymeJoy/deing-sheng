@@ -171,12 +171,20 @@
   "theme": {
     "auto": "Auto Theme"
   },
-  "title": {
+  "settings": {
+    "button": "Settings",
+    "title": "Website Settings",
+    "close": "Close settings",
+    "closeMenu": "Close menu",
+    "language": "Language",
+    "theme": "Theme",
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System"
+  },  "title": {
     "home": "Deing Sheng Enterprise Co., Ltd.",
     "about": "About｜Deing Sheng Enterprise Co., Ltd.",
-    "products": "Products｜Deing Sheng Enterprise Co., Ltd.",
-    "goods": "Goods",
-    "item": "Product Detail",
+    "goods": "Goods｜Deing Sheng Enterprise Co., Ltd.",
     "contact": "Contact｜Deing Sheng Enterprise Co., Ltd."
   },
   "footer": {

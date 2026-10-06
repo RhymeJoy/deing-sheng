@@ -264,6 +264,14 @@ export const productTags: Record<string, ProductTag> = {
     },
   },
 
+  // freezer
+  frz: {
+    label: {
+      'zh-TW': '冷凍櫃',
+      en: 'Freezer Cabinet',
+    },
+  },
+
   // softserveMachine
   ssm: {
     label: {
@@ -368,6 +376,45 @@ export const productGroups: ProductGroup[] = [
     desc: {
       'zh-TW': '商用冷藏開放櫃、移門風幕櫃與小型展示冷藏櫃',
       en: 'Commercial refrigerated open display, sliding-door, and compact display cabinets',
+    },
+  },
+
+  {
+    id: 'refrigeratedCabinet',
+    categoryId: 'equipment',
+    name: {
+      'zh-TW': '冷藏櫃',
+      en: 'Refrigerated Cabinets',
+    },
+    desc: {
+      'zh-TW': '冷藏玻璃門櫃與高周轉商品展示設備',
+      en: 'Refrigerated glass-door cabinets for high-turnover product display',
+    },
+  },
+
+  {
+    id: 'freezerCabinet',
+    categoryId: 'equipment',
+    name: {
+      'zh-TW': '冷凍櫃',
+      en: 'Freezer Cabinets',
+    },
+    desc: {
+      'zh-TW': '立式冷凍玻璃門櫃與冰淇淋展示冷凍櫃',
+      en: 'Upright freezer glass-door cabinets and ice cream display freezers',
+    },
+  },
+
+  {
+    id: 'dualTemperatureCabinet',
+    categoryId: 'equipment',
+    name: {
+      'zh-TW': '雙溫櫃',
+      en: 'Dual-temperature Cabinets',
+    },
+    desc: {
+      'zh-TW': '可分區提供冷藏與加熱功能的雙溫展示櫃',
+      en: 'Dual-temperature display cabinets with separate chilled and heated zones',
     },
   },
 

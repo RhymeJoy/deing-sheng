@@ -5,7 +5,8 @@ import { useLocalePath, usePublicAsset } from '#imports'
 
 import { productCategories, productGroups, productTags } from '~/data/productCategories'
 import { productSeries, products, type CatalogProduct } from '~/data/catalogProducts'
-import type { LocalizedText, ProductCategory, ProductGroup } from '~/data/softServeCatalog'
+import { localizedText, toSimplifiedChinese } from '~/utils/localization'
+import type { LocaleCode, LocalizedText, ProductCategory, ProductGroup } from '~/data/softServeCatalog'
 
 type GoodsListItem = Pick<
   CatalogProduct,
@@ -28,30 +29,32 @@ const activeGroupId = ref('all')
 const filtersOpen = ref(false)
 
 function text(data: LocalizedText | string | undefined): string {
-  if (typeof data === 'string') return data
-  return data?.[locale.value as keyof LocalizedText] || data?.['zh-TW'] || ''
+  return localizedText(data, locale.value as LocaleCode)
 }
 
 function localizedTextValues(data?: LocalizedText) {
-  return Object.values(data || {}).filter((value): value is string => Boolean(value))
+  const values = Object.values(data || {}).filter((value): value is string => Boolean(value))
+  return [...values, ...values.map(toSimplifiedChinese)]
 }
 
 function tagLabel(tag: string) {
-  return productTags[tag]?.label?.[locale.value] || productTags[tag]?.label?.['zh-TW'] || tag
+  return localizedText(productTags[tag]?.label, locale.value as LocaleCode) || tag
 }
 
 const filterToggleText = computed(() => {
-  if (filtersOpen.value) return locale.value === 'zh-TW' ? '隱藏篩選' : 'Hide filters'
-  return locale.value === 'zh-TW' ? '顯示篩選' : 'Show filters'
+  if (filtersOpen.value) {
+    return locale.value === 'en' ? 'Hide filters' : locale.value === 'zh-CN' ? '隐藏筛选' : '隱藏篩選'
+  }
+  return locale.value === 'en' ? 'Show filters' : locale.value === 'zh-CN' ? '显示筛选' : '顯示篩選'
 })
 
 const displayCategories = computed(() => [
-  { id: 'all', name: { 'zh-TW': '全部', en: 'All' } },
+  { id: 'all', name: { 'zh-TW': '全部', 'zh-CN': '全部', en: 'All' } },
   ...productCategories,
 ])
 
 const displayGroups = computed(() => {
-  const allGroup = { id: 'all', categoryId: 'all', name: { 'zh-TW': '全部', en: 'All' } }
+  const allGroup = { id: 'all', categoryId: 'all', name: { 'zh-TW': '全部', 'zh-CN': '全部', en: 'All' } }
 
   if (activeCategoryId.value === 'all') return [allGroup]
 

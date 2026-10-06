@@ -13,7 +13,11 @@ const showMapTouchHint = ref(true)
 const isTouchDevice = ref(false)
 
 const mapTouchHintText = computed(() =>
-  locale.value === 'zh-TW' ? '用兩指操作地圖' : 'Use two fingers to move',
+  locale.value === 'en'
+    ? 'Use two fingers to move'
+    : locale.value === 'zh-CN'
+      ? '用双指移动地图'
+      : '用兩指操作地圖',
 )
 
 type I18nMessage = Parameters<typeof rt>[0]

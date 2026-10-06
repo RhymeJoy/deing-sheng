@@ -53,6 +53,11 @@ export default defineNuxtConfig({
         file: 'zh-tw.json',
       },
       {
+        code: 'zh-CN',
+        name: 'Simplified Chinese',
+        file: 'zh-cn.json',
+      },
+      {
         code: 'en',
         name: 'English',
         file: 'en.json',

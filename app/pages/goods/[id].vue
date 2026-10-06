@@ -6,7 +6,8 @@ import { useLocalePath, usePublicAsset } from '#imports'
 
 import { productCategories, productGroups, productTags } from '~/data/productCategories'
 import { productSeries, products } from '~/data/catalogProducts'
-import type { LocalizedText } from '~/data/softServeCatalog'
+import { localizedText, toSimplifiedChinese } from '~/utils/localization'
+import type { LocaleCode, LocalizedText } from '~/data/softServeCatalog'
 
 const route = useRoute()
 const { locale, t } = useI18n()
@@ -14,18 +15,20 @@ const localePath = useLocalePath()
 const publicAsset = usePublicAsset()
 
 function text(data: LocalizedText | string | undefined): string {
-  if (typeof data === 'string') return data
-  return data?.[locale.value as keyof LocalizedText] || data?.['zh-TW'] || ''
+  return localizedText(data, locale.value as LocaleCode)
 }
 
 function list(data: LocalizedText | string[] | undefined): string[] {
-  if (Array.isArray(data)) return data
-  const value = data?.[locale.value as keyof LocalizedText] || data?.['zh-TW']
-  return Array.isArray(value) ? value : []
+  const value = Array.isArray(data)
+    ? data
+    : data?.[locale.value as keyof LocalizedText] || data?.['zh-TW']
+
+  if (!Array.isArray(value)) return []
+  return locale.value === 'zh-CN' ? value.map(toSimplifiedChinese) : value
 }
 
 function tagLabel(tag: string) {
-  return productTags[tag]?.label?.[locale.value] || productTags[tag]?.label?.['zh-TW'] || tag
+  return localizedText(productTags[tag]?.label, locale.value as LocaleCode) || tag
 }
 
 const currentItem = computed(() => products.find(product => product.id === route.params.id))
@@ -217,4 +220,3 @@ const specList = computed(() => currentItem.value?.specs || [])
 </style>
 
 <style scoped src="~/assets/css/item.css"></style>
-

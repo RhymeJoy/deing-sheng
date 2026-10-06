@@ -15,7 +15,7 @@ import {
   useSwitchLocalePath,
 } from '#imports'
 
-type LocaleCode = 'zh-TW' | 'en'
+type LocaleCode = 'zh-TW' | 'zh-CN' | 'en'
 type ThemeMode = 'light' | 'dark' | 'system'
 type RealTheme = 'light' | 'dark'
 
@@ -85,7 +85,7 @@ function eventTargetValue(event: Event) {
 }
 
 function isLocaleCode(value: string): value is LocaleCode {
-  return value === 'zh-TW' || value === 'en'
+  return value === 'zh-TW' || value === 'zh-CN' || value === 'en'
 }
 
 function isThemeMode(value: string): value is ThemeMode {
@@ -280,11 +280,7 @@ onBeforeUnmount(() => {
                 <span class="desktop-settings-icon">⚙</span>
 
                 <span>
-                  {{
-                    currentLang === 'zh-TW'
-                      ? '設定'
-                      : 'Settings'
-                  }}
+                  {{ t('settings.button') }}
                 </span>
               </button>
             </div>
@@ -299,7 +295,7 @@ onBeforeUnmount(() => {
       v-if="desktopSettingsOpen"
       class="settings-dialog-backdrop"
       type="button"
-      aria-label="Close settings"
+      :aria-label="t('settings.close')"
       @click="closeDesktopSettings"
     ></button>
   </Transition>
@@ -314,17 +310,13 @@ onBeforeUnmount(() => {
     >
       <div class="settings-dialog-header">
         <h2>
-          {{
-            currentLang === 'zh-TW'
-              ? '網站設定'
-              : 'Website Settings'
-          }}
+          {{ t('settings.title') }}
         </h2>
 
         <button
           class="settings-dialog-close"
           type="button"
-          aria-label="Close settings"
+          :aria-label="t('settings.close')"
           @click="closeDesktopSettings"
         >
           ⨉
@@ -334,11 +326,7 @@ onBeforeUnmount(() => {
       <div class="settings-dialog-body">
         <div class="setting-row">
           <label for="desktopLangSelect">
-            {{
-              currentLang === 'zh-TW'
-                ? '語言'
-                : 'Language'
-            }}
+            {{ t('settings.language') }}
           </label>
 
           <select
@@ -350,6 +338,10 @@ onBeforeUnmount(() => {
               繁體中文
             </option>
 
+            <option value="zh-CN">
+              简体中文
+            </option>
+
             <option value="en">
               English
             </option>
@@ -358,11 +350,7 @@ onBeforeUnmount(() => {
 
         <div class="setting-row">
           <label for="desktopThemeSelect">
-            {{
-              currentLang === 'zh-TW'
-                ? '主題'
-                : 'Theme'
-            }}
+            {{ t('settings.theme') }}
           </label>
 
           <select
@@ -371,27 +359,15 @@ onBeforeUnmount(() => {
             @change="handleThemeChange"
           >
             <option value="light">
-              {{
-                currentLang === 'zh-TW'
-                  ? '淺色'
-                  : 'Light'
-              }}
+              {{ t('settings.light') }}
             </option>
 
             <option value="dark">
-              {{
-                currentLang === 'zh-TW'
-                  ? '深色'
-                  : 'Dark'
-              }}
+              {{ t('settings.dark') }}
             </option>
 
             <option value="system">
-              {{
-                currentLang === 'zh-TW'
-                  ? '跟隨系統'
-                  : 'System'
-              }}
+              {{ t('settings.system') }}
             </option>
           </select>
         </div>
@@ -421,19 +397,15 @@ onBeforeUnmount(() => {
       <button
         class="nav-settings-btn"
         type="button"
-        :aria-label="currentLang === 'zh-TW' ? '設定' : 'Settings'"
-        :title="currentLang === 'zh-TW' ? '設定' : 'Settings'"
+        :aria-label="t('settings.button')"
+        :title="t('settings.button')"
         :class="{ active: mobileSettingsOpen }"
         @click="mobileSettingsOpen = !mobileSettingsOpen"
       >
         <span class="nav-settings-icon">⚙</span>
 
         <span class="nav-settings-text">
-          {{
-            currentLang === 'zh-TW'
-              ? '設定'
-              : 'Settings'
-          }}
+          {{ t('settings.button') }}
         </span>
       </button>
     </div>
@@ -445,11 +417,7 @@ onBeforeUnmount(() => {
       >
         <div class="mobile-setting-group">
           <label>
-            {{
-              currentLang === 'zh-TW'
-                ? '語言'
-                : 'Language'
-            }}
+            {{ t('settings.language') }}
           </label>
 
           <select
@@ -460,6 +428,10 @@ onBeforeUnmount(() => {
               繁體中文
             </option>
 
+            <option value="zh-CN">
+              简体中文
+            </option>
+
             <option value="en">
               English
             </option>
@@ -468,11 +440,7 @@ onBeforeUnmount(() => {
 
         <div class="mobile-setting-group">
           <label>
-            {{
-              currentLang === 'zh-TW'
-                ? '主題'
-                : 'Theme'
-            }}
+            {{ t('settings.theme') }}
           </label>
 
           <select
@@ -480,27 +448,15 @@ onBeforeUnmount(() => {
             @change="handleThemeChange"
           >
             <option value="light">
-              {{
-                currentLang === 'zh-TW'
-                  ? '淺色'
-                  : 'Light'
-              }}
+              {{ t('settings.light') }}
             </option>
 
             <option value="dark">
-              {{
-                currentLang === 'zh-TW'
-                  ? '深色'
-                  : 'Dark'
-              }}
+              {{ t('settings.dark') }}
             </option>
 
             <option value="system">
-              {{
-                currentLang === 'zh-TW'
-                  ? '跟隨系統'
-                  : 'System'
-              }}
+              {{ t('settings.system') }}
             </option>
           </select>
         </div>
@@ -524,7 +480,7 @@ onBeforeUnmount(() => {
     v-if="mobileMenuOpen"
     class="nav-panel-backdrop"
     type="button"
-    aria-label="Close menu"
+    :aria-label="t('settings.closeMenu')"
     @click="closeMobileMenu"
   ></button>
 </template>
