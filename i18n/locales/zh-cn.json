@@ -172,6 +172,7 @@
     "auto": "自动主题"
   },
   "settings": {
+    "textSize": "文字大小",
     "button": "设置",
     "title": "网站设置",
     "close": "关闭设置",
@@ -189,7 +190,7 @@
     "contact": "联系我们｜鼎陞企业有限公司"
   },
   "footer": {
-    "kicker": "Industrial Solution",
+    "kicker": "专业服务",
     "companyname": "鼎陞企业有限公司",
     "desc": "专注于产业设备、自动化系统与整合解决方案，提供可靠高效的技术服务。",
     "navigation": "网站导航",
@@ -197,6 +198,10 @@
     "address": "台湾台中市420丰原区社皮里社皮路293巷33号",
     "rights": "版权所有",
     "phone": "+886-4-25338157",
-    "fax": "+886-4-25338192"
+    "fax": "+886-4-25338192",
+    "language": "网站语言",
+    "traditional": "繁体",
+    "simplified": "简体",
+    "english": "English(英文)"
   }
 }

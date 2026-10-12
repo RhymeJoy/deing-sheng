@@ -172,6 +172,7 @@
     "auto": "自動主題"
   },
   "settings": {
+    "textSize": "文字大小",
     "button": "設定",
     "title": "網站設定",
     "close": "關閉設定",
@@ -188,7 +189,7 @@
     "contact": "聯絡我們｜鼎陞企業有限公司"
   },
   "footer": {
-    "kicker": "Industrial Solution",
+    "kicker": "專業服務",
     "companyname": "鼎陞企業有限公司",
     "desc": "專注於工業設備、自動化系統與整合方案，提供穩定、高效率的技術服務。",
     "navigation": "網站導覽",
@@ -196,6 +197,10 @@
     "address": "420 臺中市豐原區社皮里社皮路293巷33號",
     "rights": "版權所有",
     "phone": "04-25338157",
-    "fax": "04-25338192"
+    "fax": "04-25338192",
+    "language": "網站語言",
+    "traditional": "繁體",
+    "simplified": "簡體",
+    "english": "English(英文)"
   }
 }

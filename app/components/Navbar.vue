@@ -12,7 +12,6 @@ import {
   navigateTo,
   useLocalePath,
   useRoute,
-  useSwitchLocalePath,
 } from '#imports'
 
 type LocaleCode = 'zh-TW' | 'zh-CN' | 'en'
@@ -22,7 +21,10 @@ type RealTheme = 'light' | 'dark'
 const { t, locale } = useI18n()
 const route = useRoute()
 const localePath = useLocalePath()
-const switchLocalePath = useSwitchLocalePath()
+
+function htmlLocale(locale: string) {
+  return locale === 'zh-TW' ? 'zh-TW' : locale === 'zh-CN' ? 'zh-CN' : 'en'
+}
 
 defineOptions({
   name: 'SiteNavbar',
@@ -40,9 +42,44 @@ const navLinks = computed(() => [
 const mobileMenuOpen = ref(false)
 const mobileSettingsOpen = ref(false)
 const desktopSettingsOpen = ref(false)
+const TEXT_SCALE_KEY = 'site-text-scale'
+
+function normalizeTextScale(value: string | null) {
+  if (value === null) return 100
+
+  const numeric = Number(value)
+
+  if (!Number.isFinite(numeric)) return 100
+
+  return Math.min(150, Math.max(75, Math.round(numeric)))
+}
+
+const savedTextScale = import.meta.client
+  ? localStorage.getItem(TEXT_SCALE_KEY)
+  : null
+
+const textScale = ref(normalizeTextScale(savedTextScale))
+
+function applyTextScale(value: number) {
+  const nextScale = normalizeTextScale(String(value))
+
+  textScale.value = nextScale
+
+  if (!import.meta.client) return
+
+  document.documentElement.style.setProperty('--site-font-scale', String(nextScale / 100))
+  localStorage.setItem(TEXT_SCALE_KEY, String(nextScale))
+}
+
+function handleTextScaleInput(event: Event) {
+  applyTextScale(Number((event.target as HTMLInputElement).value))
+}
 
 function withLang(path: string) {
-  return localePath(path)
+  const rawLang = route.query.lang
+  const lang = Array.isArray(rawLang) ? rawLang[0] : rawLang
+
+  return lang ? { path: localePath(path), query: { lang } } : localePath(path)
 }
 
 function closeMobileMenu() {
@@ -109,11 +146,17 @@ function handleThemeChange(event: Event) {
 }
 
 function switchLang(lang: LocaleCode) {
-  const nextPath = switchLocalePath(lang)
-
-  if (nextPath) {
-    void navigateTo(nextPath)
+  if (import.meta.client) {
+    localStorage.setItem('site-language', lang)
   }
+
+  void navigateTo({
+    path: route.path,
+    query: {
+      ...route.query,
+      lang,
+    },
+  }, { replace: true })
 
   closeDesktopSettings()
   closeMobileMenu()
@@ -177,6 +220,7 @@ function updateHeaderVisibility() {
 
 onMounted(() => {
   document.documentElement.lang = locale.value
+  applyTextScale(textScale.value)
 
   applyTheme(theme.value)
 
@@ -371,6 +415,29 @@ onBeforeUnmount(() => {
             </option>
           </select>
         </div>
+        <div class="setting-row">
+          <label for="desktopTextScale">
+            {{ t('settings.textSize') }}
+          </label>
+
+          <div class="text-scale-control">
+            <input
+              id="desktopTextScale"
+              type="range"
+              min="75"
+              max="150"
+              step="1"
+              :value="textScale"
+              :aria-valuenow="textScale"
+              @input="handleTextScaleInput"
+            />
+
+            <output class="text-scale-value" for="desktopTextScale">
+              {{ textScale }}%
+            </output>
+          </div>
+        </div>
+
       </div>
     </div>
   </Transition>
@@ -460,6 +527,29 @@ onBeforeUnmount(() => {
             </option>
           </select>
         </div>
+        <div class="mobile-setting-group">
+          <label for="mobileTextScale">
+            {{ t('settings.textSize') }}
+          </label>
+
+          <div class="text-scale-control">
+            <input
+              id="mobileTextScale"
+              type="range"
+              min="75"
+              max="150"
+              step="1"
+              :value="textScale"
+              :aria-valuenow="textScale"
+              @input="handleTextScaleInput"
+            />
+
+            <output class="text-scale-value" for="mobileTextScale">
+              {{ textScale }}%
+            </output>
+          </div>
+        </div>
+
       </div>
     </Transition>
 

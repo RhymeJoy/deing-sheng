@@ -119,7 +119,7 @@ const publicAsset = usePublicAsset()
     <!-- Content -->
     <section id="content">
       <div class="container">
-        <div class="row aln-center">
+        <div class="row aln-center content-panels">
 
           <div class="col-4 col-12-medium">
             <section>
