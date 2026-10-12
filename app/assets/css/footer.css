@@ -163,6 +163,97 @@
   line-height: 1.8;
 }
 
+.footer-language {
+  display: flex;
+  flex-direction: column;
+  gap: .65rem;
+  margin-top: .45rem;
+}
+
+.footer-language h3 {
+  margin: 0;
+
+  color: #f0b02f;
+
+  font-size: 1rem;
+  font-weight: 900;
+  letter-spacing: .12em;
+}
+
+.footer-language-buttons {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: .9rem;
+}
+
+.footer-language-button {
+  position: relative;
+
+  padding: 0;
+
+  border: 0;
+
+  background: transparent;
+  color: rgba(245,234,210,.82);
+
+  cursor: pointer;
+  font: inherit;
+  font-size: .92rem;
+  font-weight: 700;
+
+  transition:
+    color .2s ease,
+    transform .2s ease;
+}
+
+.footer-language-button::after {
+  position: absolute;
+  right: 25%;
+  bottom: -.1em;
+  left: 25%;
+
+  height: .16em;
+
+  background: currentColor;
+  content: '';
+  transform: scaleX(0);
+  transform-origin: center;
+  transition:
+    right .25s ease,
+    left .25s ease,
+    transform .25s ease;
+}
+
+.footer-language-button:hover,
+.footer-language-button:focus-visible {
+  color: #ffd46e;
+  outline: none;
+  transform: translateX(.2rem);
+}
+
+.footer-language-button:hover::after,
+.footer-language-button:focus-visible::after {
+  transform: scaleX(1);
+}
+
+.footer-language-button.active {
+  color: #f0b02f;
+  font-weight: 900;
+}
+
+.footer-language-button.active::after {
+  right: 0;
+  left: 0;
+  transform: scaleX(1);
+}
+
+.footer-language-buttons:has(.footer-language-button:not(.active):hover) .footer-language-button.active::after,
+.footer-language-buttons:has(.footer-language-button:not(.active):focus-visible) .footer-language-button.active::after {
+  right: 25%;
+  left: 25%;
+}
+
 .footer-bottom {
   position: relative;
 
@@ -189,6 +280,22 @@
     rgba(245,234,210,.48);
 
   font-size: .92rem;
+}
+
+@media (min-width: 901px) {
+  .footer-inner {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+  }
+
+  .footer-contact {
+    gap: .2rem;
+  }
+
+  .footer-language {
+    gap: .2rem;
+    margin-top: .15rem;
+  }
 }
 
 @media (max-width: 900px) {
@@ -274,6 +381,20 @@
 
 [data-theme="light"] .footer-contact p {
   color: rgba(15, 23, 42, .68);
+}
+
+[data-theme="light"] .footer-language h3 {
+  color: #1d4ed8;
+}
+
+[data-theme="light"] .footer-language-button {
+  color: rgba(15, 23, 42, .78);
+}
+
+[data-theme="light"] .footer-language-button:hover,
+[data-theme="light"] .footer-language-button:focus-visible,
+[data-theme="light"] .footer-language-button.active {
+  color: #2563eb;
 }
 
 [data-theme="light"] .footer-bottom {

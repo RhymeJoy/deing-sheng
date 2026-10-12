@@ -65,7 +65,7 @@ export default defineNuxtConfig({
     ],
     defaultLocale: 'zh-TW',
     langDir: 'locales/',
-    strategy: 'prefix_except_default',
+    strategy: 'no_prefix',
     detectBrowserLanguage: false,
     compilation: {
       strictMessage: false,

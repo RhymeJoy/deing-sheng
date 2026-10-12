@@ -172,6 +172,7 @@
     "auto": "Auto Theme"
   },
   "settings": {
+    "textSize": "Text Size",
     "button": "Settings",
     "title": "Website Settings",
     "close": "Close settings",
@@ -188,7 +189,7 @@
     "contact": "Contact｜Deing Sheng Enterprise Co., Ltd."
   },
   "footer": {
-    "kicker": "Industrial Solution",
+    "kicker": "Professional Services",
     "companyname": "Deing Sheng Enterprise Co., Ltd.",
     "desc": "Focused on industrial equipment, automation systems, and integrated solutions with reliable and efficient technical services.",
     "navigation": "Navigation",
@@ -196,6 +197,10 @@
     "address": "No. 33, Ln. 293, Shepi Rd., Shepi Vil., Fengyuan Dist., Taichung City 420, Taiwan",
     "rights": "All Rights Reserved",
     "phone": "+886-4-25338157",
-    "fax": "+886-4-25338192"
+    "fax": "+886-4-25338192",
+    "language": "Website Language",
+    "traditional": "Chinese (Taiwan)",
+    "simplified": "Chinese (China)",
+    "english": "English"
   }
 }

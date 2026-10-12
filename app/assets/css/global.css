@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Comic+Neue:wght@300;400;700&family=LXGW+WenKai+TC&family=Noto+Sans+SC:wght@300;400;500;600;700;900&display=swap");
 
 /* Reset */
 
@@ -27,6 +27,7 @@ footer, header, hgroup, menu, nav, section {
 }
 
 html {
+  font-size: calc(16px * var(--site-font-scale, 1));
 	box-sizing: border-box;
 	scroll-behavior: smooth;
 }
@@ -41,19 +42,32 @@ body {
 	background:
 		linear-gradient(180deg, #f8fafc 0%, #eef4fb 100%);
 	color: #1e293b;
-	font-size: 13.5pt;
-	font-family: "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+	font-size: calc(13.5pt * var(--site-font-scale, 1));
+	font-family: "LXGW WenKai TC", "Microsoft JhengHei", sans-serif;
 	line-height: 1.85em;
 	font-weight: 400;
 }
 
 input, textarea, select {
 	color: #1e293b;
-	font-size: 13.5pt;
-	font-family: "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+	font-size: calc(13.5pt * var(--site-font-scale, 1));
+	font-family: "LXGW WenKai TC", "Microsoft JhengHei", sans-serif;
 	line-height: 1.85em;
 	font-weight: 400;
 	appearance: none;
+}
+html[lang="zh-CN"] body,
+html[lang="zh-CN"] input,
+html[lang="zh-CN"] textarea,
+html[lang="zh-CN"] select {
+	font-family: "Noto Sans SC", "Microsoft YaHei", sans-serif;
+}
+
+html[lang="en"] body,
+html[lang="en"] input,
+html[lang="en"] textarea,
+html[lang="en"] select {
+	font-family: "Comic Neue", sans-serif;
 }
 
 ol, ul {
@@ -901,7 +915,7 @@ img {
 
 @media screen and (max-width: 736px) {
 	body, input, textarea, select {
-		font-size: 12.5pt;
+		font-size: calc(12.5pt * var(--site-font-scale, 1));
 		line-height: 1.65em;
 	}
 
@@ -979,6 +993,7 @@ img {
 		padding: 24px 30px;
 	}
 }
+
 
 /* =========================
    Dark Theme
