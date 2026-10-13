@@ -24,6 +24,19 @@
   margin-top: 2.2em;
 }
 
+.about-google-map {
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 1em;
+  background: #eef1f4;
+}
+
+.about-google-map iframe {
+  display: block;
+  width: 100%;
+  height: clamp(400px, 48vw, 550px);
+  border: 0;
+}
 .location-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));

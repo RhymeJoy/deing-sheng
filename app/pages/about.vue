@@ -32,13 +32,24 @@ let resizeHandler = null
 let themeObserver = null
 let themeChangeHandler = null
 let svgEl = null
+let svgElements = []
 let isZooming = false
 let mapReady = false
 let mapTouchStartHandler = null
+let isWrappingHorizontal = false
+let isClampingVertical = false
+let mapScaleLineEl = null
 
 const mapConfig = {
   width: 1009.6727,
   height: 665.96301,
+}
+
+const geographicMapConfig = {
+  west: -169.110266,
+  east: 190.486279,
+  north: 83.600842,
+  south: -58.508473,
 }
 
 const focusConfig = {
@@ -106,6 +117,44 @@ function hideMapTouchHint() {
   showMapTouchHint.value = false
 }
 
+function wrapMapHorizontally() {
+  if (!map || isWrappingHorizontal) return
+
+  const center = map.getCenter()
+  const worldWidth = mapConfig.width
+  const wrappedLng = ((center.lng % worldWidth) + worldWidth) % worldWidth
+
+  if (Math.abs(wrappedLng - center.lng) < 0.01) return
+
+  isWrappingHorizontal = true
+
+  map.setView([center.lat, wrappedLng], map.getZoom(), {
+    animate: false,
+  })
+
+  isWrappingHorizontal = false
+}
+function clampMapVertically() {
+  if (!map || isClampingVertical) return
+
+  const visibleBounds = map.getBounds()
+  const visibleHeight = visibleBounds.getNorth() - visibleBounds.getSouth()
+  const center = map.getCenter()
+  const centerY = visibleHeight >= mapConfig.height
+    ? mapConfig.height / 2
+    : clamp(center.lat, visibleHeight / 2, mapConfig.height - visibleHeight / 2)
+
+  if (Math.abs(centerY - center.lat) < 0.01) return
+
+  isClampingVertical = true
+
+  map.setView([centerY, center.lng], map.getZoom(), {
+    animate: false,
+  })
+
+  isClampingVertical = false
+}
+
 function cssVar(name) {
   return getComputedStyle(document.documentElement).getPropertyValue(name).trim()
 }
@@ -122,6 +171,51 @@ function clamp(value, min, max) {
 
 function lerp(min, max, progress) {
   return min + (max - min) * progress
+}
+
+function formatScaleDistance(distance) {
+  if (distance >= 1000) {
+    const kilometers = distance / 1000
+    const value = kilometers >= 10 ? Math.round(kilometers) : Math.round(kilometers * 10) / 10
+
+    return value + ' km'
+  }
+
+  return Math.round(distance) + ' m'
+}
+
+function getNiceScaleDistance(maxDistance) {
+  if (!Number.isFinite(maxDistance) || maxDistance <= 0) return 0
+
+  const exponent = Math.floor(Math.log10(maxDistance))
+  const magnitude = 10 ** exponent
+  const normalized = maxDistance / magnitude
+  const factor = normalized >= 5 ? 5 : normalized >= 2 ? 2 : 1
+
+  return factor * magnitude
+}
+
+function refreshGeographicScale() {
+  if (!map || !mapScaleLineEl) return
+
+  const latitudeSpan = geographicMapConfig.north - geographicMapConfig.south
+  const latitude = geographicMapConfig.north - (map.getCenter().lat / mapConfig.height) * latitudeSpan
+  const latitudeRadians = (latitude * Math.PI) / 180
+  const longitudeDegreesPerMapUnit =
+    (geographicMapConfig.east - geographicMapConfig.west) / mapConfig.width
+  const metersPerMapUnit =
+    longitudeDegreesPerMapUnit *
+    111319.49079327358 *
+    Math.max(Math.abs(Math.cos(latitudeRadians)), 0.05)
+  const metersPerPixel = metersPerMapUnit / 2 ** map.getZoom()
+  const scaleDistance = getNiceScaleDistance(metersPerPixel * 100)
+
+  if (!scaleDistance) return
+
+  const scaleWidth = Math.round(scaleDistance / metersPerPixel)
+
+  mapScaleLineEl.style.width = scaleWidth + 'px'
+  mapScaleLineEl.textContent = formatScaleDistance(scaleDistance)
 }
 
 function getBorderWidth() {
@@ -180,9 +274,9 @@ function refreshMapTheme() {
     container.style.background = bg
   }
 
-  if (svgEl) {
-    svgEl.style.background = bg
-  }
+  svgElements.forEach((svg) => {
+    svg.style.background = bg
+  })
 
   container.querySelectorAll('.country-path').forEach((path) => {
     path.style.fill = getCountryColor(path.id)
@@ -216,50 +310,70 @@ async function addSvgWorldMap(bounds) {
   const wrapper = document.createElement('div')
   wrapper.innerHTML = svgText.trim()
 
-  const svg = wrapper.querySelector('svg')
+  const baseSvg = wrapper.querySelector('svg')
 
-  if (!svg) {
-    console.error('world.svg 裡找不到 <svg>')
+  if (!baseSvg) {
+    console.error('world.svg 鋆⊥銝 <svg>')
     return
   }
 
-  svgEl = svg
+  const offsets = [-mapConfig.width, 0, mapConfig.width]
+  svgElements = []
 
-  svg.setAttribute('viewBox', `0 0 ${mapConfig.width} ${mapConfig.height}`)
-  svg.setAttribute('preserveAspectRatio', 'none')
-  svg.setAttribute('width', String(mapConfig.width))
-  svg.setAttribute('height', String(mapConfig.height))
+  offsets.forEach((offset) => {
+    const svg = offset === 0
+      ? baseSvg
+      : baseSvg.cloneNode(true) as SVGSVGElement
 
-  svg.style.width = '100%'
-  svg.style.height = '100%'
-  svg.style.display = 'block'
-  svg.style.background = cssVar('--map-bg')
+    svg.setAttribute(
+      'viewBox',
+      '0 0 ' + mapConfig.width + ' ' + mapConfig.height,
+    )
+    svg.setAttribute('preserveAspectRatio', 'none')
+    svg.setAttribute('width', String(mapConfig.width))
+    svg.setAttribute('height', String(mapConfig.height))
 
-  svg.querySelectorAll('path').forEach((path) => {
-    path.classList.add('country-path')
+    svg.style.width = '100%'
+    svg.style.height = '100%'
+    svg.style.display = 'block'
+    svg.style.background = cssVar('--map-bg')
 
-    path.style.fill = getCountryColor(path.id)
-    path.style.stroke = cssVar('--map-stroke')
-    path.style.strokeWidth = getBorderWidth()
-    path.style.cursor = enableHover ? 'pointer' : 'default'
-    path.style.transition = 'fill .15s ease, stroke .15s ease, stroke-width .15s ease'
+    svg.querySelectorAll('path').forEach((path) => {
+      path.classList.add('country-path')
 
-    path.addEventListener('mouseenter', () => {
-      if (!enableHover) return
-      path.style.fill = cssVar('--map-country-hover')
-    })
-
-    path.addEventListener('mouseleave', () => {
-      if (!enableHover) return
       path.style.fill = getCountryColor(path.id)
+      path.style.stroke = cssVar('--map-stroke')
+      path.style.strokeWidth = getBorderWidth()
+      path.style.cursor = enableHover ? 'pointer' : 'default'
+      path.style.transition = 'fill .15s ease, stroke .15s ease, stroke-width .15s ease'
+
+      path.addEventListener('mouseenter', () => {
+        if (!enableHover) return
+        path.style.fill = cssVar('--map-country-hover')
+      })
+
+      path.addEventListener('mouseleave', () => {
+        if (!enableHover) return
+        path.style.fill = getCountryColor(path.id)
+      })
     })
+
+    svgElements.push(svg)
+
+    if (offset === 0) {
+      svgEl = svg
+    }
+
+    const overlayBounds = [
+      [bounds[0][0], bounds[0][1] + offset],
+      [bounds[1][0], bounds[1][1] + offset],
+    ]
+
+    L.svgOverlay(svg, overlayBounds, {
+      interactive: true,
+    }).addTo(map)
   })
-
-  L.svgOverlay(svg, bounds, {
-    interactive: true,
-  }).addTo(map)
 }
-
 function applyTouchMapMode() {
   if (!map) return
 
@@ -293,8 +407,6 @@ function fitMapToWorld(bounds) {
 
   const isMobile = mapEl.value.clientWidth <= focusConfig.mobileWidth
 
-  map.setMaxBounds(bounds)
-
   if (isMobile) {
     map.setMinZoom(focusConfig.mobileMinZoom)
 
@@ -311,6 +423,7 @@ function fitMapToWorld(bounds) {
   lineConfig.baseZoom = map.getZoom()
 
   refreshCountryBorders()
+  refreshGeographicScale()
   applyTouchMapMode()
 }
 
@@ -341,8 +454,14 @@ function setupMapEvents() {
     }
   })
 
+  map.on('moveend', wrapMapHorizontally)
+  map.on('move', () => {
+    clampMapVertically()
+    refreshGeographicScale()
+  })
   map.on('zoom', () => {
     refreshCountryBorders()
+    refreshGeographicScale()
   })
 
   map.on('zoomend', () => {
@@ -541,6 +660,21 @@ onMounted(async () => {
     maxBoundsViscosity: 0.6,
   } as L.MapOptions & { tap: boolean })
 
+  const geographicScaleControl = L.control({
+    position: 'bottomright',
+  })
+
+  geographicScaleControl.onAdd = () => {
+    const container = L.DomUtil.create('div', 'leaflet-control geographic-scale-control')
+    L.DomEvent.disableClickPropagation(container)
+
+    mapScaleLineEl = L.DomUtil.create('div', 'geographic-scale-line', container)
+
+    return container
+  }
+
+  geographicScaleControl.addTo(map)
+
   applyTouchMapMode()
   setupMapEvents()
 
@@ -633,12 +767,14 @@ onBeforeUnmount(() => {
       mapTouchStartHandler = null
     }
 
-    map.off('zoomstart zoom zoomend dragstart')
+    map.off('zoomstart zoom zoomend dragstart moveend move')
     map.remove()
     map = null
   }
 
+  mapScaleLineEl = null
   svgEl = null
+  svgElements = []
   items = []
   isZooming = false
 })
@@ -674,6 +810,22 @@ onBeforeUnmount(() => {
               <p>
                 {{ t('about.philosophyContent') }}
               </p>
+            </div>
+
+            <div class="about-block">
+              <h2>{{ t('about.companyLocationTitle') }}</h2>
+
+              <div class="about-google-map">
+                <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d30000!2d120.70292247834112!3d24.24118096636405!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3442a94203eb220d%3A0x7f4e55df9b7289!2z6byO6Zme5LyB5qWt5pyJ6ZmQ5YWs5Y-4!5e0!3m2!1szh-TW!2stw!4v1791792371685!5m2!1szh-TW!2stw"
+                title="Google Maps"
+                width="600"
+                height="450"
+                loading="lazy"
+                referrerpolicy="strict-origin-when-cross-origin"
+                allowfullscreen
+              ></iframe>
+              </div>
             </div>
 
             <div class="about-block">
