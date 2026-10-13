@@ -118,8 +118,10 @@ function submitForm() {
           </label>
 
           <label>
-            {{ t('contact.tel') }}
-            <input v-model="form.tel" type="tel" name="tel" maxlength="40" />
+            <span>
+              {{ t('contact.tel') }} <span class="required-mark" aria-hidden="true">*</span>
+            </span>
+            <input v-model="form.tel" type="tel" name="tel" maxlength="40" inputmode="tel" autocomplete="tel" pattern="[0-9+()\s-]{7,40}" required />
           </label>
 
           <label>
@@ -165,43 +167,7 @@ function submitForm() {
         </button>
       </form>
 
-      <aside class="contact-info">
-        <h2>{{ t('contact.infoTitle') }}</h2>
 
-        <div class="info-card">
-          <h3>{{ t('contact.infoEmail') }}</h3>
-
-          <a :href="`mailto:${companyEmail}`">
-            {{ companyEmail }}
-          </a>
-        </div>
-
-        <div class="info-card">
-          <h3>{{ t('contact.infoTel') }}</h3>
-
-          <a :href="`tel:${t('contact.info.tel').replace(/[^\d+]/g, '')}`">
-            {{ t('contact.info.tel') }}
-          </a>
-        </div>
-
-        <div class="info-card">
-          <h3>{{ t('contact.infoFax') }}</h3>
-
-          <p>{{ t('contact.info.fax') }}</p>
-        </div>
-
-        <div class="info-card">
-          <h3>{{ t('contact.infoAddress') }}</h3>
-
-          <a
-            :href="mapUrl"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {{ t('contact.info.address') }}
-          </a>
-        </div>
-      </aside>
     </section>
   </main>
 </template>
