@@ -6,6 +6,8 @@ type RuntimeProcess = {
 
 const appBaseURL =
   (globalThis as RuntimeProcess).process?.env?.NUXT_APP_BASE_URL || '/'
+const siteUrl = 'https://rhymejoy.github.io/deing-sheng/'
+const i18nBaseUrl = 'https://rhymejoy.github.io'
 
 function withBase(path: string) {
   const base = appBaseURL.endsWith('/')
@@ -39,13 +41,14 @@ export default defineNuxtConfig({
   },
 
   site: {
-    url: 'https://rhymejoy.github.io',
+    url: siteUrl,
     name: 'Deing Sheng',
   },
 
   modules: ['@nuxtjs/i18n', '@nuxtjs/sitemap'],
 
   i18n: {
+    baseUrl: i18nBaseUrl,
     locales: [
       {
         code: 'zh-TW',

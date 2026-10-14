@@ -27,7 +27,7 @@ const publicAsset = usePublicAsset()
 
           <div class="col-6 col-12-medium imp-medium">
             <a href="#" class="bordered-feature-image">
-              <img :src="publicAsset('/img/banner.jpg')" alt="鼎盛企業形象圖" />
+              <img :src="publicAsset('/img/banner.avif')" alt="鼎盛企業形象圖" />
             </a>
           </div>
 
