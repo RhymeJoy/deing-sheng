@@ -9,6 +9,25 @@ const appBaseURL =
 const siteUrl = 'https://rhymejoy.github.io/deing-sheng/'
 const i18nBaseUrl = 'https://rhymejoy.github.io'
 
+function getBuildDate() {
+  const parts = new Intl.DateTimeFormat('en-CA', {
+    timeZone: 'Asia/Taipei',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  }).formatToParts(new Date())
+
+  const values = Object.fromEntries(
+    parts
+      .filter((part) => part.type !== 'literal')
+      .map((part) => [part.type, part.value]),
+  )
+
+  return values.year + '/' + values.month + '/' + values.day
+}
+
+const defaultDeployDate = getBuildDate()
+
 function withBase(path: string) {
   const base = appBaseURL.endsWith('/')
     ? appBaseURL
@@ -25,6 +44,12 @@ export default defineNuxtConfig({
   },
 
   ssr: false,
+
+  runtimeConfig: {
+    public: {
+      deployDate: defaultDeployDate,
+    },
+  },
 
   app: {
     baseURL: appBaseURL,
