@@ -26,9 +26,9 @@ const publicAsset = usePublicAsset()
           </div>
 
           <div class="col-6 col-12-medium imp-medium">
-            <a href="#" class="bordered-feature-image">
-              <img :src="publicAsset('/img/banner.avif')" alt="鼎盛企業形象圖" />
-            </a>
+            <div class="bordered-feature-image">
+              <img :src="publicAsset('/img/banner.avif')" alt="front door" />
+            </div>
           </div>
 
         </div>
@@ -43,9 +43,9 @@ const publicAsset = usePublicAsset()
           <div class="col-3 col-6-medium col-12-small">
             <section>
 
-              <a href="#" class="bordered-feature-image">
+              <div class="bordered-feature-image">
                 <img :src="publicAsset('/img/pic01.jpg')" alt="" />
-              </a>
+              </div>
 
               <h2>
                 {{ t('home.materials') }}
@@ -61,9 +61,9 @@ const publicAsset = usePublicAsset()
           <div class="col-3 col-6-medium col-12-small">
             <section>
 
-              <a href="#" class="bordered-feature-image">
+              <div class="bordered-feature-image">
                 <img :src="publicAsset('/img/pic02.jpg')" alt="" />
-              </a>
+              </div>
 
               <h2>
                 {{ t('home.support') }}
@@ -79,9 +79,9 @@ const publicAsset = usePublicAsset()
           <div class="col-3 col-6-medium col-12-small">
             <section>
 
-              <a href="#" class="bordered-feature-image">
+              <div class="bordered-feature-image">
                 <img :src="publicAsset('/img/pic03.jpg')" alt="" />
-              </a>
+              </div>
 
               <h2>
                 {{ t('home.supply') }}
@@ -97,9 +97,9 @@ const publicAsset = usePublicAsset()
           <div class="col-3 col-6-medium col-12-small">
             <section>
 
-              <a href="#" class="bordered-feature-image">
+              <div class="bordered-feature-image">
                 <img :src="publicAsset('/img/pic04.jpg')" alt="" />
-              </a>
+              </div>
 
               <h2>
                 {{ t('home.custom') }}
@@ -134,9 +134,9 @@ const publicAsset = usePublicAsset()
                 </h3>
               </header>
 
-              <a href="#" class="feature-image">
+              <div class="feature-image">
                 <img :src="publicAsset('/img/pic05.jpg')" alt="" />
-              </a>
+              </div>
 
               <p>
                 {{ t('home.aboutDesc') }}

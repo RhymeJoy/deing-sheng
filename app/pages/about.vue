@@ -6,6 +6,7 @@ import 'leaflet/dist/leaflet.css'
 import { usePublicAsset } from '#imports'
 
 const { t, tm, rt, locale } = useI18n()
+const runtimeConfig = useRuntimeConfig()
 const publicAsset = usePublicAsset()
 
 const mapEl = ref(null)
@@ -24,6 +25,7 @@ type I18nMessage = Parameters<typeof rt>[0]
 
 const aboutContent = computed(() => tm('about.content') as I18nMessage[])
 const devhistoryContent = computed(() => tm('about.devhistoryContent') as I18nMessage[])
+const deploymentDate = computed(() => runtimeConfig.public.deployDate || '')
 
 let map = null
 let rafId = null
@@ -854,7 +856,16 @@ onBeforeUnmount(() => {
                 :key="`history-${i}`"
                 class="history-item"
               >
-                {{ rt(item) }}
+                <span>
+                  {{ rt(item) }}
+                </span>
+
+                <span
+                  v-if="i === devhistoryContent.length - 1 && deploymentDate"
+                  class="history-updated"
+                >
+                  {{ t('about.updatedAt') }} {{ deploymentDate }}
+                </span>
               </div>
             </div>
 
