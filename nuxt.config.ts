@@ -68,9 +68,16 @@ export default defineNuxtConfig({
   site: {
     url: siteUrl,
     name: 'Deing Sheng',
+    trailingSlash: false,
   },
 
   modules: ['@nuxtjs/i18n', '@nuxtjs/sitemap'],
+
+  nitro: {
+    prerender: {
+      autoSubfolderIndex: false,
+    },
+  },
 
   i18n: {
     baseUrl: i18nBaseUrl,
