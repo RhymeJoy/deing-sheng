@@ -1,5 +1,3 @@
-
-
 type LocaleCode = 'zh-TW' | 'zh-CN' | 'en'
 
 const localeStorageKey = 'site-language'
@@ -14,8 +12,9 @@ function getStoredLocale(): LocaleCode | null {
   const storedLocale = window.localStorage.getItem(localeStorageKey)
   return isLocaleCode(storedLocale) ? storedLocale : null
 }
+
 function getBrowserLocale(): LocaleCode {
-  if (!import.meta.client) return 'en'
+  if (!import.meta.client) return 'zh-TW'
 
   const browserLanguages = navigator.languages?.length
     ? navigator.languages
@@ -39,15 +38,24 @@ function getBrowserLocale(): LocaleCode {
 
   return 'en'
 }
+
 export default defineNuxtRouteMiddleware(async (to) => {
   const { $i18n } = useNuxtApp()
   const rawLang = to.query.lang
   const lang = Array.isArray(rawLang) ? rawLang[0] : rawLang
-  const nextLocale = lang === undefined
-    ? 'zh-TW'
-    : isLocaleCode(lang)
-      ? lang
-      : getStoredLocale() ?? getBrowserLocale()
+  const nextLocale = isLocaleCode(lang)
+    ? lang
+    : getStoredLocale() ?? getBrowserLocale()
 
   await $i18n.setLocale(nextLocale)
+
+  if (typeof rawLang !== 'string' || rawLang !== nextLocale) {
+    return navigateTo({
+      path: to.path,
+      query: {
+        ...to.query,
+        lang: nextLocale,
+      },
+    }, { replace: true })
+  }
 })
